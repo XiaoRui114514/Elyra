@@ -35,7 +35,7 @@ test={'PRODUCT_NAME':'ElyraUITests','PRODUCT_BUNDLE_IDENTIFIER':'org.elyra.Elyra
 def config_list(name,base):
     configs=[]
     for mode in ['Debug','Release']:
-        v=base.copy();v.update({'SWIFT_OPTIMIZATION_LEVEL':'-Onone' if mode=='Debug' else '-O','DEBUG_INFORMATION_FORMAT':'dwarf' if mode=='Debug' else 'dwarf-with-dsym'})
+        v=base.copy();v.update({'SWIFT_OPTIMIZATION_LEVEL':'-Onone' if mode=='Debug' else '-O','DEBUG_INFORMATION_FORMAT':'dwarf' if mode=='Debug' else 'dwarf-with-dsym','ONLY_ACTIVE_ARCH':'YES' if mode=='Debug' else 'NO'})
         if mode=='Debug': v['SWIFT_ACTIVE_COMPILATION_CONDITIONS']='DEBUG'
         configs.append(settings(name+'-'+mode,v))
     return add(name+'-configlist','{isa = XCConfigurationList; buildConfigurations = '+seq(configs)+'; defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; }')

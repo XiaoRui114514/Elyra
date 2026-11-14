@@ -43,7 +43,10 @@ jobs:
       - name: Static analyzer
         run: |
           set -o pipefail
-          xcodebuild analyze -project Elyra.xcodeproj -scheme Elyra -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/analyze.log
+          xcrun simctl list devices available --json > build/simulators.json
+          python3 scripts/select_simulators.py build/simulators.json iPhone > "$RUNNER_TEMP/elyra-analysis.env"
+          source "$RUNNER_TEMP/elyra-analysis.env"
+          xcodebuild analyze -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$SIMULATOR_ID,arch=$(uname -m)" CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/analyze.log
       - name: Release archive and unsigned device IPA
         run: scripts/build_ipa.sh "$PWD/build"
       - name: Upload build evidence
@@ -88,7 +91,7 @@ jobs:
       - name: Build and run UI tests
         run: |
           set -o pipefail
-          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$SIMULATOR_ID" -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 300 -resultBundlePath build/Tests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/ui.log
+          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$SIMULATOR_ID,arch=$(uname -m)" -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 300 -resultBundlePath build/Tests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/ui.log
       - name: Export test screenshots and summary
         if: always()
         run: |
