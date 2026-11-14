@@ -33,8 +33,9 @@ private final class DeviceDescriptor: SystemConfigurationFile, @unchecked Sendab
         guard descriptor >= 0 else { throw ElyraError.invalid("The system file session is closed.") }
         try checkIdentity()
         let file = FileHandle(fileDescriptor: descriptor, closeOnDealloc: false)
-        try file.seek(toOffset: 0); try file.truncate(atOffset: 0)
-        try file.write(contentsOf: data); try file.synchronize()
+        try file.seek(toOffset: 0)
+        try file.write(contentsOf: data)
+        try file.truncate(atOffset: UInt64(data.count)); try file.synchronize()
     }
     func close() {
         lock.lock(); defer { lock.unlock() }

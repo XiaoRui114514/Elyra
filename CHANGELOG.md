@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-11-14 (development)
+
+- Integrated the pinned native MobileGestalt access modules, signed App Group discovery and actual read/write permission probes.
+- Added a restricted capability/artwork writer, installation-bound device backups, inode/revision checks, confirmed changes, exact readback, rollback and interrupted-write recovery.
+- Removed Home quick access and the special Dynamic Island placement; added manually confirmed experimental Respring.
+- Redesigned the System overview with adaptive categories and a shared device configuration editor.
+- Added creator-profile cards for GitHub, Douyin and Xiaohongshu; moved source attribution to the dedicated open-source license page.
+- Expanded bilingual resources and system-transaction fault tests. Physical installation, system effects and Respring remain unverified.
+
 ## 0.1.0 — 2026-11-14 (unreleased foundation)
 
 - Audited pinned Erosion/GestaltX snapshots, recorded complete file inventory and a 94-row feature union with explicit migration/validation states.

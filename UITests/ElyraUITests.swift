@@ -120,6 +120,16 @@ final class ElyraUITests: XCTestCase {
         XCTAssertFalse(app.buttons["home.island"].exists)
         let respring = app.buttons["home.respring"]
         reveal(respring, app: app); XCTAssertFalse(respring.isEnabled)
+        attach("Home device actions")
+        selectArea(app, identifier: "system", title: "System")
+        attach("System overview")
+        app.buttons["system.device"].tap()
+        let connect = app.buttons["device.connect"]
+        XCTAssertTrue(connect.waitForExistence(timeout: 5))
+        XCTAssertFalse(connect.isEnabled)
+        XCTAssertTrue(app.staticTexts["Device system access is unavailable in the Simulator."].exists)
+        attach("Simulator device connection")
+        app.navigationBars["Device configuration"].buttons.firstMatch.tap()
         selectArea(app, identifier: "settings", title: "Settings")
         app.buttons["About Elyra"].tap()
         app.buttons["about.profiles"].tap()

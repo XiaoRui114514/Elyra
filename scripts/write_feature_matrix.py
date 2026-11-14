@@ -4,10 +4,11 @@ from pathlib import Path
 r=Path(__file__).resolve().parents[1]
 rows=[]
 def row(name,location,description,dependency,special,risk,duplicate,module,progress,verification,local=False):
-    status='本地工具；系统效果尚未验证' if local else '系统操作尚未验证／当前无后端'
+    status='本地功能已实现；具体测试见验证列' if local else '功能状态见进度；系统效果待真机验证'
     rows.append([name,location,description,dependency,status,'尚未验证（无 27 运行证据）','同一入口；系统效果待真机验证','同一入口；系统效果待真机验证',special,risk,duplicate,module,progress,verification])
 for p in json.loads((r/'docs/audit/presets.json').read_text()):
-    row(p['title'],'B: GestaltX/Capabilities.swift (`'+p['id']+'`)',p['detail'],'CacheExtra: '+', '.join('`'+k+'`' for k in p['keys']),'系统写入需要授权后端','高' if p['caution'] else '较高','A/B 重复' if p['id'] in ['dynamicIsland','aod','aodVibrancy','pwm','bootChime','chargeLimit','tapToWake','cameraControl','actionButton','collisionSOS','pencil','stageManager','ai','internal','storage','srd'] else 'B 独有','Capability / System','已迁移本地预设；siriOnDevice 保留原类型、拒绝猜值；系统写入未迁移' if p['id']=='siriOnDevice' else '本地暂存与差异预览已实现；系统写入阻断','catalog 源码定位；公共引擎测试。仅 DI/Siri 有专项预设测试；其余效果未验证',True)
+    row(p['title'],'B: GestaltX/Capabilities.swift (`'+p['id']+'`)',p['detail'],'CacheExtra: '+', '.join('`'+k+'`' for k in p['keys']),'直接文件权限或签名 App Group；逐构建实际探测','高' if p['caution'] else '较高','A/B 重复' if p['id'] in ['dynamicIsland','aod','aodVibrancy','pwm','bootChime','chargeLimit','tapToWake','cameraControl','actionButton','collisionSOS','pencil','stageManager','ai','internal','storage','srd'] else 'B 独有','Capability / SystemConfigurationStore','保留原类型、拒绝猜值；不提供 Siri 通用替换' if p['id']=='siriOnDevice' else '设备读取、预设暂存、确认写入及回读已接入；需实际权限；本地编辑保留','catalog 源码定位；系统事务故障注入测试通过；逐项系统效果与恢复仍待真机验证')
+    rows[-1][4:6]=['实验性：原生模块含 26 路径；逐构建权限与效果未验证','实验性：原生模块含 27 路径；无 27 真机证据']
 entries=[
 ('设备配置读取','A: Tweaks/MobileGestalt/GestaltHelpers.swift; B: GestaltManager.swift','读取真实系统缓存，不能由导入文件代替','worse_query + signed App Group','需要系统容器访问','高','A/B','Compatibility','未迁移；当前只读导入文档','上游明确 26 不支持 MG；27 无真机证据'),
 ('全部字段浏览／递归容器','A: CustomKeyView.swift; B: GestaltDocument.swift, ContentView.swift','浏览全部可用 CacheExtra 以及根、数组、嵌套字典','Foundation plist','本地无特殊权限','低','A/B','DocumentEditor','已实现本地真实文档','8 类型往返与嵌套路径测试通过'),
@@ -71,18 +72,35 @@ entries=[
 ('CI 与 IPA','A: ipabuild.sh; B: build.yml / build-ipa.sh','真实 arm64 archive、bundle/Mach-O 验证、SHA-256','macOS + Xcode','GitHub repo Actions 权限','中','统一重构','scripts / .github','仓库已推送；基线 Actions 成功生成真实 arm64 未签名 IPA','设备归档与 IPA 结构验证已通过；准确测试提交及最新结果见 TEST_REPORT')
 ]
 local_words=['本地','PlistValue','DocumentEditor','元数据','备份','字段']
+overrides={
+ '设备配置读取': ('原生只读与读写权限探测已接入；失败显示实际原因；导入文件不能建立设备会话','SystemConfigurationStore / DeviceBackend；真实文件描述符；真机访问待测'),
+ '设备身份与导出证明': ('设备会话与备份通过本机专用 Keychain 安装密钥及缓存 generation 绑定；导入证明/HMAC 导出未迁移','跨安装、旧 generation、替换 inode 拒绝测试通过；不声称工厂配置认证'),
+ 'Dynamic Island subtype': ('文档编辑器支持源码已有 subtype；设备写入受白名单和确认流程约束；没有通用圆角修复预设','原生编译及未知 subtype 拒绝测试；外观效果无真机验证'),
+ 'Artwork 自定义设备名': ('允许嵌套 Artwork 显示名字段；保护其他成员；无独立表单','generation/保护字段测试；设备显示效果待测'),
+ '变更暂存与确认': ('本地和设备共用类型编辑器、差异预览；设备会话独立关联实时快照','stale revision 与多窗口事务测试通过；设备编辑完整 UI 流程待测'),
+ '设备写入回读及失败恢复': ('系统读写、inode/revision 检查、写前备份、精确回读、回滚和显式中断恢复已实现','14 项系统事务测试含部分写入、回滚失败、跨安装和并发；硬件系统效果待测'),
+ '首次自动备份': ('本地导入基准与设备直接捕获分开；每个设备安装/缓存 generation 首次捕获','真实临时文件读回与重开测试；不将捕获值称为出厂值'),
+ '每次写入前备份／手动备份': ('设备与本地均在写前保存校验备份；设备编辑器支持手动备份','备份、校验、回滚与恢复测试通过'),
+ '备份列表、来源、日期、导出': ('本地备份列表/导出已实现；设备备份单列时间/来源/恢复；设备备份导出尚未迁移','本地导出测试、设备备份索引/完整性测试通过'),
+ '备份完整性／同文档恢复': ('本地按文档绑定；设备按本机专用 Keychain 安装密钥、generation 和 SHA-256 拒绝不匹配恢复','损坏、跨安装、跨缓存与原字节恢复测试通过'),
+ 'Respring／自动 Respring': ('首页提供手动、需确认的实验性注销设备；禁止写入/恢复期间执行；无自动注销','上游 WebKit 实现已编译；模拟器按钮禁用；未在真机触发'),
+ '日志／调试导出': ('本地操作列表/搜索及 JSON 导出已实现；设备备份来源记录；原生 access token 不记日志；设备独立操作历史待完善','持久化/并发 Core 测试；不导出 Keychain 密钥或 sandbox token'),
+ '全局搜索／收藏': ('嵌套字段直接定位、功能收藏；首页不再显示独立快捷入口','Core 索引测试；完整收藏 UI 待测'),
+}
 for e in entries:
+ if e[0] in overrides: e=(*e[:8],*overrides[e[0]])
  row(*e,local=e[7] in ['PlistValue','Workspace','DocumentEditor','FilesView','AppEnvironment','BackupsView'])
-row('Dynamic Island 配置检查与局部恢复','Elyra/Core/DynamicIsland.swift','检查实际导入标记/Artwork 类型，恢复原导入基准中的两个 DI 字段，保留其他成员','typed plist + verified baseline','本地无；系统仍无访问后端','中','统一新增','DynamicIslandEngine','本地已实现；不猜默认 subtype，不是系统修复','14 项 DI/观察/迁移测试通过',True)
+row('Dynamic Island 配置检查与局部恢复','Elyra/Core/DynamicIsland.swift','检查导入标记/Artwork 类型，局部恢复导入基准中的两个 DI 字段；设备编辑器独立提供实时写入与完整备份恢复','typed plist + verified baseline','本地无；设备需实际系统访问','中','统一新增','DynamicIslandEngine','本地检查已实现；可进入设备配置；不猜 subtype 默认值，不声称系统形状修复','14 项 DI/观察/迁移测试及系统事务测试；外观效果未验证',True)
 row('灵动岛外观记录','Elyra/Features/IslandObservations.swift','记录运行环境、方向、活动、形状与圆角；媒体播放状态可选；持久化并导出 JSON','RuntimeDeviceContext / Workspace','无','低','统一新增','DynamicIsland Lab','已实现；模拟器记录自动标注，不作为系统证据','观察持久化、版本关联和导出边界测试通过',True)
 row('文本文件版本与中断恢复','Elyra/Core/TextAsset.swift, Workspace.swift','原始字节备份、原子保存、版本冲突保护及 asset journal 重启恢复','SHA-256 / actor / journal','本地无','中','统一新增','AssetBackups','已实现 UTF-8 文件及文件备份恢复','BOM/CRLF/no-op/空文本/损坏备份/跨文件/中断恢复测试通过',True)
 row('语言选择','Elyra/App/LocalizationStore.swift; Features/LanguageSettingsView.swift','简体中文、English、跟随系统；保存偏好并同步全部窗口','SwiftUI locale / bundled resources','应用偏好','低','统一新增','Settings / Localization','已实现语言设置；功能名称使用统一术语','语言策略 Core 测试通过；真实切换与重启保留 UI 结果见 TEST_REPORT',True)
+row('关于与账号卡片','Elyra/Features/AboutView.swift','原生弹窗显示 GitHub、抖音、小红书按钮；独立开源许可页','SafariServices','打开指定公开主页','低','统一新增','Settings / About','已实现；主界面不展示源码审计叙述；保留法定版权与许可','模拟器覆盖卡片存在性；不自动打开外部主页',True)
 headers=['功能名称','现有实现位置','功能说明','底层依赖','iOS 26 状态','iOS 27 状态','iPhone','iPad','特殊权限','风险','重复实现','Elyra 模块','实现进度','验证方法和结果']
 preamble='''# Elyra 功能并集与迁移矩阵
 
 审计快照：2026-11-14 UTC。A = Erosion `12c0a2d00c444c9b09112608b47d4d6c10e0df14`；B = GestaltX `d1d5473734440e8f2e797494ac373427c02fd674`。
 
-这是实际进度表，不是完成声明。iOS 26/27 的**系统行为均无本次真机验证**；上游的支持声明不继承为 Elyra 结论。iPhone/iPad 使用相同目录与业务代码；“同一入口”是源码实现事实，基线已通过 Xcode 26.3 分析、iPhone/iPad 模拟器导航与旋转测试，新增 0.2 功能的 CI 结果见 TEST_REPORT。系统写入无授权后端，因此全部阻断。UI 最低目标 iOS 17；已运行 26.2 模拟器，27 SDK/真机行为仍待验证。
+这是实际进度表，不是完成声明。0.3 已接入固定版本的原生 MobileGestalt 访问模块及受限设备写入；只针对实时捕获的设备配置，实际权限探测通过后才能写入。iOS 26/27 的**系统行为均无本次真机验证**；上游支持声明不继承为 Elyra 结论。iPhone/iPad 使用相同目录、编辑器及事务层；Apple CI 结果见 TEST_REPORT。UI 最低目标 iOS 17；已运行 26.2 模拟器，27 SDK/真机仍待验证。外观资源安装等其他模块的未迁移状态分别列明，不能从 MobileGestalt 后端推定可用。
 
 位置中 B 的无目录 Swift 文件位于 `GestaltX/`；A 的短目录位于 `Erosion/`。精确路径、散列和声明参见 [source-inventory.json](audit/source-inventory.json)。完整风险与审查边界见 [SOURCE_AUDIT.md](SOURCE_AUDIT.md)。预设目录来自实际源码而非 README。按并集列出，重叠统一成 Capability/Workspace 引擎，不拼接原 UI。
 

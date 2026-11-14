@@ -47,7 +47,7 @@ GitHub issues/release API 已实际读取全部可访问分页：Erosion issues 
 | 配对 | B `DeviceConnection*`, `DeviceConsole*`, `DevicePairingStore`, `Native/DeviceConsole` | Rust RPPairing/RSD/Lockdown/syslog_relay；私密 PIN 不记日志、generation-scoped cancellation、路径迁移与 LocalDevVPN 依赖。合法配对模块不应混同文件逃逸，但尚需独立迁移/构建与隐私审查。 |
 | 配置资料 | A `ConfigView`; B `SystemSettingsStore` | A 混合锁屏 footnote 与监督/组织信息。Elyra 不执行未经授权的管理配置修改，也不以普通外观设置包装它。 |
 | 文件 | A `FileBrowserView`, `FileHelpers`, `PlistManager`, `TextViewer`, `OperationsView` | 普通浏览编辑与 escape/grant 混合；Elyra 仅对授权导入及受管理副本操作，尚未移植完整目录浏览与文本编辑。 |
-| Respring | A `Respring`; B `NeoSpringView` | 资源耗尽 WebKit 方法，不是受支持 API；本构建不运行。 |
+| Respring | A `Respring`; B `NeoSpringView` | 资源压力 WebKit 方法，不是受支持 API；0.3 接入手动确认的实验性入口，不自动执行，不在模拟器触发。 |
 | 扩展 | B `ShareExtension`, `Shared*`; A 无独立扩展目标 | 共同签名 App Group、持久 inbox、文件大小、验证、取消；Elyra 尚未迁移，不声称 fileImporter 等同分享扩展。 |
 | 持久化 | A AppStorage/UserDefaults + 文件；B actor 文件、Keychain、App Group | Elyra 文件 JSON/plist + actor，共享数据与窗口草稿分开；已有 index 损坏不静默重置。 |
 | CI | A `ipabuild.sh`; B `.github/workflows/build.yml`, `.github/scripts/build-ipa.sh` | B 原 workflow 使用 `xcode-27` runner 标签，不能假定目标仓库拥有该 runner。Elyra 使用标准 macOS runner、实际已安装 stable Xcode、设备 archive 与结构验证。无 Xcode 27 SDK 就不声明 27 SDK 测试通过。 |
@@ -58,12 +58,12 @@ A：Swift/SwiftUI、Objective-C `worse_query.m`/`pathleak.m`、Security、底层
 
 B：Swift/SwiftUI、Objective-C entitlement reader、device identity、cache/image reader、LaunchServices parser/discovery、customization access、`worse_query`；ZIPFoundation 0.9.20 @ `22787ffb59de99e5dc1fbfe80b19c97a904ad48d`（MIT）；Rust native console，vendored idevice @ `7bd551c16c6dd2e058740d85a2d9399a51a776e9`（MIT），AirCard 连接代码（MIT），aws-lc/C toolchain、cmake/nasm（依目标）；App Group `group.com.huami.gestultx`。NeoSpring GPL 参考实现、Gester MIT、Primer Octicons MIT。完整上游许可副本保留在 Resources/Licenses。
 
-Elyra 0.1 仅编译 Swift/SwiftUI 及 Apple frameworks；0.2 新增实际编译的 ZIPFoundation 0.9.20 固定 revision，用于有界离线检查。仍无原生 escape、Rust 库、特殊 entitlement 或分享扩展。改编的 `Capability.swift` 保留 huamidev GPL-3.0-only 版权告知。未把其他许可证推断为 MIT。完整对应源码随本项目提供。
+Elyra 0.1 仅编译 Swift/SwiftUI 及 Apple frameworks；0.2 新增实际编译的 ZIPFoundation 0.9.20 固定 revision，用于有界离线检查。0.3 编译固定版本的 worse_query、GXCacheDirectory、GXEntitlementsReader 及 Erosion Respring；增加 App Group 签名模板，无 Rust 库或分享扩展。改编的 `Capability.swift` 保留 huamidev GPL-3.0-only 版权告知。未把其他许可证推断为 MIT。完整对应源码随本项目提供。
 
 ## 主要阻碍与残余风险
 
-1. 无授权、可验证的系统 writer；签名本身不会授予任意系统缓存访问。不能把上游 escape 移入后就称安全通用支持。
-2. 本地仍无 Xcode/真机；远程基线现已通过 Xcode 分析、模拟器测试和设备归档。最新 0.2 结果见 TEST_REPORT。
+1. 0.3 提供受限原生 writer，逐次检测真实文件权限；普通签名本身不授予任意缓存访问。已实现备份/回读/回滚，不代表所有 26/27 构建或硬件效果已通过验证。
+2. 本地仍无 Xcode/真机；远程基线现已通过 Xcode 分析、模拟器测试和设备归档。各版本实际结果见 TEST_REPORT。
 4. SHA-256 仅检查备份完整性，不防同权限攻击者同时改 payload 与 metadata；不提供设备身份认证。
 5. 单 actor 保证本进程多窗口一致性；不保证第二进程或外部文件修改与提交之间的跨进程锁。尚无 app extension，故当前无该写入场景。
 6. 本地提交有 journal、原子替换和失败回读；没有文件系统级断电 fsync 验收。导入/素材入库和回收站并非完整 journal 事务，极端中断可留下孤立文件，需后续修复工具。

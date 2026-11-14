@@ -33,11 +33,11 @@ A test result needs exact system build, independently verified configuration lin
 
 ## Product implementation
 
-The Dynamic Island page inspects imported capability/artwork fields and offers staged, confirmed local changes. Targeted restoration uses that document's verified imported baseline and preserves unrelated members and absence/type semantics. A baseline may already be modified; it is not authenticated factory data.
+The Dynamic Island page inspects imported capability/artwork fields and offers staged, confirmed local changes. A separate Device configuration connection captures the live cache and can write allowlisted capability/artwork changes after confirmation and actual access checks. Targeted restoration uses that document's verified imported baseline and preserves unrelated members and absence/type semantics. A baseline may already be modified; it is not authenticated factory data.
 
 Appearance records cover idle, recording, timer, call, navigation, media and multiple activities, including corner, shape, proportion and position outcomes. Playback state is optional and omitted for non-media records. Simulator attribution is automatic. A separately labeled appearance preview is illustrative only.
 
-A system recovery path requires supported authorized access and trusted same-device original data. Neither system writing nor system geometry repair is implemented.
+The device writer creates verified, installation-bound backups and can restore captured bytes after inode/revision/generation checks. This restores a recorded configuration, which may already contain modifications. Native access and system transactions are implemented; physical results remain unverified. No system geometry repair has been established, and no radius/animation parameter is offered.
 
 ## References
 

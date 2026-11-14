@@ -144,7 +144,10 @@ extension AppEnvironment {
             self.deviceSnapshot = saved; self.deviceLinks[documentID] = saved
             guard let workspace = self.workspace else { return }
             do { let copy = try await workspace.commit(saved.value, expected: expected, reason: "System write verified"); completion(copy) }
-            catch { self.error = "The system write was verified, but the local working copy could not be updated. Reconnect before editing again." }
+            catch {
+                self.deviceLinks.removeValue(forKey: documentID)
+                self.error = "The system write was verified, but the local working copy could not be updated. Reconnect before editing again."
+            }
             await self.refresh()
         }
     }

@@ -15,7 +15,7 @@ struct CapabilityList: View {
     }
     var body: some View {
         List {
-            Section { StatusNotice(title: "Capability flags are not hardware", detail: "All features remain visible on iPhone and iPad. System effects are unverified, and system writes require an authorized backend.") }
+            Section { Text("Choose a feature to review its configuration, dependencies and compatibility.").foregroundStyle(.secondary) }
             ForEach(Capability.all.filter { $0.category == category }) { capability in
                 NavigationLink(value: Screen.capability(capability.id)) {
                     HStack {
@@ -69,7 +69,7 @@ struct CapabilityView: View {
                     ForEach(app.state.documents) { document in
                         NavigationLink(document.name) { DocumentEditor(id: document.id, initialCapability: capability) }
                     }
-                    if app.state.documents.isEmpty { Text("Import a MobileGestalt plist in System first.") }
+                    if app.state.documents.isEmpty { Text("Import a MobileGestalt plist in Tools first.") }
                 }
                 if id == "dynamicIsland" { Section { NavigationLink("Dynamic Island", value: Screen.island) } }
             }

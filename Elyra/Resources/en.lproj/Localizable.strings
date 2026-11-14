@@ -94,6 +94,7 @@
 "Checking archive…" = "Checking archive…";
 "Choose English, Simplified Chinese or Follow System. Appearance, text size and Reduce Motion follow system settings." = "Choose English, Simplified Chinese or Follow System. Appearance, text size and Reduce Motion follow system settings.";
 "Choose a documented artwork subtype. This does not verify its appearance on this device." = "Choose a documented artwork subtype. This does not verify its appearance on this device.";
+"Choose a feature to review its configuration, dependencies and compatibility." = "Choose a feature to review its configuration, dependencies and compatibility.";
 "Choose a nonempty asset smaller than 64 MB." = "Choose a nonempty asset smaller than 64 MB.";
 "Choose a plist smaller than 16 MB." = "Choose a plist smaller than 16 MB.";
 "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified." = "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified.";
@@ -225,6 +226,7 @@
 "Illustrative playback progress" = "Illustrative playback progress";
 "Import" = "Import";
 "Import a MobileGestalt plist in System first." = "Import a MobileGestalt plist in System first.";
+"Import a MobileGestalt plist in Tools first." = "Import a MobileGestalt plist in Tools first.";
 "Import a plist to browse, edit and compare actual values." = "Import a plist to browse, edit and compare actual values.";
 "Import asset" = "Import asset";
 "Import category" = "Import category";

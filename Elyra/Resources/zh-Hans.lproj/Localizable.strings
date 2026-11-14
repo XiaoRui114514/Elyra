@@ -94,6 +94,7 @@
 "Checking archive…" = "正在检查归档…";
 "Choose English, Simplified Chinese or Follow System. Appearance, text size and Reduce Motion follow system settings." = "可选择简体中文、English 或跟随系统。外观、字体大小及“减少动态效果”遵循系统设置。";
 "Choose a documented artwork subtype. This does not verify its appearance on this device." = "请选择已有源码记录的外观子类型。这不代表已验证当前设备的显示效果。";
+"Choose a feature to review its configuration, dependencies and compatibility." = "选择功能以查看配置、依赖条件和兼容性。";
 "Choose a nonempty asset smaller than 64 MB." = "请选择非空且小于 64 MB 的素材。";
 "Choose a plist smaller than 16 MB." = "请选择小于 16 MB 的 plist。";
 "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified." = "选择导入文件以预览预设。在文档编辑器中检查并确认，不会修改系统文件。";
@@ -225,6 +226,7 @@
 "Illustrative playback progress" = "示意播放进度";
 "Import" = "导入配置";
 "Import a MobileGestalt plist in System first." = "请先在“系统”中导入 MobileGestalt plist。";
+"Import a MobileGestalt plist in Tools first." = "请先在工具中导入 MobileGestalt plist。";
 "Import a plist to browse, edit and compare actual values." = "导入 plist 后即可浏览、编辑和比较真实字段。";
 "Import asset" = "导入素材";
 "Import category" = "导入分类";
