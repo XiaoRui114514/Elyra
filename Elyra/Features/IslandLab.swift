@@ -72,7 +72,7 @@ struct IslandLab: View {
                 Text("Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original.").font(.caption).foregroundStyle(.secondary)
             }
         }
-        .navigationTitle("Dynamic Island")
+        .navigationTitle(localization.text("Dynamic Island"))
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: state)
         .sheet(isPresented: $observing) { IslandObservationForm() }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.propertyList, .xml, .data]) { result in

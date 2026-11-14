@@ -34,13 +34,13 @@ struct BackupsView: View {
                 }
             }
             if app.state.backups.isEmpty { Text("No backups yet").foregroundStyle(.secondary) }
-        }.navigationTitle("Backups")
+        }.navigationTitle(localization.text("Backups"))
         .sheet(item: $offer) { offer in
             NavigationStack {
                 List {
                     StatusNotice(title: "Restore local document", detail: "The current local file is backed up first. The selected backup must match this document and pass size and SHA-256 checks. The device system is not modified.")
                     ForEach(PlistChange.between(offer.current.value, offer.value)) { ChangeRow(change: $0) }
-                }.navigationTitle("Restore preview")
+                }.navigationTitle(localization.text("Restore preview"))
                     .safeAreaInset(edge: .bottom) {
                         Button("Confirm local restore") {
                             app.run { workspace in _ = try await workspace.restore(offer.backup.id, expected: offer.current) }

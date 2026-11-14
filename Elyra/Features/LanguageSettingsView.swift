@@ -13,7 +13,7 @@ struct LanguageSettingsView: View {
                 Text("The selected language applies to every Elyra window and is saved for the next launch. File contents and configuration keys keep their original names.")
             }
         }
-        .navigationTitle("Language")
+        .navigationTitle(localization.text("Language"))
     }
     private func languageRow(_ language: AppLanguage, name: String) -> some View {
         Button {

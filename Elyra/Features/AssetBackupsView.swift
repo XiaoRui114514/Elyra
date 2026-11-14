@@ -3,6 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AssetBackupsView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
     @State private var restoring: AssetBackupRecord?
     @State private var expected: AssetRecord?
@@ -31,8 +32,8 @@ struct AssetBackupsView: View {
                 }
             }
             if app.state.assetBackups.isEmpty { Text("No file backups yet") }
-        }.navigationTitle("Managed file backups")
-        .confirmationDialog("Restore local file?", isPresented: $confirmation, titleVisibility: .visible) {
+        }.navigationTitle(localization.text("Managed file backups"))
+        .confirmationDialog(localization.text("Restore local file?"), isPresented: $confirmation, titleVisibility: .visible) {
             Button("Restore local file") {
                 if let restoring, let expected { app.run { _ = try await $0.restoreAssetBackup(restoring.id, expected: expected) } }
             }

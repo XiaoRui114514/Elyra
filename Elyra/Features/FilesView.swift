@@ -60,7 +60,7 @@ struct FilesView: View {
                 }
             }
         }
-        .navigationTitle("File Manager").searchable(text: $search)
+        .navigationTitle(localization.text("File Manager")).searchable(text: $search)
         .quickLookPreview($previewURL)
         .fileImporter(isPresented: $importing, allowedContentTypes: [.item]) { result in
             switch result { case .success(let url): app.importURL(url, category: category); case .failure(let error): app.error = error.localizedDescription }
@@ -69,7 +69,7 @@ struct FilesView: View {
             for url in urls { app.importURL(url, category: category) }
             return !urls.isEmpty
         }
-        .confirmationDialog("Move asset to Trash?", isPresented: $showDelete, titleVisibility: .visible) {
+        .confirmationDialog(localization.text("Move asset to Trash?"), isPresented: $showDelete, titleVisibility: .visible) {
             Button("Move to Trash", role: .destructive) { if let deleting { app.run { try await $0.deleteAsset(deleting.id) } } }
         }
     }

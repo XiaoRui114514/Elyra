@@ -78,7 +78,7 @@ struct DocumentEditor: View {
         }
         .sheet(isPresented: $reviewing) {
             NavigationStack {
-                diffList.navigationTitle("Review local changes")
+                diffList.navigationTitle(localization.text("Review local changes"))
                     .safeAreaInset(edge: .bottom) {
                         Button("Confirm & save local copy") { save(); reviewing = false }
                             .buttonStyle(.borderedProminent).padding().disabled(changes.isEmpty || draftConflict)
@@ -86,7 +86,7 @@ struct DocumentEditor: View {
                     .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { reviewing = false } } }
             }
         }
-        .confirmationDialog("Discard draft & reload?", isPresented: $discardConfirmation, titleVisibility: .visible) {
+        .confirmationDialog(localization.text("Discard draft & reload?"), isPresented: $discardConfirmation, titleVisibility: .visible) {
             Button("Discard draft & reload", role: .destructive) {
                 app.run { workspace in
                     if let window = UUID(uuidString: windowID) { try await workspace.discardDraft(window: window, document: id) }
@@ -114,7 +114,7 @@ struct DocumentEditor: View {
                     }
                 }
             }
-        }.listStyle(.insetGrouped).searchable(text: $search, prompt: "Search fields and values")
+        }.listStyle(.insetGrouped).searchable(text: $search, prompt: Text(localization.text("Search fields and values")))
     }
     private var diffList: some View {
         List {
@@ -222,7 +222,7 @@ struct FieldEditor: View {
                 }
             }
             .onAppear { text = (selection.value ?? .string("")).xml; key = selection.path.last ?? "" }
-            .confirmationDialog("Remove field?", isPresented: $deleting, titleVisibility: .visible) {
+            .confirmationDialog(localization.text("Remove field?"), isPresented: $deleting, titleVisibility: .visible) {
                 Button("Remove field", role: .destructive) {
                     do { try apply(nil, selection.path.last ?? ""); dismiss() } catch { self.error = error.localizedDescription }
                 }

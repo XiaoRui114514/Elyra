@@ -22,7 +22,7 @@ struct AreaView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .searchable(text: $search, prompt: "Search features and imported fields")
+        .searchable(text: $search, prompt: Text(localization.text("Search features and imported fields")))
         .fileImporter(isPresented: $importing, allowedContentTypes: [.propertyList, .xml, .data]) { result in
             switch result { case .success(let url): app.importURL(url); case .failure(let error): app.error = error.localizedDescription }
         }

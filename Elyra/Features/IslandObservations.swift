@@ -45,7 +45,7 @@ struct IslandObservationForm: View {
                     Text("Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers.").font(.caption).foregroundStyle(.secondary)
                 }
             }
-            .navigationTitle("Record appearance observation")
+            .navigationTitle(localization.text("Record appearance observation"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
@@ -88,6 +88,6 @@ struct IslandObservationDetail: View {
             }
             if let revision = observation.documentRevision { Section("Local document revision") { Text(revision).font(.caption).textSelection(.enabled) } }
             Section("Notes") { Text(observation.notes.isEmpty ? localization.text("None") : observation.notes).textSelection(.enabled) }
-        }.navigationTitle("Appearance observation")
+        }.navigationTitle(localization.text("Appearance observation"))
     }
 }

@@ -1,0 +1,13 @@
+Run: 43591600872
+Source: d736cc366850e390b9123ef6bd70985fad92a0b4
+Environment: iPhone SE 3 Simulator, iOS 26.2 (23C54)
+UI hierarchy after selecting zh-Hans: navigation title remained Language;
+Follow System row and footer were correctly translated into Chinese.
+Fix: resolve navigation/dialog/search titles through the shared localization
+store so native UIKit presentation updates when the selected language changes.
+2026-11-14T11:51:35.1885850Z Test Case '-[ElyraUITests.ElyraUITests testLanguageSwitchUpdatesCustomLabelsAndPersists]' started.
+2026-11-14T11:51:52.8373230Z /Users/runner/work/Elyra/Elyra/UITests/ElyraUITests.swift:88: error: -[ElyraUITests.ElyraUITests testLanguageSwitchUpdatesCustomLabelsAndPersists] : XCTAssertTrue failed
+2026-11-14T11:51:53.0574940Z Test Case '-[ElyraUITests.ElyraUITests testLanguageSwitchUpdatesCustomLabelsAndPersists]' failed (17.924 seconds).
+2026-11-14T11:52:46.7129370Z 	 Executed 4 tests, with 1 failure (0 unexpected) in 132.535 (132.539) seconds
+2026-11-14T11:52:46.7339970Z 	 Executed 4 tests, with 1 failure (0 unexpected) in 132.535 (132.539) seconds
+2026-11-14T11:52:46.7542840Z 	 Executed 4 tests, with 1 failure (0 unexpected) in 132.535 (132.540) seconds

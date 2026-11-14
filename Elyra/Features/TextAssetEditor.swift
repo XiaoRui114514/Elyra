@@ -42,7 +42,7 @@ struct TextAssetEditor: View {
                     Section("Before") { Text(original?.text ?? "").font(.system(.caption, design: .monospaced)).textSelection(.enabled) }
                     Section("After") { Text(text).font(.system(.caption, design: .monospaced)).textSelection(.enabled) }
                 }
-                .navigationTitle("Review text changes")
+                .navigationTitle(localization.text("Review text changes"))
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button("Cancel") { confirming = false } }
                     ToolbarItem(placement: .confirmationAction) {

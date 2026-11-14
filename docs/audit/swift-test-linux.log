@@ -2,163 +2,174 @@ warning: 'zipfoundation': found 1 file(s) which are unhandled; explicitly declar
     /workspace/elyra/.build/checkouts/ZIPFoundation/Sources/ZIPFoundation/Resources/PrivacyInfo.xcprivacy
 [0/1] Planning build
 Building for debugging...
-[0/4] Write sources
-[2/4] Write swift-version-33AAD5318C8D185.txt
-[4/6] Emitting module ElyraCore
-[5/6] Compiling ElyraCore DeviceBuildIdentification.swift
-[7/13] Compiling ElyraCoreTests DeviceBuildTests.swift
-[8/13] Emitting module ElyraCoreTests
-[9/14] /workspace/elyra/.build/x86_64-unknown-linux-gnu/debug/ElyraCorePackageDiscoveredTests.derived/all-discovered-tests.swift
-[10/15] Write sources
-[12/18] Compiling ElyraCorePackageDiscoveredTests ElyraCoreTests.swift
-[13/18] Emitting module ElyraCorePackageDiscoveredTests
-[14/18] Compiling ElyraCorePackageDiscoveredTests all-discovered-tests.swift
-[15/17] Write Objects.LinkFileList
-[16/17] Linking ElyraCorePackageTests.xctest
-Build complete! (2.16s)
-Test Suite 'All tests' started at 2026-11-14 11:08:09.559
-Test Suite 'debug.xctest' started at 2026-11-14 11:08:09.561
-Test Suite 'ArchiveTests' started at 2026-11-14 11:08:09.561
-Test Case 'ArchiveTests.testCRCFailureRejected' started at 2026-11-14 11:08:09.561
-Test Case 'ArchiveTests.testCRCFailureRejected' passed (0.002 seconds)
-Test Case 'ArchiveTests.testConflictingParentFileAndDirectoryNamesAreRejectedInEitherOrder' started at 2026-11-14 11:08:09.562
-Test Case 'ArchiveTests.testConflictingParentFileAndDirectoryNamesAreRejectedInEitherOrder' passed (0.101 seconds)
-Test Case 'ArchiveTests.testDataSliceWithNonzeroIndexIsHandledSafely' started at 2026-11-14 11:08:09.664
-Test Case 'ArchiveTests.testDataSliceWithNonzeroIndexIsHandledSafely' passed (0.001 seconds)
-Test Case 'ArchiveTests.testDeclaredExpansionAndPreviewLimitsEnforced' started at 2026-11-14 11:08:09.664
+[0/3] Write sources
+[1/3] Write swift-version-33AAD5318C8D185.txt
+[3/5] Compiling ElyraCoreTests DynamicIslandTests.swift
+[4/5] Emitting module ElyraCoreTests
+[5/10] /workspace/elyra/.build/x86_64-unknown-linux-gnu/debug/ElyraCorePackageDiscoveredTests.derived/all-discovered-tests.swift
+[6/11] Write sources
+[8/14] Compiling ElyraCorePackageDiscoveredTests all-discovered-tests.swift
+[9/14] Emitting module ElyraCorePackageDiscoveredTests
+[10/14] Compiling ElyraCorePackageDiscoveredTests ElyraCoreTests.swift
+[11/13] Write Objects.LinkFileList
+[12/13] Linking ElyraCorePackageTests.xctest
+Build complete! (2.15s)
+Test Suite 'All tests' started at 2026-11-14 11:46:15.035
+Test Suite 'debug.xctest' started at 2026-11-14 11:46:15.042
+Test Suite 'AppLanguageTests' started at 2026-11-14 11:46:15.042
+Test Case 'AppLanguageTests.testExplicitLanguageOverridesTheSystem' started at 2026-11-14 11:46:15.042
+Test Case 'AppLanguageTests.testExplicitLanguageOverridesTheSystem' passed (0.001 seconds)
+Test Case 'AppLanguageTests.testFollowSystemUsesFirstSupportedPreferenceAndEnglishFallback' started at 2026-11-14 11:46:15.043
+Test Case 'AppLanguageTests.testFollowSystemUsesFirstSupportedPreferenceAndEnglishFallback' passed (0.0 seconds)
+Test Case 'AppLanguageTests.testMissingAndUnknownPreferencesSafelyFollowSystem' started at 2026-11-14 11:46:15.043
+Test Case 'AppLanguageTests.testMissingAndUnknownPreferencesSafelyFollowSystem' passed (0.0 seconds)
+Test Suite 'AppLanguageTests' passed at 2026-11-14 11:46:15.044
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ArchiveTests' started at 2026-11-14 11:46:15.044
+Test Case 'ArchiveTests.testCRCFailureRejected' started at 2026-11-14 11:46:15.044
+Test Case 'ArchiveTests.testCRCFailureRejected' passed (0.001 seconds)
+Test Case 'ArchiveTests.testConflictingParentFileAndDirectoryNamesAreRejectedInEitherOrder' started at 2026-11-14 11:46:15.045
+Test Case 'ArchiveTests.testConflictingParentFileAndDirectoryNamesAreRejectedInEitherOrder' passed (0.0 seconds)
+Test Case 'ArchiveTests.testDataSliceWithNonzeroIndexIsHandledSafely' started at 2026-11-14 11:46:15.045
+Test Case 'ArchiveTests.testDataSliceWithNonzeroIndexIsHandledSafely' passed (0.101 seconds)
+Test Case 'ArchiveTests.testDeclaredExpansionAndPreviewLimitsEnforced' started at 2026-11-14 11:46:15.146
 Test Case 'ArchiveTests.testDeclaredExpansionAndPreviewLimitsEnforced' passed (0.0 seconds)
-Test Case 'ArchiveTests.testDirectoryEntriesRemainVisibleAndCannotBeReadAsFiles' started at 2026-11-14 11:08:09.665
+Test Case 'ArchiveTests.testDirectoryEntriesRemainVisibleAndCannotBeReadAsFiles' started at 2026-11-14 11:46:15.147
 Test Case 'ArchiveTests.testDirectoryEntriesRemainVisibleAndCannotBeReadAsFiles' passed (0.0 seconds)
-Test Case 'ArchiveTests.testEncryptedFlagAndCentralDirectoryCountMismatchRejected' started at 2026-11-14 11:08:09.665
+Test Case 'ArchiveTests.testEncryptedFlagAndCentralDirectoryCountMismatchRejected' started at 2026-11-14 11:46:15.147
 Test Case 'ArchiveTests.testEncryptedFlagAndCentralDirectoryCountMismatchRejected' passed (0.0 seconds)
-Test Case 'ArchiveTests.testLinksAndCaseInsensitiveDuplicateNamesAreRejected' started at 2026-11-14 11:08:09.665
+Test Case 'ArchiveTests.testLinksAndCaseInsensitiveDuplicateNamesAreRejected' started at 2026-11-14 11:46:15.147
 Test Case 'ArchiveTests.testLinksAndCaseInsensitiveDuplicateNamesAreRejected' passed (0.0 seconds)
-Test Case 'ArchiveTests.testTruncatedEmptyAndUnsupportedArchivesRejected' started at 2026-11-14 11:08:09.666
+Test Case 'ArchiveTests.testTruncatedEmptyAndUnsupportedArchivesRejected' started at 2026-11-14 11:46:15.148
 Test Case 'ArchiveTests.testTruncatedEmptyAndUnsupportedArchivesRejected' passed (0.0 seconds)
-Test Case 'ArchiveTests.testUnsafeAndAbsolutePathsAreRejected' started at 2026-11-14 11:08:09.666
-Test Case 'ArchiveTests.testUnsafeAndAbsolutePathsAreRejected' passed (0.001 seconds)
-Test Case 'ArchiveTests.testValidZipAndTendiesDescriptorBytesAreInspected' started at 2026-11-14 11:08:09.667
-Test Case 'ArchiveTests.testValidZipAndTendiesDescriptorBytesAreInspected' passed (0.001 seconds)
-Test Suite 'ArchiveTests' passed at 2026-11-14 11:08:09.667
-	 Executed 10 tests, with 0 failures (0 unexpected) in 0.107 (0.107) seconds
-Test Suite 'DeviceBuildTests' started at 2026-11-14 11:08:09.667
-Test Case 'DeviceBuildTests.testPhysicalDeviceUsesItsKernelBuildWithoutGuessing' started at 2026-11-14 11:08:09.667
+Test Case 'ArchiveTests.testUnsafeAndAbsolutePathsAreRejected' started at 2026-11-14 11:46:15.148
+Test Case 'ArchiveTests.testUnsafeAndAbsolutePathsAreRejected' passed (0.0 seconds)
+Test Case 'ArchiveTests.testValidZipAndTendiesDescriptorBytesAreInspected' started at 2026-11-14 11:46:15.149
+Test Case 'ArchiveTests.testValidZipAndTendiesDescriptorBytesAreInspected' passed (0.101 seconds)
+Test Suite 'ArchiveTests' passed at 2026-11-14 11:46:15.249
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.206 (0.206) seconds
+Test Suite 'DeviceBuildTests' started at 2026-11-14 11:46:15.250
+Test Case 'DeviceBuildTests.testPhysicalDeviceUsesItsKernelBuildWithoutGuessing' started at 2026-11-14 11:46:15.250
 Test Case 'DeviceBuildTests.testPhysicalDeviceUsesItsKernelBuildWithoutGuessing' passed (0.002 seconds)
-Test Case 'DeviceBuildTests.testSimulatorEnvironmentIsValidatedAndPreferred' started at 2026-11-14 11:08:09.669
+Test Case 'DeviceBuildTests.testSimulatorEnvironmentIsValidatedAndPreferred' started at 2026-11-14 11:46:15.252
 Test Case 'DeviceBuildTests.testSimulatorEnvironmentIsValidatedAndPreferred' passed (0.0 seconds)
-Test Case 'DeviceBuildTests.testSimulatorNeverFallsBackToMacOSBuildWhenRuntimeIsUnknown' started at 2026-11-14 11:08:09.670
+Test Case 'DeviceBuildTests.testSimulatorNeverFallsBackToMacOSBuildWhenRuntimeIsUnknown' started at 2026-11-14 11:46:15.252
 Test Case 'DeviceBuildTests.testSimulatorNeverFallsBackToMacOSBuildWhenRuntimeIsUnknown' passed (0.0 seconds)
-Test Case 'DeviceBuildTests.testSimulatorUsesRuntimeBuildInsteadOfHostKernel' started at 2026-11-14 11:08:09.670
+Test Case 'DeviceBuildTests.testSimulatorUsesRuntimeBuildInsteadOfHostKernel' started at 2026-11-14 11:46:15.252
 Test Case 'DeviceBuildTests.testSimulatorUsesRuntimeBuildInsteadOfHostKernel' passed (0.0 seconds)
-Test Suite 'DeviceBuildTests' passed at 2026-11-14 11:08:09.670
+Test Suite 'DeviceBuildTests' passed at 2026-11-14 11:46:15.252
 	 Executed 4 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'DynamicIslandTests' started at 2026-11-14 11:08:09.670
-Test Case 'DynamicIslandTests.testEnableFlagDoesNotChangeSubtypeIdentityOrRoot' started at 2026-11-14 11:08:09.670
-Test Case 'DynamicIslandTests.testEnableFlagDoesNotChangeSubtypeIdentityOrRoot' passed (0.0 seconds)
-Test Case 'DynamicIslandTests.testFlagTypesAndIPadArtworkAreReportedWithoutClaimingEffect' started at 2026-11-14 11:08:09.670
+Test Suite 'DynamicIslandTests' started at 2026-11-14 11:46:15.252
+Test Case 'DynamicIslandTests.testEnableFlagDoesNotChangeSubtypeIdentityOrRoot' started at 2026-11-14 11:46:15.252
+Test Case 'DynamicIslandTests.testEnableFlagDoesNotChangeSubtypeIdentityOrRoot' passed (0.001 seconds)
+Test Case 'DynamicIslandTests.testFlagTypesAndIPadArtworkAreReportedWithoutClaimingEffect' started at 2026-11-14 11:46:15.253
 Test Case 'DynamicIslandTests.testFlagTypesAndIPadArtworkAreReportedWithoutClaimingEffect' passed (0.0 seconds)
-Test Case 'DynamicIslandTests.testMalformedArtworkAndNonGestaltDocumentsAreRejected' started at 2026-11-14 11:08:09.670
+Test Case 'DynamicIslandTests.testMalformedArtworkAndNonGestaltDocumentsAreRejected' started at 2026-11-14 11:46:15.253
 Test Case 'DynamicIslandTests.testMalformedArtworkAndNonGestaltDocumentsAreRejected' passed (0.0 seconds)
-Test Case 'DynamicIslandTests.testMismatchedCacheGenerationIsRejectedAndCaseIsAccepted' started at 2026-11-14 11:08:09.670
+Test Case 'DynamicIslandTests.testMismatchedCacheGenerationIsRejectedAndCaseIsAccepted' started at 2026-11-14 11:46:15.253
 Test Case 'DynamicIslandTests.testMismatchedCacheGenerationIsRejectedAndCaseIsAccepted' passed (0.0 seconds)
-Test Case 'DynamicIslandTests.testRestorePreservesExactOriginalTypesAndEmptyArtworkPresence' started at 2026-11-14 11:08:09.671
+Test Case 'DynamicIslandTests.testRestorePreservesExactOriginalTypesAndEmptyArtworkPresence' started at 2026-11-14 11:46:15.253
 Test Case 'DynamicIslandTests.testRestorePreservesExactOriginalTypesAndEmptyArtworkPresence' passed (0.0 seconds)
-Test Case 'DynamicIslandTests.testRestoreRemovesOriginallyAbsentFieldsAndPreservesArtworkName' started at 2026-11-14 11:08:09.671
+Test Case 'DynamicIslandTests.testRestoreRemovesOriginallyAbsentFieldsAndPreservesArtworkName' started at 2026-11-14 11:46:15.253
 Test Case 'DynamicIslandTests.testRestoreRemovesOriginallyAbsentFieldsAndPreservesArtworkName' passed (0.0 seconds)
-Test Suite 'DynamicIslandTests' passed at 2026-11-14 11:08:09.671
+Test Suite 'DynamicIslandTests' passed at 2026-11-14 11:46:15.253
 	 Executed 6 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'IslandWorkspaceTests' started at 2026-11-14 11:08:09.671
-Test Case 'IslandWorkspaceTests.testCorruptBaselineIsNotUsedAsARecoverySource' started at 2026-11-14 11:08:09.671
+Test Suite 'IslandWorkspaceTests' started at 2026-11-14 11:46:15.253
+Test Case 'IslandWorkspaceTests.testCorruptBaselineIsNotUsedAsARecoverySource' started at 2026-11-14 11:46:15.253
 Test Case 'IslandWorkspaceTests.testCorruptBaselineIsNotUsedAsARecoverySource' passed (0.007 seconds)
-Test Case 'IslandWorkspaceTests.testFutureLibrarySchemaFailsClosed' started at 2026-11-14 11:08:09.678
+Test Case 'IslandWorkspaceTests.testFutureLibrarySchemaFailsClosed' started at 2026-11-14 11:46:15.261
 Test Case 'IslandWorkspaceTests.testFutureLibrarySchemaFailsClosed' passed (0.0 seconds)
-Test Case 'IslandWorkspaceTests.testObservationCannotAttachToStaleOrMissingDocument' started at 2026-11-14 11:08:09.678
+Test Case 'IslandWorkspaceTests.testNonMediaActivitiesKeepPlaybackUnspecifiedAndRoundnessEvidence' started at 2026-11-14 11:46:15.261
+Test Case 'IslandWorkspaceTests.testNonMediaActivitiesKeepPlaybackUnspecifiedAndRoundnessEvidence' passed (0.007 seconds)
+Test Case 'IslandWorkspaceTests.testObservationCannotAttachToStaleOrMissingDocument' started at 2026-11-14 11:46:15.268
 Test Case 'IslandWorkspaceTests.testObservationCannotAttachToStaleOrMissingDocument' passed (0.007 seconds)
-Test Case 'IslandWorkspaceTests.testObservationExportLabelsSimulatorAndNeverExposesFullPlist' started at 2026-11-14 11:08:09.685
+Test Case 'IslandWorkspaceTests.testObservationExportLabelsSimulatorAndNeverExposesFullPlist' started at 2026-11-14 11:46:15.275
 Test Case 'IslandWorkspaceTests.testObservationExportLabelsSimulatorAndNeverExposesFullPlist' passed (0.002 seconds)
-Test Case 'IslandWorkspaceTests.testTargetedPlanUsesItsOwnVerifiedBaselineAndRemainsStaged' started at 2026-11-14 11:08:09.687
+Test Case 'IslandWorkspaceTests.testTargetedPlanUsesItsOwnVerifiedBaselineAndRemainsStaged' started at 2026-11-14 11:46:15.277
 Test Case 'IslandWorkspaceTests.testTargetedPlanUsesItsOwnVerifiedBaselineAndRemainsStaged' passed (0.012 seconds)
-Test Case 'IslandWorkspaceTests.testVersionOneLibraryMigratesWithoutLosingExistingRecords' started at 2026-11-14 11:08:09.699
+Test Case 'IslandWorkspaceTests.testVersionOneLibraryMigratesWithoutLosingExistingRecords' started at 2026-11-14 11:46:15.288
 Test Case 'IslandWorkspaceTests.testVersionOneLibraryMigratesWithoutLosingExistingRecords' passed (0.005 seconds)
-Test Suite 'IslandWorkspaceTests' passed at 2026-11-14 11:08:09.704
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.033 (0.033) seconds
-Test Suite 'PlistTests' started at 2026-11-14 11:08:09.704
-Test Case 'PlistTests.testAllTypesRoundTripWithoutCoercion' started at 2026-11-14 11:08:09.704
+Test Case 'IslandWorkspaceTests.testVersionTwoObservationsRetainLegacyPlaybackAndMigrateToVersionThree' started at 2026-11-14 11:46:15.293
+Test Case 'IslandWorkspaceTests.testVersionTwoObservationsRetainLegacyPlaybackAndMigrateToVersionThree' passed (0.002 seconds)
+Test Suite 'IslandWorkspaceTests' passed at 2026-11-14 11:46:15.295
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.042 (0.042) seconds
+Test Suite 'PlistTests' started at 2026-11-14 11:46:15.295
+Test Case 'PlistTests.testAllTypesRoundTripWithoutCoercion' started at 2026-11-14 11:46:15.295
 Test Case 'PlistTests.testAllTypesRoundTripWithoutCoercion' passed (0.001 seconds)
-Test Case 'PlistTests.testBoolIntegerAndRealDiffer' started at 2026-11-14 11:08:09.704
+Test Case 'PlistTests.testBoolIntegerAndRealDiffer' started at 2026-11-14 11:46:15.296
 Test Case 'PlistTests.testBoolIntegerAndRealDiffer' passed (0.0 seconds)
-Test Case 'PlistTests.testDeviceSpecificSiriNotGuessedAndNoCacheExtraRejected' started at 2026-11-14 11:08:09.704
+Test Case 'PlistTests.testDeviceSpecificSiriNotGuessedAndNoCacheExtraRejected' started at 2026-11-14 11:46:15.296
 Test Case 'PlistTests.testDeviceSpecificSiriNotGuessedAndNoCacheExtraRejected' passed (0.0 seconds)
-Test Case 'PlistTests.testDifferenceIDsDoNotCollideOnSlashKeys' started at 2026-11-14 11:08:09.705
+Test Case 'PlistTests.testDifferenceIDsDoNotCollideOnSlashKeys' started at 2026-11-14 11:46:15.296
 Test Case 'PlistTests.testDifferenceIDsDoNotCollideOnSlashKeys' passed (0.0 seconds)
-Test Case 'PlistTests.testMalformedAndOversizedPlistsAreRejected' started at 2026-11-14 11:08:09.705
+Test Case 'PlistTests.testMalformedAndOversizedPlistsAreRejected' started at 2026-11-14 11:46:15.296
 Test Case 'PlistTests.testMalformedAndOversizedPlistsAreRejected' passed (0.005 seconds)
-Test Case 'PlistTests.testNestedEditingAndAbsentOriginal' started at 2026-11-14 11:08:09.710
+Test Case 'PlistTests.testNestedEditingAndAbsentOriginal' started at 2026-11-14 11:46:15.301
 Test Case 'PlistTests.testNestedEditingAndAbsentOriginal' passed (0.0 seconds)
-Test Case 'PlistTests.testNoOSVersionClaimsSystemWriteSupport' started at 2026-11-14 11:08:09.710
+Test Case 'PlistTests.testNoOSVersionClaimsSystemWriteSupport' started at 2026-11-14 11:46:15.301
 Test Case 'PlistTests.testNoOSVersionClaimsSystemWriteSupport' passed (0.0 seconds)
-Test Case 'PlistTests.testNonFiniteValuesAndDeepNestingRejected' started at 2026-11-14 11:08:09.710
+Test Case 'PlistTests.testNonFiniteValuesAndDeepNestingRejected' started at 2026-11-14 11:46:15.301
 Test Case 'PlistTests.testNonFiniteValuesAndDeepNestingRejected' passed (0.0 seconds)
-Test Case 'PlistTests.testResponsiveThresholdsAndAccessibility' started at 2026-11-14 11:08:09.710
-Test Case 'PlistTests.testResponsiveThresholdsAndAccessibility' passed (0.0 seconds)
-Test Case 'PlistTests.testSHA256KnownVectors' started at 2026-11-14 11:08:09.710
-Test Case 'PlistTests.testSHA256KnownVectors' passed (0.168 seconds)
-Test Case 'PlistTests.testUntouchedPresetPreservesArtworkMembersAndRoot' started at 2026-11-14 11:08:09.879
+Test Case 'PlistTests.testResponsiveThresholdsAndAccessibility' started at 2026-11-14 11:46:15.302
+Test Case 'PlistTests.testResponsiveThresholdsAndAccessibility' passed (0.001 seconds)
+Test Case 'PlistTests.testSHA256KnownVectors' started at 2026-11-14 11:46:15.302
+Test Case 'PlistTests.testSHA256KnownVectors' passed (0.183 seconds)
+Test Case 'PlistTests.testUntouchedPresetPreservesArtworkMembersAndRoot' started at 2026-11-14 11:46:15.486
 Test Case 'PlistTests.testUntouchedPresetPreservesArtworkMembersAndRoot' passed (0.0 seconds)
-Test Suite 'PlistTests' passed at 2026-11-14 11:08:09.879
-	 Executed 11 tests, with 0 failures (0 unexpected) in 0.175 (0.175) seconds
-Test Suite 'TextAssetTests' started at 2026-11-14 11:08:09.879
-Test Case 'TextAssetTests.testAssetCommitJournalRecoversMatchingPayloadAndMetadata' started at 2026-11-14 11:08:09.879
-Test Case 'TextAssetTests.testAssetCommitJournalRecoversMatchingPayloadAndMetadata' passed (0.006 seconds)
-Test Case 'TextAssetTests.testAssetRollbackRecoveryRestoresPreviousMetadata' started at 2026-11-14 11:08:09.885
-Test Case 'TextAssetTests.testAssetRollbackRecoveryRestoresPreviousMetadata' passed (0.005 seconds)
-Test Case 'TextAssetTests.testBinaryOversizedAndInvalidUTF8TextRejected' started at 2026-11-14 11:08:09.890
-Test Case 'TextAssetTests.testBinaryOversizedAndInvalidUTF8TextRejected' passed (0.367 seconds)
-Test Case 'TextAssetTests.testCorruptAssetBackupAndCrossFileRestoreRejected' started at 2026-11-14 11:08:10.257
-Test Case 'TextAssetTests.testCorruptAssetBackupAndCrossFileRestoreRejected' passed (0.009 seconds)
-Test Case 'TextAssetTests.testStaleWindowTextSaveIsRejected' started at 2026-11-14 11:08:10.266
+Test Suite 'PlistTests' passed at 2026-11-14 11:46:15.486
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.191 (0.191) seconds
+Test Suite 'TextAssetTests' started at 2026-11-14 11:46:15.486
+Test Case 'TextAssetTests.testAssetCommitJournalRecoversMatchingPayloadAndMetadata' started at 2026-11-14 11:46:15.486
+Test Case 'TextAssetTests.testAssetCommitJournalRecoversMatchingPayloadAndMetadata' passed (0.005 seconds)
+Test Case 'TextAssetTests.testAssetRollbackRecoveryRestoresPreviousMetadata' started at 2026-11-14 11:46:15.491
+Test Case 'TextAssetTests.testAssetRollbackRecoveryRestoresPreviousMetadata' passed (0.004 seconds)
+Test Case 'TextAssetTests.testBinaryOversizedAndInvalidUTF8TextRejected' started at 2026-11-14 11:46:15.495
+Test Case 'TextAssetTests.testBinaryOversizedAndInvalidUTF8TextRejected' passed (0.385 seconds)
+Test Case 'TextAssetTests.testCorruptAssetBackupAndCrossFileRestoreRejected' started at 2026-11-14 11:46:15.880
+Test Case 'TextAssetTests.testCorruptAssetBackupAndCrossFileRestoreRejected' passed (0.008 seconds)
+Test Case 'TextAssetTests.testStaleWindowTextSaveIsRejected' started at 2026-11-14 11:46:15.889
 Test Case 'TextAssetTests.testStaleWindowTextSaveIsRejected' passed (0.005 seconds)
-Test Case 'TextAssetTests.testTextCanBeClearedAndRestored' started at 2026-11-14 11:08:10.271
+Test Case 'TextAssetTests.testTextCanBeClearedAndRestored' started at 2026-11-14 11:46:15.894
 Test Case 'TextAssetTests.testTextCanBeClearedAndRestored' passed (0.008 seconds)
-Test Case 'TextAssetTests.testTextNoOpDoesNotReencodeOrCreateBackup' started at 2026-11-14 11:08:10.279
+Test Case 'TextAssetTests.testTextNoOpDoesNotReencodeOrCreateBackup' started at 2026-11-14 11:46:15.902
 Test Case 'TextAssetTests.testTextNoOpDoesNotReencodeOrCreateBackup' passed (0.002 seconds)
-Test Case 'TextAssetTests.testTextSaveCreatesVerifiedBackupAndRestoresExactBOMBytes' started at 2026-11-14 11:08:10.282
-Test Case 'TextAssetTests.testTextSaveCreatesVerifiedBackupAndRestoresExactBOMBytes' passed (0.009 seconds)
-Test Suite 'TextAssetTests' passed at 2026-11-14 11:08:10.291
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.412 (0.412) seconds
-Test Suite 'WorkspaceTests' started at 2026-11-14 11:08:10.291
-Test Case 'WorkspaceTests.testAssetTrashRestoreAndTamperCheck' started at 2026-11-14 11:08:10.291
+Test Case 'TextAssetTests.testTextSaveCreatesVerifiedBackupAndRestoresExactBOMBytes' started at 2026-11-14 11:46:15.904
+Test Case 'TextAssetTests.testTextSaveCreatesVerifiedBackupAndRestoresExactBOMBytes' passed (0.007 seconds)
+Test Suite 'TextAssetTests' passed at 2026-11-14 11:46:15.911
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.425 (0.425) seconds
+Test Suite 'WorkspaceTests' started at 2026-11-14 11:46:15.911
+Test Case 'WorkspaceTests.testAssetTrashRestoreAndTamperCheck' started at 2026-11-14 11:46:15.911
 Test Case 'WorkspaceTests.testAssetTrashRestoreAndTamperCheck' passed (0.004 seconds)
-Test Case 'WorkspaceTests.testBackupFailurePreventsSave' started at 2026-11-14 11:08:10.295
+Test Case 'WorkspaceTests.testBackupFailurePreventsSave' started at 2026-11-14 11:46:15.916
 Test Case 'WorkspaceTests.testBackupFailurePreventsSave' passed (0.004 seconds)
-Test Case 'WorkspaceTests.testConcurrentSavesOnlyOneCanCommit' started at 2026-11-14 11:08:10.300
-Test Case 'WorkspaceTests.testConcurrentSavesOnlyOneCanCommit' passed (0.009 seconds)
-Test Case 'WorkspaceTests.testCorruptIndexDoesNotSilentlyResetLibrary' started at 2026-11-14 11:08:10.309
+Test Case 'WorkspaceTests.testConcurrentSavesOnlyOneCanCommit' started at 2026-11-14 11:46:15.920
+Test Case 'WorkspaceTests.testConcurrentSavesOnlyOneCanCommit' passed (0.01 seconds)
+Test Case 'WorkspaceTests.testCorruptIndexDoesNotSilentlyResetLibrary' started at 2026-11-14 11:46:15.930
 Test Case 'WorkspaceTests.testCorruptIndexDoesNotSilentlyResetLibrary' passed (0.001 seconds)
-Test Case 'WorkspaceTests.testCrossDocumentBackupRejected' started at 2026-11-14 11:08:10.310
+Test Case 'WorkspaceTests.testCrossDocumentBackupRejected' started at 2026-11-14 11:46:15.931
 Test Case 'WorkspaceTests.testCrossDocumentBackupRejected' passed (0.006 seconds)
-Test Case 'WorkspaceTests.testDraftsIsolatedByWindowAndPersistTypes' started at 2026-11-14 11:08:10.316
+Test Case 'WorkspaceTests.testDraftsIsolatedByWindowAndPersistTypes' started at 2026-11-14 11:46:15.937
 Test Case 'WorkspaceTests.testDraftsIsolatedByWindowAndPersistTypes' passed (0.002 seconds)
-Test Case 'WorkspaceTests.testImportCreatesVerifiedBaselineAndReloads' started at 2026-11-14 11:08:10.319
+Test Case 'WorkspaceTests.testImportCreatesVerifiedBaselineAndReloads' started at 2026-11-14 11:46:15.939
 Test Case 'WorkspaceTests.testImportCreatesVerifiedBaselineAndReloads' passed (0.004 seconds)
-Test Case 'WorkspaceTests.testJournalRecoversAfterFileWriteBeforeIndexUpdate' started at 2026-11-14 11:08:10.323
-Test Case 'WorkspaceTests.testJournalRecoversAfterFileWriteBeforeIndexUpdate' passed (0.006 seconds)
-Test Case 'WorkspaceTests.testPendingRecoveryJournalBlocksFurtherCommit' started at 2026-11-14 11:08:10.329
+Test Case 'WorkspaceTests.testJournalRecoversAfterFileWriteBeforeIndexUpdate' started at 2026-11-14 11:46:15.943
+Test Case 'WorkspaceTests.testJournalRecoversAfterFileWriteBeforeIndexUpdate' passed (0.007 seconds)
+Test Case 'WorkspaceTests.testPendingRecoveryJournalBlocksFurtherCommit' started at 2026-11-14 11:46:15.950
 Test Case 'WorkspaceTests.testPendingRecoveryJournalBlocksFurtherCommit' passed (0.004 seconds)
-Test Case 'WorkspaceTests.testSaveBacksUpAndRestoresExactOriginalBytes' started at 2026-11-14 11:08:10.333
-Test Case 'WorkspaceTests.testSaveBacksUpAndRestoresExactOriginalBytes' passed (0.011 seconds)
-Test Case 'WorkspaceTests.testStaleWindowCannotOverwriteOtherWindow' started at 2026-11-14 11:08:10.344
-Test Case 'WorkspaceTests.testStaleWindowCannotOverwriteOtherWindow' passed (0.007 seconds)
-Test Case 'WorkspaceTests.testTamperedSameSizeBackupIsRejectedBeforeRestore' started at 2026-11-14 11:08:10.351
+Test Case 'WorkspaceTests.testSaveBacksUpAndRestoresExactOriginalBytes' started at 2026-11-14 11:46:15.953
+Test Case 'WorkspaceTests.testSaveBacksUpAndRestoresExactOriginalBytes' passed (0.015 seconds)
+Test Case 'WorkspaceTests.testStaleWindowCannotOverwriteOtherWindow' started at 2026-11-14 11:46:15.968
+Test Case 'WorkspaceTests.testStaleWindowCannotOverwriteOtherWindow' passed (0.009 seconds)
+Test Case 'WorkspaceTests.testTamperedSameSizeBackupIsRejectedBeforeRestore' started at 2026-11-14 11:46:15.978
 Test Case 'WorkspaceTests.testTamperedSameSizeBackupIsRejectedBeforeRestore' passed (0.004 seconds)
-Test Case 'WorkspaceTests.testUnavailableSystemWriterAlwaysFails' started at 2026-11-14 11:08:10.355
+Test Case 'WorkspaceTests.testUnavailableSystemWriterAlwaysFails' started at 2026-11-14 11:46:15.982
 Test Case 'WorkspaceTests.testUnavailableSystemWriterAlwaysFails' passed (0.001 seconds)
-Test Suite 'WorkspaceTests' passed at 2026-11-14 11:08:10.356
-	 Executed 13 tests, with 0 failures (0 unexpected) in 0.065 (0.065) seconds
-Test Suite 'debug.xctest' passed at 2026-11-14 11:08:10.356
-	 Executed 58 tests, with 0 failures (0 unexpected) in 0.794 (0.794) seconds
-Test Suite 'All tests' passed at 2026-11-14 11:08:10.356
-	 Executed 58 tests, with 0 failures (0 unexpected) in 0.794 (0.794) seconds
+Test Suite 'WorkspaceTests' passed at 2026-11-14 11:46:15.983
+	 Executed 13 tests, with 0 failures (0 unexpected) in 0.071 (0.071) seconds
+Test Suite 'debug.xctest' passed at 2026-11-14 11:46:15.983
+	 Executed 63 tests, with 0 failures (0 unexpected) in 0.939 (0.939) seconds
+Test Suite 'All tests' passed at 2026-11-14 11:46:15.983
+	 Executed 63 tests, with 0 failures (0 unexpected) in 0.939 (0.939) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.0.3 (18c42c19cac3faf)
 ✔ Test run with 0 tests passed after 0.001 seconds.

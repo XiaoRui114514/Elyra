@@ -24,7 +24,7 @@ struct DiagnosticsView: View {
                 Text(localization.text(report.reason)).font(.caption).foregroundStyle(.secondary)
             }
             Section("Privacy") { Text("Diagnostics use local public device and process information. No pairing credentials, serial numbers or device identifiers are uploaded.") }
-        }.navigationTitle("Device diagnostics")
+        }.navigationTitle(localization.text("Device diagnostics"))
     }
     private func compatibility(_ name: String, _ status: SupportStatus) -> some View {
         VStack(alignment: .leading, spacing: 4) { Text(localization.text(name)); SupportBadge(status: status) }
@@ -48,7 +48,7 @@ struct HistoryView: View {
                 }.textSelection(.enabled)
             }
             if app.state.history.isEmpty { Text("No operations yet") }
-        }.navigationTitle("Operation history").searchable(text: $search)
+        }.navigationTitle(localization.text("Operation history")).searchable(text: $search)
         .toolbar {
             Button("Export history", systemImage: "square.and.arrow.up") {
                 app.run { workspace in export = ExportDocument(data: try await workspace.exportOperationHistory()); exporting = true }
@@ -80,6 +80,6 @@ struct LicensesView: View {
                     }
                 }
             }
-        }.navigationTitle("About Elyra")
+        }.navigationTitle(localization.text("About Elyra"))
     }
 }

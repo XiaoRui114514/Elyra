@@ -43,7 +43,7 @@ struct ArchiveInspector: View {
                 }
             } else { Section { ProgressView("Checking archive…") } }
         }
-        .navigationTitle("Archive inspector").searchable(text: $search)
+        .navigationTitle(localization.text("Archive inspector")).searchable(text: $search)
         .task(id: retry) {
             guard let workspace = app.workspace else { return }
             do {

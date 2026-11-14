@@ -39,7 +39,7 @@ struct IslandConfigurationView: View {
                 }
             } else { ProgressView() }
         }
-        .navigationTitle("Configuration inspection")
+        .navigationTitle(localization.text("Configuration inspection"))
         .task(id: app.state.history.first?.id) { await reload() }
         .sheet(item: $plan) { proposal in
             NavigationStack {

@@ -6,7 +6,7 @@ The release candidate is being validated by GitHub Actions. Only a complete succ
 | --- | --- |
 | Linux core | 63 passed, Swift 6.0.3 |
 | Python IPA negative tests | 8 passed |
-| Localization resources | 419 matching English/Simplified Chinese keys, no unclassified fallback |
+| Localization resources | 418 matching English/Simplified Chinese keys, no unclassified fallback |
 | Project/resources/workflow checks | Passed locally |
 | Apple analysis/archive/UI | Final qualification pending |
 | Signing | Unsigned build pipeline; no certificates supplied |
