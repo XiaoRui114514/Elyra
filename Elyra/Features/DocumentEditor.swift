@@ -85,7 +85,8 @@ struct DocumentEditor: View {
                 diffList.navigationTitle(localization.text(systemMode ? "Review device changes" : "Review local changes"))
                     .safeAreaInset(edge: .bottom) {
                         Button(localization.text(systemMode ? "Confirm & write to device" : "Confirm & save local copy")) { save(); reviewing = false }
-                            .buttonStyle(.borderedProminent).padding().disabled(changes.isEmpty || draftConflict)
+                            .buttonStyle(.borderedProminent).padding()
+                            .disabled(changes.isEmpty || draftConflict || app.busy > 0 || (systemMode && (app.systemRecoveryPending || app.deviceSnapshot?.writable != true || app.deviceLinks[id] == nil)))
                     }
                     .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { reviewing = false } } }
             }

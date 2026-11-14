@@ -126,7 +126,14 @@ extension AppEnvironment {
                     systemRecoveryPending = await store.recoveryPending()
                 }
                 systemError = nil
-            } catch { systemError = error.localizedDescription; self.error = error.localizedDescription; if let deviceStore { deviceBackups = await deviceStore.listing(); systemRecoveryPending = await deviceStore.recoveryPending() } }
+            } catch {
+                systemError = error.localizedDescription; self.error = error.localizedDescription
+                deviceSnapshot = nil; deviceLinks.removeAll()
+                if let deviceStore {
+                    deviceBackups = await deviceStore.listing()
+                    systemRecoveryPending = await deviceStore.recoveryPending()
+                }
+            }
         }
     }
     func openDeviceEditor(_ completion: @escaping @MainActor (UUID) -> Void) {

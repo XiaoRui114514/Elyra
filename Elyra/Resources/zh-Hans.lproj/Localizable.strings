@@ -358,6 +358,7 @@
 "Restart the system interface?" = "注销设备并重新启动系统界面？";
 "Restarting system interface…" = "正在重新启动系统界面…";
 "Restore" = "恢复";
+"Restore a captured device backup in Device configuration. Imported-file baselines are managed separately." = "在设备配置中恢复已捕获的设备备份。导入文件的基准备份单独管理。";
 "Restore asset" = "恢复素材";
 "Restore device backup?" = "恢复设备备份？";
 "Restore local document" = "恢复本地文档";

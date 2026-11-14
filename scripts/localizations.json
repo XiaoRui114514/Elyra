@@ -520,5 +520,6 @@
   "Device system access is unavailable. Check the current connection, signing profile and file permissions.": "设备系统访问不可用，请检查连接状态、签名配置和文件权限。",
   "The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes.": "系统写入已通过回读验证，但恢复记录未能清除。请先执行恢复，再继续修改。",
   "Choose a feature to review its configuration, dependencies and compatibility.": "选择功能以查看配置、依赖条件和兼容性。",
-  "Import a MobileGestalt plist in Tools first.": "请先在工具中导入 MobileGestalt plist。"
+  "Import a MobileGestalt plist in Tools first.": "请先在工具中导入 MobileGestalt plist。",
+  "Restore a captured device backup in Device configuration. Imported-file baselines are managed separately.": "在设备配置中恢复已捕获的设备备份。导入文件的基准备份单独管理。"
 }

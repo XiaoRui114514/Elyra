@@ -66,7 +66,7 @@ struct IslandLab: View {
                 Text("Orientation or artwork identity mismatch is a hypothesis, not a confirmed cause. Compare shape and corners across idle, recording, timers, calls, media and multiple activities in both orientations. Exact build, current subtype and a trusted original are still needed.")
                 Text("Compact, expanded and multiple-activity states have separate layout behavior. Improving one state does not establish the others.")
                 NavigationLink("Backups", value: Screen.backups)
-                Text("Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original.").font(.caption).foregroundStyle(.secondary)
+                Text("Restore a captured device backup in Device configuration. Imported-file baselines are managed separately.").font(.caption).foregroundStyle(.secondary)
             }
         }
         .navigationTitle(localization.text("Dynamic Island"))

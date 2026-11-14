@@ -358,6 +358,7 @@
 "Restart the system interface?" = "Restart the system interface?";
 "Restarting system interface…" = "Restarting system interface…";
 "Restore" = "Restore";
+"Restore a captured device backup in Device configuration. Imported-file baselines are managed separately." = "Restore a captured device backup in Device configuration. Imported-file baselines are managed separately.";
 "Restore asset" = "Restore asset";
 "Restore device backup?" = "Restore device backup?";
 "Restore local document" = "Restore local document";
