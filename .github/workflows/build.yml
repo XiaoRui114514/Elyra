@@ -67,6 +67,7 @@ jobs:
             build/Elyra-unsigned.ipa
             build/SHA256SUMS
             build/ipa-report.json
+            build/Elyra.entitlements
           if-no-files-found: error
   ui:
     name: UI tests (${{ matrix.family }})

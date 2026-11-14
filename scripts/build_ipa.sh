@@ -19,5 +19,6 @@ mkdir -p "$stage/Payload"
 ditto "$app" "$stage/Payload/Elyra.app"
 rm -f "$output/Elyra-unsigned.ipa"
 (cd "$stage" && /usr/bin/zip -qry "$output/Elyra-unsigned.ipa" Payload)
+cp Elyra/Resources/Elyra.entitlements "$output/Elyra.entitlements"
 python3 scripts/verify_ipa.py "$output/Elyra-unsigned.ipa" > "$output/ipa-report.json"
 (cd "$output" && shasum -a 256 Elyra-unsigned.ipa > SHA256SUMS)

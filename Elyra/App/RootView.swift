@@ -2,7 +2,7 @@
 import SwiftUI
 
 enum Screen: Hashable, Codable {
-    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses, language
+    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses, language, device, systemEditor(UUID), openSource
 }
 enum Area: String, CaseIterable {
     case home = "Home", appearance = "Appearance", system = "System", tools = "Tools", settings = "Settings"
@@ -88,8 +88,11 @@ struct RootView: View {
         case .backups: BackupsView()
         case .diagnostics: DiagnosticsView()
         case .history: HistoryView()
-        case .licenses: LicensesView()
+        case .licenses: AboutView()
         case .language: LanguageSettingsView()
+        case .device: DeviceConfigurationView()
+        case .systemEditor(let id): DocumentEditor(id: id, systemMode: true)
+        case .openSource: OpenSourceLicensesView()
         }
     }
 }

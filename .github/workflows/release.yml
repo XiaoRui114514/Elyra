@@ -42,4 +42,4 @@ jobs:
           python3 scripts/verify_ipa.py build/Elyra-unsigned.ipa
       - name: Create draft release for installation review
         run: |
-          gh release create "$RELEASE_TAG" --verify-tag --draft --title "Elyra $RELEASE_TAG" --notes-file docs/RELEASE_NOTES.md build/Elyra-unsigned.ipa build/SHA256SUMS build/ipa-report.json
+          gh release create "$RELEASE_TAG" --verify-tag --draft --title "Elyra $RELEASE_TAG" --notes-file docs/RELEASE_NOTES.md build/Elyra-unsigned.ipa build/SHA256SUMS build/ipa-report.json build/Elyra.entitlements

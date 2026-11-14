@@ -3,9 +3,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct DiagnosticsView: View {
+    @EnvironmentObject private var app: AppEnvironment
     @EnvironmentObject private var localization: LocalizationStore
     private let device = RuntimeDeviceContext.current
-    private var report: CompatibilityReport { CompatibilityEngine.report(version: ProcessInfo.processInfo.operatingSystemVersion) }
+    private var report: CompatibilityReport { CompatibilityEngine.report(version: ProcessInfo.processInfo.operatingSystemVersion, deviceReadable: app.deviceSnapshot != nil, deviceWritable: app.deviceSnapshot?.writable == true) }
     var body: some View {
         List {
             Section("Device") {
@@ -59,7 +60,7 @@ struct HistoryView: View {
         }
     }
 }
-struct LicensesView: View {
+struct OpenSourceLicensesView: View {
     @EnvironmentObject private var localization: LocalizationStore
     private var licenses: [URL] { Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Licenses")?.sorted { $0.lastPathComponent < $1.lastPathComponent } ?? [] }
     var body: some View {
@@ -80,6 +81,6 @@ struct LicensesView: View {
                     }
                 }
             }
-        }.navigationTitle(localization.text("About Elyra"))
+        }.navigationTitle(localization.text("Open-source licenses"))
     }
 }

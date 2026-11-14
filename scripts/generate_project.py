@@ -15,6 +15,10 @@ def build(path, kind):
 app_sources=[]; test_sources=[]; source_refs=[]; resources=[]
 for p in sorted((ROOT/'Elyra').rglob('*.swift')):
     r,b=build(str(p.relative_to(ROOT)),'sourcecode.swift'); source_refs.append(r); app_sources.append(b)
+for p in sorted((ROOT/'Elyra/Native').glob('*.m')):
+    r,b=build(str(p.relative_to(ROOT)),'sourcecode.c.objc'); source_refs.append(r); app_sources.append(b)
+for p in sorted((ROOT/'Elyra/Native').glob('*.h')):
+    source_refs.append(ref(str(p.relative_to(ROOT)),'sourcecode.c.h'))
 r,b=build('UITests/ElyraUITests.swift','sourcecode.swift'); source_refs.append(r); test_sources.append(b)
 for p in ['Elyra/Resources/Assets.xcassets','Elyra/Resources/Licenses','Elyra/Resources/PrivacyInfo.xcprivacy']:
     r,b=build(p, 'folder.assetcatalog' if p.endswith('xcassets') else 'folder' if p.endswith('Licenses') else 'text.xml');source_refs.append(r);resources.append(b)
@@ -30,7 +34,7 @@ group=add('main-group','{isa = PBXGroup; children = '+seq(source_refs+[products]
 def phase(name,isa,files): return add(name,'{isa = '+isa+'; buildActionMask = 2147483647; files = '+seq(files)+'; runOnlyForDeploymentPostprocessing = 0; }')
 def settings(name,values): return add(name,'{isa = XCBuildConfiguration; name = '+name.rsplit('-',1)[-1]+'; buildSettings = {'+' '.join(k+' = '+quoted(v)+';' for k,v in values.items())+'}; }')
 common={'IPHONEOS_DEPLOYMENT_TARGET':'17.0','SWIFT_VERSION':'5.0','CLANG_ENABLE_MODULES':'YES','CLANG_ENABLE_OBJC_ARC':'YES','SDKROOT':'iphoneos','ENABLE_USER_SCRIPT_SANDBOXING':'YES','SWIFT_STRICT_CONCURRENCY':'complete'}
-app={'PRODUCT_NAME':'Elyra','PRODUCT_BUNDLE_IDENTIFIER':'org.elyra.Elyra','INFOPLIST_FILE':'Elyra/Resources/Info.plist','TARGETED_DEVICE_FAMILY':'1,2','ASSETCATALOG_COMPILER_APPICON_NAME':'AppIcon','ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME':'AccentColor','CODE_SIGN_STYLE':'Automatic','CURRENT_PROJECT_VERSION':'2','MARKETING_VERSION':'0.2.0','LD_RUNPATH_SEARCH_PATHS':'$(inherited) @executable_path/Frameworks','GENERATE_INFOPLIST_FILE':'NO','SUPPORTS_MACCATALYST':'NO','SWIFT_EMIT_LOC_STRINGS':'YES'}
+app={'PRODUCT_NAME':'Elyra','PRODUCT_BUNDLE_IDENTIFIER':'org.elyra.Elyra','INFOPLIST_FILE':'Elyra/Resources/Info.plist','TARGETED_DEVICE_FAMILY':'1,2','ASSETCATALOG_COMPILER_APPICON_NAME':'AppIcon','ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME':'AccentColor','CODE_SIGN_STYLE':'Automatic','CURRENT_PROJECT_VERSION':'2','MARKETING_VERSION':'0.3.0','SWIFT_OBJC_BRIDGING_HEADER':'Elyra/Native/Elyra-Bridging-Header.h','CODE_SIGN_ENTITLEMENTS':'Elyra/Resources/Elyra.entitlements','LD_RUNPATH_SEARCH_PATHS':'$(inherited) @executable_path/Frameworks','GENERATE_INFOPLIST_FILE':'NO','SUPPORTS_MACCATALYST':'NO','SWIFT_EMIT_LOC_STRINGS':'YES'}
 test={'PRODUCT_NAME':'ElyraUITests','PRODUCT_BUNDLE_IDENTIFIER':'org.elyra.ElyraUITests','GENERATE_INFOPLIST_FILE':'YES','TEST_TARGET_NAME':'Elyra','TARGETED_DEVICE_FAMILY':'1,2','CODE_SIGN_STYLE':'Automatic'}
 def config_list(name,base):
     configs=[]
@@ -49,7 +53,7 @@ app_phases=[phase('app-sources' ,'PBXSourcesBuildPhase',app_sources),phase('app-
 test_phases=[phase('test-sources','PBXSourcesBuildPhase',test_sources),phase('test-frameworks','PBXFrameworksBuildPhase',[])]
 add('app-target','{isa = PBXNativeTarget; buildConfigurationList = '+config_list('app',app)+'; buildPhases = '+seq(app_phases)+'; buildRules = (); dependencies = (); name = Elyra; packageProductDependencies = '+seq([zip_product])+'; productName = Elyra; productReference = '+app_product+'; productType = "com.apple.product-type.application"; }')
 add('ui-target','{isa = PBXNativeTarget; buildConfigurationList = '+config_list('test',test)+'; buildPhases = '+seq(test_phases)+'; buildRules = (); dependencies = '+seq([dep])+'; name = ElyraUITests; productName = ElyraUITests; productReference = '+test_product+'; productType = "com.apple.product-type.bundle.ui-testing"; }')
-add('project','{isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1600; TargetAttributes = {'+test_id+' = {TestTargetID = '+app_id+'; }; }; }; buildConfigurationList = '+config_list('project',common)+'; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, "zh-Hans", Base); mainGroup = '+group+'; productRefGroup = '+products+'; projectDirPath = ""; projectRoot = ""; packageReferences = '+seq([zip_ref])+'; targets = '+seq([app_id,test_id])+'; }')
+add('project','{isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1600; TargetAttributes = {'+app_id+' = {SystemCapabilities = {com.apple.ApplicationGroups.iOS = {enabled = 1; }; }; }; '+test_id+' = {TestTargetID = '+app_id+'; }; }; }; buildConfigurationList = '+config_list('project',common)+'; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, "zh-Hans", Base); mainGroup = '+group+'; productRefGroup = '+products+'; projectDirPath = ""; projectRoot = ""; packageReferences = '+seq([zip_ref])+'; targets = '+seq([app_id,test_id])+'; }')
 p=ROOT/'Elyra.xcodeproj';p.mkdir(exist_ok=True)
 (p/'project.pbxproj').write_text('// !$*UTF8*$!\n{ archiveVersion = 1; classes = {}; objectVersion = 56; objects = {\n'+ '\n'.join(k+' = '+v+';' for k,v in sorted(objects.items()))+'\n}; rootObject = '+project_id+'; }\n')
 schemes=p/'xcshareddata/xcschemes';schemes.mkdir(parents=True,exist_ok=True)

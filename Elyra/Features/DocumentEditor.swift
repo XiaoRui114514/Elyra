@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 struct DocumentEditor: View {
     @EnvironmentObject private var localization: LocalizationStore
     let id: UUID
+    var systemMode = false
     var initialCapability: Capability? = nil
     var initialFieldPath: [String]? = nil
     @EnvironmentObject private var app: AppEnvironment
@@ -34,7 +35,7 @@ struct DocumentEditor: View {
                         Button { reviewing = true } label: { Label("Review changes", systemImage: "checkmark.circle") }.disabled(changes.isEmpty || draftConflict)
                         Menu {
                             Button("Add field", systemImage: "plus") { field = FieldSelection(path: edited.value(at: ["CacheExtra"]) == nil ? [] : ["CacheExtra"], value: nil, adding: true) }
-                            Menu("Stage local preset") {
+                            Menu(localization.text(systemMode ? "Stage preset" : "Stage local preset")) {
                                 ForEach(Capability.all) { capability in
                                     Button(localization.text(capability.title)) {
                                         do { try capability.stage(in: &edited) } catch { app.error = error.localizedDescription }
@@ -44,7 +45,10 @@ struct DocumentEditor: View {
                             Button("Export current draft", systemImage: "square.and.arrow.up") {
                                 do { export = ExportDocument(data: try edited.encoded()); exporting = true } catch { app.error = error.localizedDescription }
                             }
-                            Button("Create backup", systemImage: "externaldrive") { app.run { _ = try await $0.backup(id) } }
+                            Button("Create backup", systemImage: "externaldrive") {
+                                if systemMode, let source = app.deviceLinks[id] { app.performDevice { try await $0.manualBackup(expected: source) } }
+                                else { app.run { _ = try await $0.backup(id) } }
+                            }
                             Button("Discard draft & reload", role: .destructive) { discardConfirmation = true }
                         } label: { Label("Document actions", systemImage: "ellipsis.circle") }
                     }
@@ -78,9 +82,9 @@ struct DocumentEditor: View {
         }
         .sheet(isPresented: $reviewing) {
             NavigationStack {
-                diffList.navigationTitle(localization.text("Review local changes"))
+                diffList.navigationTitle(localization.text(systemMode ? "Review device changes" : "Review local changes"))
                     .safeAreaInset(edge: .bottom) {
-                        Button("Confirm & save local copy") { save(); reviewing = false }
+                        Button(localization.text(systemMode ? "Confirm & write to device" : "Confirm & save local copy")) { save(); reviewing = false }
                             .buttonStyle(.borderedProminent).padding().disabled(changes.isEmpty || draftConflict)
                     }
                     .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { reviewing = false } } }
@@ -101,7 +105,7 @@ struct DocumentEditor: View {
     private var fields: some View {
         List {
             Section {
-                StatusNotice(title: "Managed local copy", detail: "Saving updates this imported document only. It does not write MobileGestalt on your device.", symbol: "doc.badge.gearshape")
+                StatusNotice(title: systemMode ? "Live device session" : "Managed local copy", detail: systemMode ? "Confirmed changes are written to the device cache with a verified backup and readback. Protected identity and binary fields cannot be changed." : "Saving updates this imported document only. It does not write MobileGestalt on your device.", symbol: "doc.badge.gearshape")
                 if draftConflict { StatusNotice(title: "Draft conflict", detail: "This draft was created from an older document revision. Export it before discarding and reloading.", symbol: "exclamationmark.triangle") }
                 Text("\(changes.count) " + localization.text("pending changes")).font(.caption).foregroundStyle(.secondary)
             }
@@ -144,6 +148,10 @@ struct DocumentEditor: View {
     private func save() {
         guard let current = snapshot else { return }
         let value = edited
+        if systemMode {
+            app.saveToDevice(documentID: id, value: value, expected: current) { saved in snapshot = saved; edited = saved.value }
+            return
+        }
         app.run { workspace in
             let saved = try await workspace.commit(value, expected: current)
             snapshot = saved; edited = saved.value

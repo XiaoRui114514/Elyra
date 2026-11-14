@@ -1,3 +1,11 @@
+# 0.3 candidate status
+
+Implemented: native signed-App-Group access using pinned upstream modules, live-cache sessions, a restricted capability/artwork writer, device-bound backups, inode/revision checks, readback, rollback and explicit interrupted-write recovery. Home shortcuts and Dynamic Island pin removed; System overview redesigned; About has profile cards and a separate legal page; Respring is manual and experimental.
+
+Validation: 76 Linux core tests and 8 Python checks passed. Apple native compilation/UI/archive qualification is pending. Device writes and Respring require physical testing with a matching signing profile. Do not publish private device details or conversation transcripts.
+
+The 0.2 reference below is historical qualification, not qualification of changed 0.3 code.
+
 # Development status
 
 ## Implemented

@@ -177,10 +177,6 @@ final class WorkspaceTests: XCTestCase, @unchecked Sendable {
         let discarded = try await workspace.loadDraft(window: a, document: doc)
         XCTAssertNil(discarded)
     }
-    func testUnavailableSystemWriterAlwaysFails() async throws {
-        let workspace = try Workspace(root: root)
-        do { try await workspace.requireSystemWriter(); XCTFail("Unexpected writer") } catch { XCTAssertEqual(error as? ElyraError, .systemUnavailable) }
-    }
     func testBackupFailurePreventsSave() async throws {
         let workspace = try Workspace(root: root)
         let snapshot = try await workspace.importDocument(data: value.encoded(), name: "BackupRequired.plist")

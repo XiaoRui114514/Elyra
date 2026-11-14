@@ -1,3 +1,9 @@
+# 0.3 signing requirements
+
+The system-access build requires a usable **App Group in the actual provisioning profile and signature** when ordinary file access is denied. `group.org.elyra.Elyra` is the project default; re-signers may substitute a group provisioned for their own team. Runtime detection reads the effective signed groups and verifies that a container is usable. A text entitlement file alone does not grant access. Free-team signing services may not provide App Groups.
+
+CI remains unsigned and exports `Elyra.entitlements` beside the IPA for signing configuration. Register the bundle/group under the signing team or let a capable signing tool replace identifiers consistently. File read/write probes remain decisive on each OS build. No certificate or provisioning profile is bundled. Simulator tests never invoke the access module or experimental Respring.
+
 # Installation
 
 GitHub Actions generates a genuine arm64 `Payload/Elyra.app` and packages it as an unsigned IPA. The exact qualified build, checksum and download link are recorded in TEST_REPORT.md.

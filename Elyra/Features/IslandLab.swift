@@ -16,16 +16,13 @@ struct IslandLab: View {
     private let device = RuntimeDeviceContext.current
     var body: some View {
         List {
-            Section {
-                StatusNotice(title: "iPad Dynamic Island appearance", detail: "Forced Dynamic Island can have unnatural shape, proportions or corners on iPad across activities, not only music. Inspect configuration and record idle, recording, timers, calls, media and multiple activities separately.", symbol: "capsule")
-                SupportBadge(status: .unverified)
-            }
             Section("Device & access") {
                 LabeledContent("Hardware identifier", value: device.hardware)
                 Text(device.osVersion).textSelection(.enabled)
                 LabeledContent("System build", value: device.build)
                 if device.simulator { Text("Simulator records are not evidence of system modification.").foregroundStyle(.secondary) }
-                StatusNotice(title: "System write unavailable", detail: "No authorized, verified system writer is installed. Elyra cannot change the system capsule geometry with public APIs.")
+                NavigationLink("Device configuration", value: Screen.device)
+                Text("Capability editing and system capsule geometry are different controls. No verified radius parameter is available.").font(.caption).foregroundStyle(.secondary)
             }
             Section("Inspect actual configuration") {
                 Button("Import plist", systemImage: "square.and.arrow.down") { importing = true }

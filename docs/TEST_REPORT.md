@@ -1,3 +1,7 @@
+# 0.3 candidate
+
+Native MobileGestalt access, restricted device writes, verified device backups/recovery, updated Home/System/About and five simulator UI scenarios are under Apple CI validation. Local Swift suite: 76 passed. No physical system write or Respring result is claimed. The 0.2 results below apply only to their recorded source.
+
 # Test report
 
 **Elyra 0.2.0, build 10** passed all three jobs in [run 43593518290](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290). Tested source: `38a362f817be8b13a4c96d7d9380f9320c428c7d`, tag `v0.2.0-dev`. Later documentation-only commits do not change this artifact's code identity.

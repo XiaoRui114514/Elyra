@@ -398,7 +398,6 @@ public actor Workspace {
         let target = draftURL(window: window, document: document)
         if fm.fileExists(atPath: target.path) { try fm.removeItem(at: target) }
     }
-    public func requireSystemWriter() throws { throw ElyraError.systemUnavailable }
 }
 public struct LocalDraft: Codable, Sendable {
     public let revision: String

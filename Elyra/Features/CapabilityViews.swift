@@ -21,7 +21,7 @@ struct CapabilityList: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 6) {
                             Text(localization.text(capability.title))
-                            SupportBadge(status: .needsConditions)
+                            SupportBadge(status: app.deviceSnapshot?.writable == true ? .experimental : .needsConditions)
                         }
                         Spacer()
                         if app.state.favorites.contains(capability.id) { Image(systemName: "star.fill").foregroundStyle(.yellow).accessibilityLabel("Favorite") }
@@ -41,6 +41,7 @@ struct CapabilityList: View {
 struct CapabilityView: View {
     @EnvironmentObject private var localization: LocalizationStore
     let id: String
+    @State private var deviceEditor: UUID?
     @EnvironmentObject private var app: AppEnvironment
     private var capability: Capability? { Capability.all.first { $0.id == id } }
     var body: some View {
@@ -48,15 +49,21 @@ struct CapabilityView: View {
             List {
                 Section {
                     Text(localization.text(capability.detail)).fixedSize(horizontal: false, vertical: true)
-                    SupportBadge(status: .needsConditions)
-                    StatusNotice(title: "System write unavailable", detail: "No authorized, verified system writer is installed. Imported plists remain local documents. OS build and hardware effects require separate real-device validation.", symbol: "lock.shield")
+                    SupportBadge(status: app.deviceSnapshot?.writable == true ? .experimental : .needsConditions)
+                    NavigationLink("Device configuration", value: Screen.device)
+                    Text("Connect to read the live cache and check write access. Support depends on the exact build and signing profile.").font(.caption).foregroundStyle(.secondary)
                 }
                 Section("Dependencies & risk") {
                     LabeledContent("Risk", value: localization.text(capability.caution ? "High" : "Elevated"))
-                    Text("A capability flag cannot add hardware or guarantee Apple service access. System changes may require restart or respring; this build performs neither.")
+                    Text("A capability flag cannot add hardware or guarantee Apple service access. Apply changes only after reviewing a device backup and restart requirements.")
                     Text("iOS / iPadOS 26.x: unverified. 27.x: unverified. Each build requires separate device testing.")
                 }
                 Section("Affected CacheExtra keys") { ForEach(capability.keys, id: \.self) { Text($0).font(.system(.caption, design: .monospaced)).textSelection(.enabled) } }
+                if app.deviceSnapshot != nil {
+                    Section("Device configuration") {
+                        Button("Configure on device", systemImage: "slider.horizontal.3") { app.openDeviceEditor { deviceEditor = $0 } }.disabled(app.busy > 0)
+                    }
+                }
                 Section("Stage in a local document") {
                     Text("Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified.").font(.caption).foregroundStyle(.secondary)
                     ForEach(app.state.documents) { document in
@@ -67,6 +74,7 @@ struct CapabilityView: View {
                 if id == "dynamicIsland" { Section { NavigationLink("Dynamic Island", value: Screen.island) } }
             }
             .navigationTitle(localization.text(capability.title))
+            .navigationDestination(item: $deviceEditor) { id in DocumentEditor(id: id, systemMode: true, initialCapability: capability) }
             .toolbar {
                 Button { app.run { try await $0.toggleFavorite(id) } } label: {
                     Label("Favorite", systemImage: app.state.favorites.contains(id) ? "star.fill" : "star")

@@ -15,11 +15,11 @@ public struct CompatibilityReport: Sendable {
 }
 public enum CompatibilityEngine {
     /// Never equate a major version, model, or readable file with an authorized system writer.
-    public static func report(version: OperatingSystemVersion) -> CompatibilityReport {
+    public static func report(version: OperatingSystemVersion, deviceReadable: Bool = false, deviceWritable: Bool = false) -> CompatibilityReport {
         CompatibilityReport(ui: version.majorVersion >= 17 ? .unverified : .unsupportedOS,
-                            localFiles: .partial, systemRead: .needsConditions, systemWrite: .needsConditions,
+                            localFiles: .partial, systemRead: deviceReadable ? .supported : .needsConditions, systemWrite: deviceWritable ? .experimental : .needsConditions,
                             visualEffect: .unverified,
-                            reason: "No authorized, verified system writer is installed. Imported plists remain local documents. OS build and hardware effects require separate real-device validation.")
+                            reason: "Connect to probe device access. A supported major version does not guarantee that an individual build permits reads or writes.")
     }
 }
 public enum WindowLayout: String, Sendable {

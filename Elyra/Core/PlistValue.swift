@@ -11,7 +11,7 @@ public enum ElyraError: Error, LocalizedError, Equatable {
         case .conflict: return "The document changed in another window. Reload before saving. Your draft is preserved."
         case .integrity: return "Backup integrity verification failed. No restore was started."
         case .outsideWorkspace: return "This file is outside Elyra’s managed workspace."
-        case .systemUnavailable: return "System modification is unavailable: no authorized, verified system writer is installed."
+        case .systemUnavailable: return "Device system access is unavailable. Check the current connection, signing profile and file permissions."
         }
     }
 }

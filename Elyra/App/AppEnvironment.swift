@@ -7,6 +7,13 @@ import UniformTypeIdentifiers
     @Published var state = WorkspaceState()
     @Published var error: String?
     @Published var busy = 0
+    @Published var deviceSnapshot: SystemSnapshot?
+    @Published var deviceBackups: [SystemBackup] = []
+    @Published var systemError: String?
+    @Published var respringing = false
+    @Published var systemRecoveryPending = false
+    var deviceStore: SystemConfigurationStore?
+    var deviceLinks: [UUID: SystemSnapshot] = [:]
     @Published var fieldIndex: [FieldSearchResult] = []
     init() {
         do {
@@ -21,6 +28,7 @@ import UniformTypeIdentifiers
             }
             #endif
             workspace = try Workspace(root: root)
+            systemRecoveryPending = FileManager.default.fileExists(atPath: root.appendingPathComponent("SystemBackups/pending.json").path)
         } catch { workspace = nil; self.error = error.localizedDescription }
     }
     func refresh() async {
@@ -90,4 +98,54 @@ struct ExportDocument: FileDocument {
     init(data: Data) { self.data = data }
     init(configuration: ReadConfiguration) throws { data = configuration.file.regularFileContents ?? Data() }
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper { FileWrapper(regularFileWithContents: data) }
+}
+
+extension AppEnvironment {
+    func beginRespring() -> Bool {
+        guard busy == 0, !respringing, !systemRecoveryPending, !RuntimeDeviceContext.current.simulator else { error = "Finish pending operations and system recovery before restarting the interface."; return false }
+        respringing = true; return true
+    }
+    func connectDevice() {
+        performDevice { store in
+            self.deviceSnapshot = try await store.connect()
+        }
+    }
+    func performDevice(_ action: @escaping @MainActor (SystemConfigurationStore) async throws -> Void) {
+        guard busy == 0, !respringing else { return }
+        busy += 1
+        Task {
+            defer { busy -= 1 }
+            do {
+                if deviceStore == nil {
+                    guard let workspace else { throw ElyraError.systemUnavailable }
+                    deviceStore = try SystemConfigurationStore(root: workspace.root.appendingPathComponent("SystemBackups"), binding: DeviceBackend.binding(), access: DeviceBackend.access())
+                }
+                if let store = deviceStore {
+                    try await action(store)
+                    deviceBackups = await store.listing()
+                    systemRecoveryPending = await store.recoveryPending()
+                }
+                systemError = nil
+            } catch { systemError = error.localizedDescription; self.error = error.localizedDescription; if let deviceStore { deviceBackups = await deviceStore.listing(); systemRecoveryPending = await deviceStore.recoveryPending() } }
+        }
+    }
+    func openDeviceEditor(_ completion: @escaping @MainActor (UUID) -> Void) {
+        guard let deviceSnapshot, let workspace else { return }
+        run { workspace in
+            let document = try await workspace.importDocument(data: deviceSnapshot.data, name: "MobileGestalt.plist")
+            self.deviceLinks[document.record.id] = deviceSnapshot
+            completion(document.record.id)
+        }
+    }
+    func saveToDevice(documentID: UUID, value: PlistValue, expected: DocumentSnapshot, completion: @escaping @MainActor (DocumentSnapshot) -> Void) {
+        guard let source = deviceLinks[documentID] else { error = "Read the device configuration again before writing."; return }
+        performDevice { store in
+            let saved = try await store.apply(value, expected: source)
+            self.deviceSnapshot = saved; self.deviceLinks[documentID] = saved
+            guard let workspace = self.workspace else { return }
+            do { let copy = try await workspace.commit(saved.value, expected: expected, reason: "System write verified"); completion(copy) }
+            catch { self.error = "The system write was verified, but the local working copy could not be updated. Reconnect before editing again." }
+            await self.refresh()
+        }
+    }
 }

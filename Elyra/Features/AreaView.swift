@@ -8,6 +8,8 @@ struct AreaView: View {
     @EnvironmentObject private var app: AppEnvironment
     @SceneStorage("globalSearch") private var search = ""
     @State private var importing = false
+    @State private var respringConfirmation = false
+    @State private var showRespring = false
     var body: some View {
         List {
             if !search.isEmpty { searchResults }
@@ -23,6 +25,10 @@ struct AreaView: View {
         }
         .listStyle(.insetGrouped)
         .searchable(text: $search, prompt: Text(localization.text("Search features and imported fields")))
+        .confirmationDialog(localization.text("Restart the system interface?"), isPresented: $respringConfirmation, titleVisibility: .visible) {
+            Button("Respring", role: .destructive) { if app.beginRespring() { showRespring = true } }
+        } message: { Text("This experimental upstream method restarts the system interface through WebKit resource pressure. Save ongoing work first. It may fail or interrupt apps; it does not sign out of your Apple Account.") }
+        .fullScreenCover(isPresented: $showRespring, onDismiss: { app.respringing = false }) { RespringScreen() }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.propertyList, .xml, .data]) { result in
             switch result { case .success(let url): app.importURL(url); case .failure(let error): app.error = error.localizedDescription }
         }
@@ -32,13 +38,11 @@ struct AreaView: View {
             Section {
                 FeatureLabel(title: "Elyra", detail: "Device configuration and file tools.", symbol: "circle.hexagongrid")
                 Text(UIDevice.current.model + " • " + ProcessInfo.processInfo.operatingSystemVersionString).font(.subheadline).textSelection(.enabled)
-                StatusNotice(title: app.workspace == nil ? "Workspace unavailable" : "Local workspace is ready",
-                             detail: app.workspace == nil ? "Workspace could not be opened. Export existing files before attempting recovery." : "System modification is unavailable in this build. All imported files and presets are edited as local copies.", symbol: "lock.shield")
+                StatusNotice(title: app.workspace == nil ? "Workspace unavailable" : "Workspace ready",
+                             detail: app.workspace == nil ? "Workspace could not be opened. Export existing files before attempting recovery." : "Open System to connect to the device and review access. Imported configuration files remain separate from live device sessions.", symbol: "lock.shield")
             }
-            Section("Quick access") {
-                NavigationLink(value: Screen.island) { FeatureLabel(title: "Dynamic Island", detail: "Appearance, configuration and compatibility", symbol: "capsule") }.accessibilityIdentifier("home.island")
-                Button { importing = true } label: { Label("Import plist", systemImage: "square.and.arrow.down") }
-                NavigationLink(value: Screen.backups) { Label("Backups", systemImage: "externaldrive.badge.timemachine") }
+            Section("Device actions") {
+                Button("Respring", systemImage: "arrow.clockwise") { respringConfirmation = true }.disabled(app.busy > 0 || app.systemRecoveryPending || app.respringing || RuntimeDeviceContext.current.simulator).accessibilityIdentifier("home.respring")
             }
             if !app.state.favorites.isEmpty {
                 Section("Favorites") {
@@ -58,19 +62,7 @@ struct AreaView: View {
             }
         }
     }
-    private var system: some View {
-        Group {
-            Section { NavigationLink(value: Screen.island) { Label("Dynamic Island", systemImage: "capsule") } }
-            Section("Device capabilities") {
-                ForEach(["display", "device", "ipad", "intelligence", "advanced"], id: \.self) { category in
-                    NavigationLink(value: Screen.category(category)) {
-                        FeatureLabel(title: category == "ipad" ? "iPad" : category.capitalized, detail: "Shared on iPhone and iPad • local preset editing", symbol: category == "ipad" ? "ipad" : "slider.horizontal.3")
-                    }
-                }
-            }
-            documents
-        }
-    }
+    private var system: some View { SystemOverview() }
     private var documents: some View {
         Section("Configuration documents") {
             Button { importing = true } label: { Label("Import plist", systemImage: "square.and.arrow.down") }
@@ -112,14 +104,14 @@ struct AreaView: View {
             Section {
                 NavigationLink(value: Screen.backups) { Label("Backups", systemImage: "externaldrive") }
                 NavigationLink(value: Screen.history) { Label("Operation history", systemImage: "clock") }
-                NavigationLink(value: Screen.licenses) { Label("About & open-source licenses", systemImage: "info.circle") }
+                NavigationLink(value: Screen.licenses) { Label("About Elyra", systemImage: "info.circle") }
             }
             Section("Language & accessibility") {
                 NavigationLink(value: Screen.language) { Label("Language", systemImage: "globe") }.accessibilityIdentifier("settings.language")
                 Text("Choose English, Simplified Chinese or Follow System. Appearance, text size and Reduce Motion follow system settings.")
                 Button("Open app settings") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
             }
-            Section { Text("Elyra 0.2.0 • Development build").foregroundStyle(.secondary) }
+            Section { Text("Elyra 0.3.0 • Development build").foregroundStyle(.secondary) }
         }
     }
     private var searchResults: some View {

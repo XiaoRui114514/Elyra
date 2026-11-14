@@ -21,7 +21,9 @@ final class ElyraUITests: XCTestCase {
         XCTAssertTrue(element.isHittable, "Expected control must remain reachable by scrolling")
     }
     @MainActor private func openLab(_ app: XCUIApplication, expectedTitle: String? = nil) {
-        let link = app.descendants(matching: .any)["home.island"].firstMatch
+        let chinese = expectedTitle == "灵动岛" || app.launchArguments.contains("(zh-Hans)")
+        selectArea(app, identifier: "system", title: chinese ? "系统" : "System")
+        let link = app.buttons["system.island"].firstMatch
         reveal(link, app: app)
         link.tap()
         let title = expectedTitle ?? (app.launchArguments.contains("(zh-Hans)") ? "灵动岛" : "Dynamic Island")
@@ -29,7 +31,7 @@ final class ElyraUITests: XCTestCase {
     }
     @MainActor func testLaunchNavigationAndRotation() {
         let app = makeApp(); app.launch()
-        XCTAssertTrue(app.staticTexts["Local workspace is ready"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
         attach("Portrait launch")
         openLab(app)
         XCTAssertTrue(app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5))
@@ -42,7 +44,7 @@ final class ElyraUITests: XCTestCase {
     }
     @MainActor func testObservationPersistsAcrossRelaunchWithoutBeingSystemProof() {
         let app = makeApp(); app.launch()
-        XCTAssertTrue(app.staticTexts["Local workspace is ready"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
         openLab(app)
         let record = app.buttons["island.record"]
         reveal(record, app: app); record.tap()
@@ -60,7 +62,7 @@ final class ElyraUITests: XCTestCase {
     }
     @MainActor func testChineseAccessibilityTextKeepsNavigationReachable() {
         let app = makeApp(chineseAccessibility: true); app.launch()
-        XCTAssertTrue(app.staticTexts["本地工作区已就绪"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["工作区已就绪"].waitForExistence(timeout: 10))
         attach("Chinese accessibility launch")
         openLab(app)
         let record = app.buttons["island.record"]
@@ -84,7 +86,7 @@ final class ElyraUITests: XCTestCase {
     }
     @MainActor func testLanguageSwitchUpdatesCustomLabelsAndPersists() {
         let app = makeApp(); app.launch()
-        XCTAssertTrue(app.staticTexts["Local workspace is ready"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
         selectArea(app, identifier: "settings", title: "Settings")
         let language = app.descendants(matching: .any)["settings.language"].firstMatch
         reveal(language, app: app); language.tap()
@@ -106,10 +108,25 @@ final class ElyraUITests: XCTestCase {
         app.buttons["language.zh-Hans"].tap()
         app.navigationBars["语言"].buttons.firstMatch.tap()
         selectArea(app, identifier: "home", title: "首页")
-        XCTAssertTrue(app.staticTexts["本地工作区已就绪"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["工作区已就绪"].waitForExistence(timeout: 5))
         openLab(app, expectedTitle: "灵动岛")
-        XCTAssertTrue(app.staticTexts["iPad 灵动岛外观"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["灵动岛"].waitForExistence(timeout: 5))
         attach("Chinese Dynamic Island appearance")
+    }
+    @MainActor func testAboutProfilesAndHomeActions() {
+        let app = makeApp(); app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["Quick access"].exists)
+        XCTAssertFalse(app.buttons["home.island"].exists)
+        let respring = app.buttons["home.respring"]
+        reveal(respring, app: app); XCTAssertFalse(respring.isEnabled)
+        selectArea(app, identifier: "settings", title: "Settings")
+        app.buttons["About Elyra"].tap()
+        app.buttons["about.profiles"].tap()
+        XCTAssertTrue(app.buttons["profile.github"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["profile.douyin"].exists)
+        XCTAssertTrue(app.buttons["profile.xiaohongshu"].exists)
+        attach("Creator profile cards")
     }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
