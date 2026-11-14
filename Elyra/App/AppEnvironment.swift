@@ -126,7 +126,7 @@ extension AppEnvironment {
         }
     }
     @discardableResult
-    func performDevice(showErrorAlert: Bool = true, _ action: @escaping @MainActor (SystemConfigurationStore) async throws -> Void) -> Task<Void, Never>? {
+    func performDevice(showErrorAlert: Bool = true, invalidateOnFailure: Bool = true, _ action: @escaping @MainActor (SystemConfigurationStore) async throws -> Void) -> Task<Void, Never>? {
         guard busy == 0, !respringing else { return nil }
         busy += 1
         return Task {
@@ -143,9 +143,11 @@ extension AppEnvironment {
                 }
                 systemError = nil
             } catch {
-                systemError = error.localizedDescription
                 if showErrorAlert { self.error = error.localizedDescription }
-                deviceSnapshot = nil; deviceLinks.removeAll()
+                if invalidateOnFailure {
+                    systemError = error.localizedDescription
+                    deviceSnapshot = nil; deviceLinks.removeAll()
+                }
                 if let deviceStore {
                     deviceBackups = await deviceStore.listing()
                     systemRecoveryPending = await deviceStore.recoveryPending()

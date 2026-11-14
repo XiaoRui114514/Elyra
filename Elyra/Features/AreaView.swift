@@ -40,8 +40,9 @@ struct AreaView: View {
             Section {
                 FeatureLabel(title: "Elyra", detail: "Device configuration and file tools.", symbol: "circle.hexagongrid")
                 Text(UIDevice.current.model + " • " + ProcessInfo.processInfo.operatingSystemVersionString).font(.subheadline).textSelection(.enabled)
-                StatusNotice(title: app.workspace == nil ? "Workspace unavailable" : "Workspace ready",
-                             detail: app.workspace == nil ? "Workspace could not be opened. Export existing files before attempting recovery." : "Open System to connect to the device and review access. Imported configuration files remain separate from live device sessions.", symbol: "lock.shield")
+                if app.workspace == nil {
+                    StatusNotice(title: "Workspace unavailable", detail: "Workspace could not be opened. Export existing files before attempting recovery.", symbol: "exclamationmark.triangle")
+                } else { Label("Workspace ready", systemImage: "checkmark.circle").font(.headline) }
             }
             Section("Device actions") {
                 Button("Respring", systemImage: "arrow.clockwise") { respringConfirmation = true }.disabled(app.busy > 0 || app.systemRecoveryPending || app.respringing || RuntimeDeviceContext.current.simulator).accessibilityIdentifier("home.respring")
@@ -78,11 +79,10 @@ struct AreaView: View {
     private var appearance: some View {
         Group {
             Section {
-                StatusNotice(title: "Asset library", detail: "Import, preview and export your assets. Applying assets to other apps or system containers is unavailable; importing does not change system appearance.")
                 NavigationLink(value: Screen.files) { Label("Open asset library", systemImage: "photo.on.rectangle.angled") }
             }
             ForEach(["Wallpapers & .tendies", "Dialer themes", "Notification sounds", "App launch images", "Lock Screen text"], id: \.self) { title in
-                Section(localization.text(title)) { StatusNotice(title: "Implementation pending", detail: "System asset installation is not implemented yet. Import and preview are available in the asset library.", symbol: "wrench.and.screwdriver") }
+                Section(localization.text(title)) { Text("Implementation pending").foregroundStyle(.secondary) }
             }
         }
     }
@@ -95,7 +95,7 @@ struct AreaView: View {
             }
             documents
             Section("Advanced tools") {
-                StatusNotice(title: "Pairing & device connection", detail: "Not migrated. Upstream uses a Rust idevice console, tunnel, pairing record and signed entitlements. This build does not start a pairing service.")
+                LabeledContent("Pairing & device connection", value: localization.text("Implementation pending"))
             }
         }
     }
@@ -119,7 +119,6 @@ struct AreaView: View {
                 ForEach(Capability.all.filter { (localization.text($0.title) + $0.title + localization.text($0.category) + $0.keys.joined()).localizedCaseInsensitiveContains(search) }) { capability in
                     NavigationLink(localization.text(capability.title), value: Screen.capability(capability.id))
                 }
-                if "Dynamic Island 灵动岛".localizedCaseInsensitiveContains(search) { NavigationLink("Dynamic Island", value: Screen.capability("dynamicIsland")) }
                 if "Files 文件 素材".localizedCaseInsensitiveContains(search) { NavigationLink("File Manager", value: Screen.files) }
                 if "Backups 备份 恢复".localizedCaseInsensitiveContains(search) { NavigationLink("Backups", value: Screen.backups) }
             }

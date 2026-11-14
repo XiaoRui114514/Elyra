@@ -20,7 +20,6 @@ struct FilesView: View {
     var body: some View {
         List {
             Section {
-                StatusNotice(title: "File Manager", detail: "Browse imported files in Elyra’s sandbox. Drag files here or use Import. System directories and other app containers are not accessible.", symbol: "folder")
                 Picker("Import category", selection: $category) {
                     ForEach(["Files", "Wallpapers", "Dialer themes", "Notification sounds", "App launch images"], id: \.self) { Text(localization.text($0)).tag($0) }
                 }

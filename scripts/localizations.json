@@ -558,5 +558,6 @@
   "Matches preset": "与预设一致",
   "Custom value": "自定义值",
   "Implementation pending": "功能迁移中",
-  "System asset installation is not implemented yet. Import and preview are available in the asset library.": "系统素材安装尚未迁移。可先在素材库中导入和预览。"
+  "System asset installation is not implemented yet. Import and preview are available in the asset library.": "系统素材安装尚未迁移。可先在素材库中导入和预览。",
+  "Preview only. System appearance is unchanged.": "仅预览，不会改变系统外观。"
 }

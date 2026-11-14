@@ -11,7 +11,7 @@ struct BackupsView: View {
     var body: some View {
         List {
             Section { NavigationLink("Device backups", value: Screen.device) }
-            Section { StatusNotice(title: "Local document backups", detail: "Imported baselines and pre-save snapshots are byte-for-byte copies with SHA-256 integrity checks. They are not verified factory device originals. Restoring here updates only the matching managed local document.", symbol: "externaldrive.badge.checkmark") }
+            Section { Label("Local document backups", systemImage: "externaldrive.badge.checkmark") }
             Section { NavigationLink("Managed file backups") { AssetBackupsView() } }
             ForEach(app.state.backups) { record in
                 Section {
@@ -39,7 +39,7 @@ struct BackupsView: View {
         .sheet(item: $offer) { offer in
             NavigationStack {
                 List {
-                    StatusNotice(title: "Restore local document", detail: "The current local file is backed up first. The selected backup must match this document and pass size and SHA-256 checks. The device system is not modified.")
+                    Label("Restore local document", systemImage: "doc.badge.arrow.up")
                     ForEach(PlistChange.between(offer.current.value, offer.value)) { ChangeRow(change: $0) }
                 }.navigationTitle(localization.text("Restore preview"))
                     .safeAreaInset(edge: .bottom) {

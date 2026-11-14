@@ -9,8 +9,6 @@ struct LanguageSettingsView: View {
                 languageRow(.system, name: localization.text("Follow System"))
                 languageRow(.simplifiedChinese, name: "简体中文")
                 languageRow(.english, name: "English")
-            } footer: {
-                Text("The selected language applies to every Elyra window and is saved for the next launch. File contents and configuration keys keep their original names.")
             }
         }
         .navigationTitle(localization.text("Language"))

@@ -106,7 +106,7 @@ struct DocumentEditor: View {
     private var fields: some View {
         List {
             Section {
-                StatusNotice(title: systemMode ? "Live device session" : "Managed local copy", detail: systemMode ? "Confirmed changes are written to the device cache with a verified backup and readback. Protected identity and binary fields cannot be changed." : "Saving updates this imported document only. It does not write MobileGestalt on your device.", symbol: "doc.badge.gearshape")
+                Label(localization.text(systemMode ? "Device configuration" : "Managed local copy"), systemImage: "doc.badge.gearshape").font(.headline)
                 if draftConflict { StatusNotice(title: "Draft conflict", detail: "This draft was created from an older document revision. Export it before discarding and reloading.", symbol: "exclamationmark.triangle") }
                 Text("\(changes.count) " + localization.text("pending changes")).font(.caption).foregroundStyle(.secondary)
             }
@@ -124,7 +124,7 @@ struct DocumentEditor: View {
     private var diffList: some View {
         List {
             Section {
-                StatusNotice(title: "Before saving", detail: "A verified backup is created before each save. Review values and types below. Capability flags do not create hardware or guarantee service availability.")
+                Text("Review changes").font(.headline)
             }
             ForEach(changes) { change in ChangeRow(change: change) }
             if changes.isEmpty { Text("No pending changes").foregroundStyle(.secondary) }

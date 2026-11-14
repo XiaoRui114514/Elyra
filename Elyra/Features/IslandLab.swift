@@ -16,14 +16,7 @@ struct IslandLab: View {
     private let device = RuntimeDeviceContext.current
     var body: some View {
         List {
-            Section("Device & access") {
-                LabeledContent("Hardware identifier", value: device.hardware)
-                Text(device.osVersion).textSelection(.enabled)
-                LabeledContent("System build", value: device.build)
-                if device.simulator { Text("Simulator records are not evidence of system modification.").foregroundStyle(.secondary) }
-                NavigationLink("Device configuration", value: Screen.device)
-                Text("Capability editing and system capsule geometry are different controls. No verified radius parameter is available.").font(.caption).foregroundStyle(.secondary)
-            }
+            Section { NavigationLink("Device configuration", value: Screen.device) }
             Section("Inspect actual configuration") {
                 Button("Import plist", systemImage: "square.and.arrow.down") { importing = true }
                 ForEach(app.state.documents) { document in
@@ -51,23 +44,21 @@ struct IslandLab: View {
                     }
                 }
             }
-            Section("Source-confirmed controls") {
+            Section { DisclosureGroup("Source-confirmed controls") {
                 Text("DeviceSupportsDynamicIsland changes a capability flag. ArtworkDeviceSubType selects a device artwork/layout identity. Neither exposes verified controls for system capsule roundness, proportions, activity content placement or animations.")
                 Text("Subtype is not a pixel size. Upstream presets differ; no subtype is validated as an iPad Dynamic Island appearance repair.").foregroundStyle(.secondary)
-                NavigationLink("Dynamic Island capability", value: Screen.capability("dynamicIsland"))
-            }
+            } }
             Section("Appearance preview") {
                 Picker("Activity state", selection: $state) { ForEach(states, id: \.self) { Text(localization.text($0)).tag($0) } }
                 IslandStudy(state: state, playing: playing).padding(.vertical)
                 if state == "Compact music" || state == "Expanded music" { Toggle("Playing", isOn: $playing) }
-                Text("Illustrative layout only. This preview does not read Now Playing, implement a system overlay or demonstrate a successful iPad fix.").font(.caption).foregroundStyle(.secondary)
+                Text("Preview only. System appearance is unchanged.").font(.caption).foregroundStyle(.secondary)
             }
-            Section("Research findings") {
+            Section { DisclosureGroup("Research findings") {
                 Text("Orientation or artwork identity mismatch is a hypothesis, not a confirmed cause. Compare shape and corners across idle, recording, timers, calls, media and multiple activities in both orientations. Exact build, current subtype and a trusted original are still needed.")
                 Text("Compact, expanded and multiple-activity states have separate layout behavior. Improving one state does not establish the others.")
-                NavigationLink("Backups", value: Screen.backups)
-                Text("Restore a captured device backup in Device configuration. Imported-file baselines are managed separately.").font(.caption).foregroundStyle(.secondary)
-            }
+            } }
+            Section { NavigationLink("Backups", value: Screen.backups) }
         }
         .navigationTitle(localization.text("Dynamic Island"))
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: state)

@@ -357,6 +357,7 @@
 "Portrait" = "竖屏";
 "Posts and updates" = "笔记与动态";
 "Preview & share" = "预览与分享";
+"Preview only. System appearance is unchanged." = "仅预览，不会改变系统外观。";
 "Privacy" = "隐私";
 "Processors" = "处理器核心数";
 "Pulse Width Modulation" = "PWM 显示标记";

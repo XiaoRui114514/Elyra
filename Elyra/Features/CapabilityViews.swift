@@ -36,7 +36,6 @@ struct CapabilityView: View {
             SystemPage(identifier: "system.feature.page") {
                 SystemPanel {
                     Label(localization.text(capability.title), systemImage: capability.systemSymbol).font(.title2.bold()).fixedSize(horizontal: false, vertical: true)
-                    Text(localization.text(capability.detail)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                     LabeledContent("Current configuration", value: localization.text(capability.currentLabel(in: app.deviceSnapshot?.value)))
                     Button("Modify", systemImage: "slider.horizontal.3") { modification = true }
                         .buttonStyle(.borderedProminent).controlSize(.large)
@@ -52,6 +51,7 @@ struct CapabilityView: View {
                 }
                 SystemPanel {
                     DisclosureGroup("Configuration fields") {
+                        Text(localization.text(capability.detail)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                         ForEach(capability.keys, id: \.self) { key in Text(key).font(.system(.caption, design: .monospaced)).textSelection(.enabled) }
                         Button("Open device editor", systemImage: "doc.text") { app.openDeviceEditor { deviceEditor = $0 } }.disabled(app.deviceSnapshot == nil || app.busy > 0)
                     }
@@ -66,7 +66,7 @@ struct CapabilityView: View {
             .navigationTitle(localization.text(capability.title))
             .task { await app.ensureDeviceConnection() }
             .confirmationDialog(localization.text("Modify configuration"), isPresented: $modification, titleVisibility: .visible) {
-                Button("Apply preset") { prepare(restoring: false) }
+                if id != "siriOnDevice" { Button("Apply preset") { prepare(restoring: false) } }
                 Button("Restore captured value") { prepare(restoring: true) }
                 Button("Cancel", role: .cancel) {}
             }
@@ -100,6 +100,6 @@ struct CapabilityView: View {
     }
     private func prepare(restoring: Bool) {
         guard let snapshot = app.deviceSnapshot else { return }
-        app.performDevice { store in plan = try await store.capabilityPlan(id, restoring: restoring, expected: snapshot) }
+        app.performDevice(invalidateOnFailure: false) { store in plan = try await store.capabilityPlan(id, restoring: restoring, expected: snapshot) }
     }
 }
