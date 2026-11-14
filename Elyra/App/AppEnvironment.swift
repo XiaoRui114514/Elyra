@@ -52,11 +52,11 @@ import UniformTypeIdentifiers
         fieldIndex = fields
     }
     func run(_ action: @escaping @MainActor (Workspace) async throws -> Void) {
-        guard let workspace else { error = L("Workspace could not be opened. Export existing files before attempting recovery."); return }
+        guard let workspace else { error = "Workspace could not be opened. Export existing files before attempting recovery."; return }
         busy += 1
         Task {
             defer { busy -= 1 }
-            do { try await action(workspace) } catch { self.error = L(error.localizedDescription) }
+            do { try await action(workspace) } catch { self.error = error.localizedDescription }
             await refresh()
         }
     }
@@ -91,4 +91,3 @@ struct ExportDocument: FileDocument {
     init(configuration: ReadConfiguration) throws { data = configuration.file.regularFileContents ?? Data() }
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper { FileWrapper(regularFileWithContents: data) }
 }
-func L(_ key: String) -> String { NSLocalizedString(key, comment: "") }

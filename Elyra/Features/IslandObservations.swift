@@ -2,12 +2,13 @@
 import SwiftUI
 
 struct IslandObservationForm: View {
+    @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
     @Environment(\.dismiss) private var dismiss
-    @State private var activity = IslandActivity.compact
+    @State private var activity = IslandActivity.idle
     @State private var orientation = IslandOrientation.portrait
     @State private var outcome = IslandOutcome.other
-    @State private var playing = true
+    @State private var playing: Bool?
     @State private var notes = ""
     @State private var documentID: UUID?
     private let device = RuntimeDeviceContext.current
@@ -20,11 +21,17 @@ struct IslandObservationForm: View {
                     StatusNotice(title: device.simulator ? "Simulator observation" : "User-recorded physical-device observation",
                                  detail: "This log records what you observe. It is not an automated verification that Elyra changed the system.")
                 }
-                Section("Playback state") {
-                    Picker("Activity state", selection: $activity) { ForEach(IslandActivity.allCases) { Text(L($0.rawValue)).tag($0) } }
-                    Picker("Orientation", selection: $orientation) { ForEach(IslandOrientation.allCases) { Text(L($0.rawValue)).tag($0) } }
-                    Toggle("Playing", isOn: $playing)
-                    Picker("Observed appearance", selection: $outcome) { ForEach(IslandOutcome.allCases) { Text(L($0.rawValue)).tag($0) } }
+                Section("Activity & appearance") {
+                    Picker("Activity state", selection: $activity) { ForEach(IslandActivity.allCases) { Text(localization.text($0.rawValue)).tag($0) } }
+                    Picker("Orientation", selection: $orientation) { ForEach(IslandOrientation.allCases) { Text(localization.text($0.rawValue)).tag($0) } }
+                    if activity.canIncludeMedia {
+                        Picker("Media playback", selection: $playing) {
+                            Text("Not recorded").tag(Bool?.none)
+                            Text("Playing").tag(Optional(true))
+                            Text("Paused").tag(Optional(false))
+                        }
+                    }
+                    Picker("Observed appearance", selection: $outcome) { ForEach(IslandOutcome.allCases) { Text(localization.text($0.rawValue)).tag($0) } }
                 }
                 Section("Related local configuration") {
                     Picker("Configuration document", selection: $documentID) {
@@ -35,10 +42,10 @@ struct IslandObservationForm: View {
                 }
                 Section("Notes") {
                     TextEditor(text: $notes).frame(minHeight: 120).accessibilityIdentifier("island.observation.notes")
-                    Text("Record artwork placement, waveform alignment, recording/timer activity, display zoom and any keyboard issues. Avoid account details or identifiers.").font(.caption).foregroundStyle(.secondary)
+                    Text("Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers.").font(.caption).foregroundStyle(.secondary)
                 }
             }
-            .navigationTitle("Record playback observation")
+            .navigationTitle("Record appearance observation")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
@@ -48,7 +55,7 @@ struct IslandObservationForm: View {
                             if let documentID { revision = try await workspace.snapshot(documentID).revision } else { revision = nil }
                             let observation = IslandObservation(hardware: device.hardware, osVersion: device.osVersion, build: device.build,
                                                                 simulator: device.simulator, activity: activity, orientation: orientation,
-                                                                playing: playing, outcome: outcome, notes: notes, documentID: documentID, documentRevision: revision)
+                                                                playing: activity.canIncludeMedia ? playing : nil, outcome: outcome, notes: notes, documentID: documentID, documentRevision: revision)
                             try await workspace.recordIslandObservation(observation)
                             dismiss()
                         }
@@ -59,11 +66,12 @@ struct IslandObservationForm: View {
     }
 }
 struct IslandObservationDetail: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let observation: IslandObservation
     var body: some View {
         List {
             Section {
-                Text(observation.simulator ? "Simulator observation" : "User-recorded physical-device observation").font(.headline)
+                Text(localization.text(observation.simulator ? "Simulator observation" : "User-recorded physical-device observation")).font(.headline)
                 Text("This log records what you observe. It is not an automated verification that Elyra changed the system.").font(.caption).foregroundStyle(.secondary)
                 Text(observation.date, format: .dateTime)
             }
@@ -72,14 +80,14 @@ struct IslandObservationDetail: View {
                 LabeledContent("System build", value: observation.build)
                 Text(observation.osVersion)
             }
-            Section("Playback state") {
-                Text(L(observation.activity.rawValue))
-                Text(L(observation.orientation.rawValue))
-                Text(observation.playing ? "Playing" : "Paused")
-                Text(L(observation.outcome.rawValue))
+            Section("Activity & appearance") {
+                Text(localization.text(observation.activity.rawValue))
+                Text(localization.text(observation.orientation.rawValue))
+                if observation.activity.canIncludeMedia, let playing = observation.playing { Text(localization.text(playing ? "Playing" : "Paused")) }
+                Text(localization.text(observation.outcome.rawValue))
             }
             if let revision = observation.documentRevision { Section("Local document revision") { Text(revision).font(.caption).textSelection(.enabled) } }
-            Section("Notes") { Text(observation.notes.isEmpty ? L("None") : observation.notes).textSelection(.enabled) }
-        }.navigationTitle("Playback observation")
+            Section("Notes") { Text(observation.notes.isEmpty ? localization.text("None") : observation.notes).textSelection(.enabled) }
+        }.navigationTitle("Appearance observation")
     }
 }

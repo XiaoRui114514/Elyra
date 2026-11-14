@@ -128,11 +128,45 @@ final class IslandWorkspaceTests: XCTestCase, @unchecked Sendable {
         let migrated = await reopened.listing()
         XCTAssertEqual(migrated.documents.map(\.id), [imported.record.id])
         XCTAssertEqual(migrated.backups.count, 1)
-        XCTAssertEqual(migrated.schemaVersion, 2)
+        XCTAssertEqual(migrated.schemaVersion, 3)
         XCTAssertTrue(migrated.islandObservations.isEmpty)
     }
     func testFutureLibrarySchemaFailsClosed() throws {
         let data = Data("{\"schemaVersion\":99}".utf8)
         XCTAssertThrowsError(try JSONDecoder().decode(WorkspaceState.self, from: data))
+    }
+    func testNonMediaActivitiesKeepPlaybackUnspecifiedAndRoundnessEvidence() async throws {
+        let w = try Workspace(root: root)
+        for activity in [IslandActivity.idle, .recording, .timer, .call, .navigation, .other] {
+            XCTAssertFalse(activity.canIncludeMedia)
+            let observation = IslandObservation(hardware: "iPad14,1", osVersion: "iPadOS 27.0", build: "unknown", simulator: false,
+                                                activity: activity, orientation: .portrait, playing: nil, outcome: .corners, notes: "User observation only")
+            try await w.recordIslandObservation(observation)
+        }
+        let reopened = try Workspace(root: root)
+        let state = await reopened.listing()
+        XCTAssertEqual(state.islandObservations.count, 6)
+        XCTAssertTrue(state.islandObservations.allSatisfy { $0.playing == nil && $0.outcome == .corners })
+        let data = try await reopened.exportResearchReport()
+        let parsed = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(parsed["schemaVersion"] as? Int, 2)
+        let rows = try XCTUnwrap(parsed["observations"] as? [[String: Any]])
+        XCTAssertTrue(rows.allSatisfy { $0["playing"] == nil })
+    }
+    func testVersionTwoObservationsRetainLegacyPlaybackAndMigrateToVersionThree() async throws {
+        let w = try Workspace(root: root)
+        let observation = IslandObservation(hardware: "iPad14,1", osVersion: "Version 26.2", build: "23C54", simulator: true,
+                                            activity: .compact, orientation: .landscape, playing: false, outcome: .tall, notes: "Legacy")
+        try await w.recordIslandObservation(observation)
+        let state = await w.listing()
+        var legacy = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(state)) as? [String: Any])
+        legacy["schemaVersion"] = 2
+        try JSONSerialization.data(withJSONObject: legacy).write(to: root.appendingPathComponent("index.json"))
+        let reopened = try Workspace(root: root)
+        let migrated = await reopened.listing()
+        XCTAssertEqual(migrated.schemaVersion, 3)
+        XCTAssertEqual(migrated.islandObservations[0].id, observation.id)
+        XCTAssertEqual(migrated.islandObservations[0].playing, false)
+        XCTAssertEqual(migrated.islandObservations[0].activity, .compact)
     }
 }

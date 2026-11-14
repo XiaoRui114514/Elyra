@@ -3,6 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AreaView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let area: Area
     @EnvironmentObject private var app: AppEnvironment
     @SceneStorage("globalSearch") private var search = ""
@@ -29,20 +30,20 @@ struct AreaView: View {
     private var home: some View {
         Group {
             Section {
-                FeatureLabel(title: "Elyra", detail: "Your device. A considered workspace.", symbol: "circle.hexagongrid")
+                FeatureLabel(title: "Elyra", detail: "Device configuration and file tools.", symbol: "circle.hexagongrid")
                 Text(UIDevice.current.model + " • " + ProcessInfo.processInfo.operatingSystemVersionString).font(.subheadline).textSelection(.enabled)
                 StatusNotice(title: app.workspace == nil ? "Workspace unavailable" : "Local workspace is ready",
                              detail: app.workspace == nil ? "Workspace could not be opened. Export existing files before attempting recovery." : "System modification is unavailable in this build. All imported files and presets are edited as local copies.", symbol: "lock.shield")
             }
             Section("Quick access") {
-                NavigationLink(value: Screen.island) { FeatureLabel(title: "Dynamic Island Lab", detail: "Media states, capability flags and research", symbol: "capsule") }.accessibilityIdentifier("home.island")
+                NavigationLink(value: Screen.island) { FeatureLabel(title: "Dynamic Island", detail: "Appearance, configuration and compatibility", symbol: "capsule") }.accessibilityIdentifier("home.island")
                 Button { importing = true } label: { Label("Import plist", systemImage: "square.and.arrow.down") }
-                NavigationLink(value: Screen.backups) { Label("Backup center", systemImage: "externaldrive.badge.timemachine") }
+                NavigationLink(value: Screen.backups) { Label("Backups", systemImage: "externaldrive.badge.timemachine") }
             }
             if !app.state.favorites.isEmpty {
                 Section("Favorites") {
                     ForEach(Capability.all.filter { app.state.favorites.contains($0.id) }) { capability in
-                        NavigationLink(L(capability.title), value: Screen.capability(capability.id))
+                        NavigationLink(localization.text(capability.title), value: Screen.capability(capability.id))
                     }
                 }
             }
@@ -50,7 +51,7 @@ struct AreaView: View {
                 if app.state.history.isEmpty { Text("No operations yet").foregroundStyle(.secondary) }
                 ForEach(app.state.history.prefix(4)) { item in
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(L(item.operation)); Text(item.detail).font(.caption).foregroundStyle(.secondary)
+                        Text(localization.text(item.operation)); Text(item.detail).font(.caption).foregroundStyle(.secondary)
                         Text(item.date, style: .relative).font(.caption2).foregroundStyle(.secondary)
                     }
                 }
@@ -59,11 +60,11 @@ struct AreaView: View {
     }
     private var system: some View {
         Group {
-            Section { NavigationLink(value: Screen.island) { Label("Dynamic Island Lab", systemImage: "capsule") } }
-            Section("Capability center") {
+            Section { NavigationLink(value: Screen.island) { Label("Dynamic Island", systemImage: "capsule") } }
+            Section("Device capabilities") {
                 ForEach(["display", "device", "ipad", "intelligence", "advanced"], id: \.self) { category in
                     NavigationLink(value: Screen.category(category)) {
-                        FeatureLabel(title: category.capitalized, detail: "Shared on iPhone and iPad • local preset editing", symbol: category == "ipad" ? "ipad" : "slider.horizontal.3")
+                        FeatureLabel(title: category == "ipad" ? "iPad" : category.capitalized, detail: "Shared on iPhone and iPad • local preset editing", symbol: category == "ipad" ? "ipad" : "slider.horizontal.3")
                     }
                 }
             }
@@ -75,7 +76,7 @@ struct AreaView: View {
             Button { importing = true } label: { Label("Import plist", systemImage: "square.and.arrow.down") }
             ForEach(app.state.documents) { document in
                 NavigationLink(value: Screen.document(document.id)) {
-                    FeatureLabel(title: document.name, detail: "Managed local copy", symbol: "doc.text")
+                    FeatureLabel(title: document.name, detail: "Managed local copy", symbol: "doc.text", localizesTitle: false)
                 }
             }
             if app.state.documents.isEmpty { Text("Import a plist to browse, edit and compare actual values.").foregroundStyle(.secondary) }
@@ -88,14 +89,14 @@ struct AreaView: View {
                 NavigationLink(value: Screen.files) { Label("Open asset library", systemImage: "photo.on.rectangle.angled") }
             }
             ForEach(["Wallpapers & .tendies", "Dialer themes", "Notification sounds", "App launch images", "Lock Screen text"], id: \.self) { title in
-                Section(L(title)) { StatusNotice(title: "Additional conditions required", detail: "System application requires an authorized, verified backend. Original system files are not accessible in this build.", symbol: "lock") }
+                Section(localization.text(title)) { StatusNotice(title: "Additional conditions required", detail: "System application requires an authorized, verified backend. Original system files are not accessible in this build.", symbol: "lock") }
             }
         }
     }
     private var tools: some View {
         Group {
             Section {
-                NavigationLink(value: Screen.files) { Label("Files & assets", systemImage: "folder") }
+                NavigationLink(value: Screen.files) { Label("File Manager", systemImage: "folder") }
                 NavigationLink(value: Screen.diagnostics) { Label("Device diagnostics", systemImage: "stethoscope") }
                 NavigationLink(value: Screen.history) { Label("Operation history", systemImage: "clock.arrow.circlepath") }
             }
@@ -109,12 +110,13 @@ struct AreaView: View {
     private var settings: some View {
         Group {
             Section {
-                NavigationLink(value: Screen.backups) { Label("Backup center", systemImage: "externaldrive") }
+                NavigationLink(value: Screen.backups) { Label("Backups", systemImage: "externaldrive") }
                 NavigationLink(value: Screen.history) { Label("Operation history", systemImage: "clock") }
                 NavigationLink(value: Screen.licenses) { Label("About & open-source licenses", systemImage: "info.circle") }
             }
             Section("Language & accessibility") {
-                Text("Elyra follows the system language, appearance, text size and Reduce Motion preferences.")
+                NavigationLink(value: Screen.language) { Label("Language", systemImage: "globe") }.accessibilityIdentifier("settings.language")
+                Text("Choose English, Simplified Chinese or Follow System. Appearance, text size and Reduce Motion follow system settings.")
                 Button("Open app settings") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
             }
             Section { Text("Elyra 0.2.0 • Development build").foregroundStyle(.secondary) }
@@ -123,12 +125,12 @@ struct AreaView: View {
     private var searchResults: some View {
         Group {
             Section("Features") {
-                ForEach(Capability.all.filter { (L($0.title) + $0.title + L($0.category) + $0.keys.joined()).localizedCaseInsensitiveContains(search) }) { capability in
-                    NavigationLink(L(capability.title), value: Screen.capability(capability.id))
+                ForEach(Capability.all.filter { (localization.text($0.title) + $0.title + localization.text($0.category) + $0.keys.joined()).localizedCaseInsensitiveContains(search) }) { capability in
+                    NavigationLink(localization.text(capability.title), value: Screen.capability(capability.id))
                 }
-                if "Dynamic Island Lab 灵动岛".localizedCaseInsensitiveContains(search) { NavigationLink("Dynamic Island Lab", value: Screen.island) }
-                if "Files 文件 素材".localizedCaseInsensitiveContains(search) { NavigationLink("Files & assets", value: Screen.files) }
-                if "Backups 备份 恢复".localizedCaseInsensitiveContains(search) { NavigationLink("Backup center", value: Screen.backups) }
+                if "Dynamic Island 灵动岛".localizedCaseInsensitiveContains(search) { NavigationLink("Dynamic Island", value: Screen.island) }
+                if "Files 文件 素材".localizedCaseInsensitiveContains(search) { NavigationLink("File Manager", value: Screen.files) }
+                if "Backups 备份 恢复".localizedCaseInsensitiveContains(search) { NavigationLink("Backups", value: Screen.backups) }
             }
             Section("Imported fields") {
                 ForEach(app.fieldIndex.filter { ($0.key + $0.name).localizedCaseInsensitiveContains(search) }) { field in

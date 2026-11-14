@@ -24,7 +24,20 @@ jobs:
         run: python3 scripts/verify_release_run.py
       - name: Download artifact and verify hashes
         run: |
-          gh run download "$RUN_ID" --name "Elyra-unsigned-$VERIFIED_SHA" --dir build
+          # Artifact APIs can return transient 502s. Each bounded retry has a fresh
+          # directory so a partial download cannot be mistaken for a valid artifact.
+          downloaded=false
+          for attempt in 1 2 3; do
+            artifact_dir="$(mktemp -d "$RUNNER_TEMP/elyra-release.XXXXXX")"
+            if gh run download "$RUN_ID" --name "Elyra-unsigned-$VERIFIED_SHA" --dir "$artifact_dir"; then
+              mv "$artifact_dir" build
+              downloaded=true
+              break
+            fi
+            rm -rf "$artifact_dir"
+            sleep "$((attempt * 3))"
+          done
+          [[ "$downloaded" == true ]] || exit 1
           (cd build && sha256sum --check SHA256SUMS)
           python3 scripts/verify_ipa.py build/Elyra-unsigned.ipa
       - name: Create draft release for installation review

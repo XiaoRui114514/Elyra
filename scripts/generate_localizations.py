@@ -6,7 +6,7 @@ translations=json.loads((r/'scripts/localizations.json').read_text())
 keys=set(translations)
 for file in (r/'Elyra').rglob('*.swift'):
     source=file.read_text()
-    for m in re.finditer(r'(?:Text|Button|Label|Section|L|StatusNotice|ContentUnavailableView|TextField|DisclosureGroup|navigationTitle|searchable|keyboardShortcut|accessibilityLabel)\(\s*"([^"\\]*)"',source): keys.add(m.group(1))
+    for m in re.finditer(r'(?:Text|Button|Label|Section|L|localization\.text|Picker|Toggle|Menu|LabeledContent|StatusNotice|ContentUnavailableView|TextField|DisclosureGroup|navigationTitle|searchable|keyboardShortcut|accessibilityLabel|alert|confirmationDialog)\(\s*"([^"\\]*)"',source): keys.add(m.group(1))
 for file in (r/'Elyra').rglob('*.swift'):
     keys.update(re.findall(r'\.invalid\("([^"\\]*)"', file.read_text()))
 for file in (r/'Elyra').rglob('*.swift'):

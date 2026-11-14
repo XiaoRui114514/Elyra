@@ -99,7 +99,9 @@ public enum DynamicIslandEngine {
 }
 public enum IslandActivity: String, Codable, CaseIterable, Identifiable, Sendable {
     case idle = "Idle", compact = "Compact music", expanded = "Expanded music", multiple = "Multiple activities"
+    case recording = "Screen recording", timer = "Timer", call = "Call", navigation = "Navigation", other = "Other activity"
     public var id: String { rawValue }
+    public var canIncludeMedia: Bool { self == .compact || self == .expanded || self == .multiple }
 }
 public enum IslandOrientation: String, Codable, CaseIterable, Identifiable, Sendable {
     case portrait = "Portrait", landscape = "Landscape"
@@ -107,6 +109,7 @@ public enum IslandOrientation: String, Codable, CaseIterable, Identifiable, Send
 }
 public enum IslandOutcome: String, Codable, CaseIterable, Identifiable, Sendable {
     case tall = "Tall media region", normal = "Expected appearance", missing = "Activity not visible", keyboard = "Keyboard issue", other = "Other / uncertain"
+    case corners = "Corners insufficiently rounded", proportions = "Unexpected shape or proportions", position = "Unexpected position"
     public var id: String { rawValue }
 }
 public struct IslandObservation: Codable, Identifiable, Sendable {
@@ -118,13 +121,13 @@ public struct IslandObservation: Codable, Identifiable, Sendable {
     public let simulator: Bool
     public let activity: IslandActivity
     public let orientation: IslandOrientation
-    public let playing: Bool
+    public let playing: Bool?
     public let outcome: IslandOutcome
     public let notes: String
     public let documentID: UUID?
     public let documentRevision: String?
     public init(hardware: String, osVersion: String, build: String, simulator: Bool,
-                activity: IslandActivity, orientation: IslandOrientation, playing: Bool,
+                activity: IslandActivity, orientation: IslandOrientation, playing: Bool?,
                 outcome: IslandOutcome, notes: String, documentID: UUID? = nil, documentRevision: String? = nil) {
         id = UUID(); date = Date(); self.hardware = hardware; self.osVersion = osVersion; self.build = build
         self.simulator = simulator; self.activity = activity; self.orientation = orientation; self.playing = playing

@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 import QuickLook
 
 struct FilesView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
     @State private var importing = false
     @State private var category = "Files"
@@ -19,18 +20,18 @@ struct FilesView: View {
     var body: some View {
         List {
             Section {
-                StatusNotice(title: "Files & assets", detail: "Browse imported files in Elyra’s sandbox. Drag files here or use Import. System directories and other app containers are not accessible.", symbol: "folder")
+                StatusNotice(title: "File Manager", detail: "Browse imported files in Elyra’s sandbox. Drag files here or use Import. System directories and other app containers are not accessible.", symbol: "folder")
                 Picker("Import category", selection: $category) {
-                    ForEach(["Files", "Wallpapers", "Dialer themes", "Notification sounds", "App launch images"], id: \.self) { Text(L($0)).tag($0) }
+                    ForEach(["Files", "Wallpapers", "Dialer themes", "Notification sounds", "App launch images"], id: \.self) { Text(localization.text($0)).tag($0) }
                 }
                 Button("Import file", systemImage: "square.and.arrow.down") { importing = true }.keyboardShortcut("i", modifiers: [.command])
             }
             Section("Library") {
-                ForEach(app.state.assets.filter { search.isEmpty || ($0.name + L($0.category)).localizedCaseInsensitiveContains(search) }) { asset in
+                ForEach(app.state.assets.filter { search.isEmpty || ($0.name + localization.text($0.category)).localizedCaseInsensitiveContains(search) }) { asset in
                     VStack(alignment: .leading, spacing: 8) {
                         Button {
                             app.run { workspace in previewURL = try await workspace.assetURL(asset.id) }
-                        } label: { FeatureLabel(title: asset.name, detail: L(asset.category) + " • " + ByteCountFormatter.string(fromByteCount: Int64(asset.byteCount), countStyle: .file), symbol: "doc") }
+                        } label: { FeatureLabel(title: asset.name, detail: localization.text(asset.category) + " • " + localization.bytes(Int64(asset.byteCount)), symbol: "doc", localizesTitle: false) }
                         Text(asset.date, style: .date).font(.caption).foregroundStyle(.secondary)
                         Text("SHA-256: " + asset.digest).font(.system(.caption2, design: .monospaced)).textSelection(.enabled)
                         HStack {
@@ -59,7 +60,7 @@ struct FilesView: View {
                 }
             }
         }
-        .navigationTitle("Files & assets").searchable(text: $search)
+        .navigationTitle("File Manager").searchable(text: $search)
         .quickLookPreview($previewURL)
         .fileImporter(isPresented: $importing, allowedContentTypes: [.item]) { result in
             switch result { case .success(let url): app.importURL(url, category: category); case .failure(let error): app.error = error.localizedDescription }

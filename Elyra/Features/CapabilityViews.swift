@@ -2,6 +2,7 @@
 import SwiftUI
 
 struct CapabilityList: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let category: String
     @EnvironmentObject private var app: AppEnvironment
     private var additionalFeatures: [String] {
@@ -19,7 +20,7 @@ struct CapabilityList: View {
                 NavigationLink(value: Screen.capability(capability.id)) {
                     HStack {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(L(capability.title))
+                            Text(localization.text(capability.title))
                             SupportBadge(status: .needsConditions)
                         }
                         Spacer()
@@ -34,10 +35,11 @@ struct CapabilityList: View {
                     }
                 }
             }
-        }.navigationTitle(L(category.capitalized))
+        }.navigationTitle(localization.text(category == "ipad" ? "iPad" : category.capitalized))
     }
 }
 struct CapabilityView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let id: String
     @EnvironmentObject private var app: AppEnvironment
     private var capability: Capability? { Capability.all.first { $0.id == id } }
@@ -45,12 +47,12 @@ struct CapabilityView: View {
         if let capability {
             List {
                 Section {
-                    Text(L(capability.detail)).fixedSize(horizontal: false, vertical: true)
+                    Text(localization.text(capability.detail)).fixedSize(horizontal: false, vertical: true)
                     SupportBadge(status: .needsConditions)
                     StatusNotice(title: "System write unavailable", detail: "No authorized, verified system writer is installed. Imported plists remain local documents. OS build and hardware effects require separate real-device validation.", symbol: "lock.shield")
                 }
                 Section("Dependencies & risk") {
-                    LabeledContent("Risk", value: L(capability.caution ? "High" : "Elevated"))
+                    LabeledContent("Risk", value: localization.text(capability.caution ? "High" : "Elevated"))
                     Text("A capability flag cannot add hardware or guarantee Apple service access. System changes may require restart or respring; this build performs neither.")
                     Text("iOS / iPadOS 26.x: unverified. 27.x: unverified. Each build requires separate device testing.")
                 }
@@ -62,9 +64,9 @@ struct CapabilityView: View {
                     }
                     if app.state.documents.isEmpty { Text("Import a MobileGestalt plist in System first.") }
                 }
-                if id == "dynamicIsland" { Section { NavigationLink("Dynamic Island Lab", value: Screen.island) } }
+                if id == "dynamicIsland" { Section { NavigationLink("Dynamic Island", value: Screen.island) } }
             }
-            .navigationTitle(L(capability.title))
+            .navigationTitle(localization.text(capability.title))
             .toolbar {
                 Button { app.run { try await $0.toggleFavorite(id) } } label: {
                     Label("Favorite", systemImage: app.state.favorites.contains(id) ? "star.fill" : "star")

@@ -39,7 +39,7 @@ public struct AssetRecord: Codable, Identifiable, Sendable, Equatable {
     public let digest: String
 }
 public struct WorkspaceState: Codable, Sendable {
-    public var schemaVersion = 2
+    public var schemaVersion = 3
     public var documents: [DocumentRecord] = []
     public var backups: [BackupRecord] = []
     public var assets: [AssetRecord] = []
@@ -55,7 +55,7 @@ public struct WorkspaceState: Codable, Sendable {
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         let version = try c.decodeIfPresent(Int.self, forKey: .schemaVersion) ?? 1
-        guard (1...2).contains(version) else { throw ElyraError.invalid("This workspace was created by a newer Elyra version.") }
+        guard (1...3).contains(version) else { throw ElyraError.invalid("This workspace was created by a newer Elyra version.") }
         documents = try c.decode([DocumentRecord].self, forKey: .documents)
         backups = try c.decode([BackupRecord].self, forKey: .backups)
         assets = try c.decode([AssetRecord].self, forKey: .assets)
@@ -375,7 +375,7 @@ public actor Workspace {
             let scope: String
             let observations: [IslandObservation]
         }
-        let report = Report(schemaVersion: 1, generatedAt: Date(),
+        let report = Report(schemaVersion: 2, generatedAt: Date(),
                             scope: "User-recorded observations, not automated proof of system modification. Simulator records are never physical-device evidence.",
                             observations: state.islandObservations)
         let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]

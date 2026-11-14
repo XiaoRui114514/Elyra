@@ -3,6 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct DiagnosticsView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     private let device = RuntimeDeviceContext.current
     private var report: CompatibilityReport { CompatibilityEngine.report(version: ProcessInfo.processInfo.operatingSystemVersion) }
     var body: some View {
@@ -12,7 +13,7 @@ struct DiagnosticsView: View {
                 LabeledContent("System build", value: device.build)
                 Text(ProcessInfo.processInfo.operatingSystemVersionString).textSelection(.enabled)
                 LabeledContent("Processors", value: String(ProcessInfo.processInfo.processorCount))
-                LabeledContent("Physical memory", value: ByteCountFormatter.string(fromByteCount: Int64(ProcessInfo.processInfo.physicalMemory), countStyle: .memory))
+                LabeledContent("Physical memory", value: localization.bytes(Int64(ProcessInfo.processInfo.physicalMemory), memory: true))
             }
             Section("Compatibility") {
                 compatibility("App UI", report.ui)
@@ -20,17 +21,18 @@ struct DiagnosticsView: View {
                 compatibility("System read", report.systemRead)
                 compatibility("System write", report.systemWrite)
                 compatibility("System visual effects", report.visualEffect)
-                Text(L(report.reason)).font(.caption).foregroundStyle(.secondary)
+                Text(localization.text(report.reason)).font(.caption).foregroundStyle(.secondary)
             }
             Section("Privacy") { Text("Diagnostics use local public device and process information. No pairing credentials, serial numbers or device identifiers are uploaded.") }
         }.navigationTitle("Device diagnostics")
     }
     private func compatibility(_ name: String, _ status: SupportStatus) -> some View {
-        VStack(alignment: .leading, spacing: 4) { Text(L(name)); SupportBadge(status: status) }
+        VStack(alignment: .leading, spacing: 4) { Text(localization.text(name)); SupportBadge(status: status) }
     }
 
 }
 struct HistoryView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
     @State private var search = ""
     @State private var export: ExportDocument?
@@ -40,7 +42,7 @@ struct HistoryView: View {
             Section { Text("History is an operation log, not a backup. It contains local filenames; review it before sharing.").font(.caption).foregroundStyle(.secondary) }
             ForEach(app.state.history.filter { search.isEmpty || ($0.operation + $0.detail).localizedCaseInsensitiveContains(search) }) { record in
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(L(record.operation)).font(.headline)
+                    Text(localization.text(record.operation)).font(.headline)
                     Text(record.detail).font(.subheadline)
                     Text(record.date, format: .dateTime).font(.caption).foregroundStyle(.secondary)
                 }.textSelection(.enabled)
@@ -58,6 +60,7 @@ struct HistoryView: View {
     }
 }
 struct LicensesView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     private var licenses: [URL] { Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Licenses")?.sorted { $0.lastPathComponent < $1.lastPathComponent } ?? [] }
     var body: some View {
         List {
@@ -71,7 +74,7 @@ struct LicensesView: View {
                 ForEach(licenses, id: \.self) { url in
                     NavigationLink(url.deletingPathExtension().lastPathComponent) {
                         ScrollView {
-                            Text((try? String(contentsOf: url, encoding: .utf8)) ?? L("License could not be read."))
+                            Text((try? String(contentsOf: url, encoding: .utf8)) ?? localization.text("License could not be read."))
                                 .font(.footnote).textSelection(.enabled).padding().frame(maxWidth: .infinity, alignment: .leading)
                         }.navigationTitle(url.deletingPathExtension().lastPathComponent)
                     }

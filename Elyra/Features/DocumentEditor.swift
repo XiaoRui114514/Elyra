@@ -3,6 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct DocumentEditor: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let id: UUID
     var initialCapability: Capability? = nil
     var initialFieldPath: [String]? = nil
@@ -35,8 +36,8 @@ struct DocumentEditor: View {
                             Button("Add field", systemImage: "plus") { field = FieldSelection(path: edited.value(at: ["CacheExtra"]) == nil ? [] : ["CacheExtra"], value: nil, adding: true) }
                             Menu("Stage local preset") {
                                 ForEach(Capability.all) { capability in
-                                    Button(L(capability.title)) {
-                                        do { try capability.stage(in: &edited) } catch { app.error = L(error.localizedDescription) }
+                                    Button(localization.text(capability.title)) {
+                                        do { try capability.stage(in: &edited) } catch { app.error = error.localizedDescription }
                                     }
                                 }
                             }
@@ -102,11 +103,11 @@ struct DocumentEditor: View {
             Section {
                 StatusNotice(title: "Managed local copy", detail: "Saving updates this imported document only. It does not write MobileGestalt on your device.", symbol: "doc.badge.gearshape")
                 if draftConflict { StatusNotice(title: "Draft conflict", detail: "This draft was created from an older document revision. Export it before discarding and reloading.", symbol: "exclamationmark.triangle") }
-                Text("\(changes.count) " + L("pending changes")).font(.caption).foregroundStyle(.secondary)
+                Text("\(changes.count) " + localization.text("pending changes")).font(.caption).foregroundStyle(.secondary)
             }
             Section("Fields") {
                 if edited.children.isEmpty {
-                    Button { field = FieldSelection(path: [], value: edited, adding: false) } label: { Text(edited.kind + ": " + edited.summary) }
+                    Button { field = FieldSelection(path: [], value: edited, adding: false) } label: { Text(localization.text(edited.kind) + ": " + edited.summary) }
                 } else {
                     ForEach(edited.children.filter { search.isEmpty || $0.0.localizedCaseInsensitiveContains(search) || $0.1.xml.localizedCaseInsensitiveContains(search) }, id: \.0) { key, value in
                         PlistNode(name: key, value: value, path: [key]) { field = $0 }
@@ -157,6 +158,7 @@ struct FieldSelection: Identifiable {
     let adding: Bool
 }
 struct PlistNode: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let name: String
     let value: PlistValue
     let path: [String]
@@ -178,11 +180,12 @@ struct PlistNode: View {
     private var label: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(name).font(.body).foregroundStyle(.primary).textSelection(.enabled)
-            Text(value.kind + " • " + value.summary).font(.caption).foregroundStyle(.secondary).lineLimit(3)
+            Text(localization.text(value.kind) + " • " + value.summary).font(.caption).foregroundStyle(.secondary).lineLimit(3)
         }.padding(.vertical, 4).frame(minHeight: 44)
     }
 }
 struct FieldEditor: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let selection: FieldSelection
     let apply: (PlistValue?, String) throws -> Void
     @Environment(\.dismiss) private var dismiss
@@ -202,10 +205,10 @@ struct FieldEditor: View {
                     TextEditor(text: $text).font(.system(.body, design: .monospaced)).frame(minHeight: 240).autocorrectionDisabled().textInputAutocapitalization(.never)
                     Text("Edit a complete XML plist. String, Integer, Real, Boolean, Data, Date, Array and Dictionary are supported.").font(.caption).foregroundStyle(.secondary)
                 }
-                if let error { Text(L(error)).foregroundStyle(.red).accessibilityLabel(L(error)) }
+                if let error { Text(localization.text(error)).foregroundStyle(.red).accessibilityLabel(localization.text(error)) }
                 if !selection.adding && !selection.path.isEmpty { Button("Remove field", role: .destructive) { deleting = true } }
             }
-            .navigationTitle(selection.adding ? "Add field" : "Edit value")
+            .navigationTitle(localization.text(selection.adding ? "Add field" : "Edit value"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
@@ -228,15 +231,16 @@ struct FieldEditor: View {
     }
 }
 struct ChangeRow: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let change: PlistChange
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(change.displayPath.isEmpty ? "/" : change.displayPath).font(.headline).textSelection(.enabled)
-            Text(L("Before") + ": " + (change.before.map { $0.kind + " • " + $0.summary } ?? L("Absent"))).foregroundStyle(.secondary)
-            Text(L("After") + ": " + (change.after.map { $0.kind + " • " + $0.summary } ?? L("Absent")))
+            Text(localization.text("Before") + ": " + (change.before.map { localization.text($0.kind) + " • " + $0.summary } ?? localization.text("Absent"))).foregroundStyle(.secondary)
+            Text(localization.text("After") + ": " + (change.after.map { localization.text($0.kind) + " • " + $0.summary } ?? localization.text("Absent")))
             DisclosureGroup("Exact typed values") {
-                if let before = change.before { Text(L("Before") + "\n" + before.xml).font(.system(.caption, design: .monospaced)) }
-                if let after = change.after { Text(L("After") + "\n" + after.xml).font(.system(.caption, design: .monospaced)) }
+                if let before = change.before { Text(localization.text("Before") + "\n" + before.xml).font(.system(.caption, design: .monospaced)) }
+                if let after = change.after { Text(localization.text("After") + "\n" + after.xml).font(.system(.caption, design: .monospaced)) }
             }
         }.font(.subheadline).padding(.vertical, 5).textSelection(.enabled)
     }

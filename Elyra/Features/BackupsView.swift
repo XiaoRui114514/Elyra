@@ -3,6 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct BackupsView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
     @State private var offer: RestoreOffer?
     @State private var export: ExportDocument?
@@ -14,7 +15,7 @@ struct BackupsView: View {
             ForEach(app.state.backups) { record in
                 Section {
                     Text(record.name).font(.headline)
-                    Text(L(record.reason)).font(.subheadline)
+                    Text(localization.text(record.reason)).font(.subheadline)
                     Text(record.date, format: .dateTime).font(.caption)
                     Text(record.digest).font(.system(.caption2, design: .monospaced)).textSelection(.enabled)
                     HStack {
@@ -33,7 +34,7 @@ struct BackupsView: View {
                 }
             }
             if app.state.backups.isEmpty { Text("No backups yet").foregroundStyle(.secondary) }
-        }.navigationTitle("Backup center")
+        }.navigationTitle("Backups")
         .sheet(item: $offer) { offer in
             NavigationStack {
                 List {

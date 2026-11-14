@@ -20,11 +20,11 @@ final class ElyraUITests: XCTestCase {
         }
         XCTAssertTrue(element.isHittable, "Expected control must remain reachable by scrolling")
     }
-    @MainActor private func openLab(_ app: XCUIApplication) {
+    @MainActor private func openLab(_ app: XCUIApplication, expectedTitle: String? = nil) {
         let link = app.descendants(matching: .any)["home.island"].firstMatch
         reveal(link, app: app)
         link.tap()
-        let title = app.launchArguments.contains("(zh-Hans)") ? "Dynamic Island Lab · 灵动岛实验室" : "Dynamic Island Lab"
+        let title = expectedTitle ?? (app.launchArguments.contains("(zh-Hans)") ? "灵动岛" : "Dynamic Island")
         XCTAssertTrue(app.navigationBars[title].waitForExistence(timeout: 10))
     }
     @MainActor func testLaunchNavigationAndRotation() {
@@ -32,12 +32,12 @@ final class ElyraUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Local workspace is ready"].waitForExistence(timeout: 10))
         attach("Portrait launch")
         openLab(app)
-        XCTAssertTrue(app.navigationBars["Dynamic Island Lab"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5))
         XCUIDevice.shared.orientation = .landscapeLeft
-        XCTAssertTrue(app.navigationBars["Dynamic Island Lab"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5))
         attach("Landscape lab")
         XCUIDevice.shared.orientation = .portrait
-        XCTAssertTrue(app.navigationBars["Dynamic Island Lab"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5))
         attach("Portrait lab after rotation")
     }
     @MainActor func testObservationPersistsAcrossRelaunchWithoutBeingSystemProof() {
@@ -50,10 +50,10 @@ final class ElyraUITests: XCTestCase {
         let notes = app.textViews["island.observation.notes"]
         reveal(notes, app: app); notes.tap(); notes.typeText("UI observation; simulator only.")
         app.buttons["island.observation.save"].tap()
-        XCTAssertTrue(app.navigationBars["Dynamic Island Lab"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5))
         attach("Recorded simulator observation")
         app.terminate(); app.launch()
-        if !app.navigationBars["Dynamic Island Lab"].waitForExistence(timeout: 5) { openLab(app) }
+        if !app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5) { openLab(app) }
         let entry = app.staticTexts["Simulator observation"].firstMatch
         reveal(entry, app: app)
         XCTAssertTrue(entry.exists)
@@ -69,6 +69,43 @@ final class ElyraUITests: XCTestCase {
         XCTAssertGreaterThanOrEqual(record.frame.minX, window.minX - 1)
         XCTAssertLessThanOrEqual(record.frame.maxX, window.maxX + 1)
         attach("Chinese accessibility lab")
+    }
+    @MainActor private func selectArea(_ app: XCUIApplication, identifier: String, title: String) {
+        let tab = app.tabBars.buttons[title]
+        if tab.exists { tab.tap() }
+        else {
+            let row = app.descendants(matching: .any)["area." + identifier].firstMatch
+            reveal(row, app: app); row.tap()
+        }
+    }
+    @MainActor func testLanguageSwitchUpdatesCustomLabelsAndPersists() {
+        let app = makeApp(); app.launch()
+        XCTAssertTrue(app.staticTexts["Local workspace is ready"].waitForExistence(timeout: 10))
+        selectArea(app, identifier: "settings", title: "Settings")
+        let language = app.descendants(matching: .any)["settings.language"].firstMatch
+        reveal(language, app: app); language.tap()
+        app.buttons["language.zh-Hans"].tap()
+        XCTAssertTrue(app.navigationBars["语言"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["language.system"].label.contains("跟随系统"))
+        attach("Chinese language selection")
+        app.terminate(); app.launch()
+        if !app.navigationBars["语言"].waitForExistence(timeout: 5) {
+            selectArea(app, identifier: "settings", title: "设置")
+            let link = app.descendants(matching: .any)["settings.language"].firstMatch
+            reveal(link, app: app); link.tap()
+        }
+        XCTAssertTrue(app.navigationBars["语言"].waitForExistence(timeout: 5))
+        app.buttons["language.en"].tap()
+        XCTAssertTrue(app.navigationBars["Language"].waitForExistence(timeout: 5))
+        app.buttons["language.system"].tap()
+        XCTAssertTrue(app.navigationBars["Language"].waitForExistence(timeout: 5))
+        app.buttons["language.zh-Hans"].tap()
+        app.navigationBars["语言"].buttons.firstMatch.tap()
+        selectArea(app, identifier: "home", title: "首页")
+        XCTAssertTrue(app.staticTexts["本地工作区已就绪"].waitForExistence(timeout: 5))
+        openLab(app, expectedTitle: "灵动岛")
+        XCTAssertTrue(app.staticTexts["iPad 灵动岛外观"].waitForExistence(timeout: 5))
+        attach("Chinese Dynamic Island appearance")
     }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())

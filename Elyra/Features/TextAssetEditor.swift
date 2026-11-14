@@ -2,6 +2,7 @@
 import SwiftUI
 
 struct TextAssetEditor: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let id: UUID
     @EnvironmentObject private var app: AppEnvironment
     @State private var original: TextAssetSnapshot?
@@ -16,7 +17,7 @@ struct TextAssetEditor: View {
                 TextEditor(text: $text).font(.system(.body, design: .monospaced)).autocorrectionDisabled().textInputAutocapitalization(.never)
                     .accessibilityIdentifier("textAsset.editor")
                 HStack {
-                    Text("UTF-8 • " + ByteCountFormatter.string(fromByteCount: Int64(text.utf8.count), countStyle: .file)).font(.caption).foregroundStyle(.secondary)
+                    Text("UTF-8 • " + localization.bytes(Int64(text.utf8.count))).font(.caption).foregroundStyle(.secondary)
                     Spacer()
                     if text != original.text { Text("Unsaved text").font(.caption).foregroundStyle(.secondary) }
                 }.padding()
@@ -24,7 +25,7 @@ struct TextAssetEditor: View {
                 ContentUnavailableView("Unable to edit this file", systemImage: "doc.badge.ellipsis", description: Text("The text editor supports UTF-8 files up to 1 MB. Binary files are not editable here."))
             } else { ProgressView() }
         }
-        .navigationTitle(original?.asset.name ?? L("Text editor"))
+        .navigationTitle(original?.asset.name ?? localization.text("Text editor"))
         .toolbar {
             Button("Review & save") { confirming = true }
                 .disabled(original == nil || text == original?.text || text.utf8.count > TextAssetSnapshot.maximumBytes || app.busy > 0)
@@ -32,7 +33,7 @@ struct TextAssetEditor: View {
         .task(id: id) {
             guard let workspace = app.workspace else { return }
             do { let value = try await workspace.textSnapshot(id); original = value; text = value.text }
-            catch { failed = true; app.error = L(error.localizedDescription) }
+            catch { failed = true; app.error = error.localizedDescription }
         }
         .sheet(isPresented: $confirming) {
             NavigationStack {

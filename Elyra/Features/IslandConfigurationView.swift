@@ -3,6 +3,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct IslandConfigurationView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let id: UUID
     @EnvironmentObject private var app: AppEnvironment
     @State private var snapshot: DocumentSnapshot?
@@ -16,8 +17,8 @@ struct IslandConfigurationView: View {
                 Section {
                     Text(snapshot.record.name).font(.headline)
                     StatusNotice(title: "Managed local copy", detail: "This inspection reads your imported file. It does not prove the device currently uses these values.")
-                    LabeledContent("Dynamic Island", value: L(inspection.flag.rawValue))
-                    LabeledContent("ArtworkDeviceSubType", value: inspection.rawSubtype?.summary ?? L("Absent"))
+                    LabeledContent("Dynamic Island", value: localization.text(inspection.flag.rawValue))
+                    LabeledContent("ArtworkDeviceSubType", value: inspection.rawSubtype?.summary ?? localization.text("Absent"))
                     Text("SHA-256: " + snapshot.revision).font(.system(.caption2, design: .monospaced)).textSelection(.enabled)
                 }
                 Section("Diagnosis") {
@@ -25,13 +26,13 @@ struct IslandConfigurationView: View {
                         StatusNotice(title: "Unexpected field type", detail: "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary.", symbol: "exclamationmark.triangle")
                     }
                     if inspection.isIPad && inspection.usesPhoneArtwork {
-                        StatusNotice(title: "iPhone artwork identity on iPad", detail: "A phone subtype was found in the imported configuration. It can affect safe areas, display scaling and keyboard layout. This is a risk indicator, not proof of the music-layout cause.", symbol: "exclamationmark.triangle")
+                        StatusNotice(title: "iPhone artwork identity on iPad", detail: "A phone subtype was found in the imported configuration. It can affect safe areas, display scaling and keyboard layout. This is a risk indicator, not proof of the appearance issue's cause.", symbol: "exclamationmark.triangle")
                     }
-                    StatusNotice(title: "Music geometry is not configurable here", detail: "No verified field controls the system music capsule radius or rotation. Enabling a capability flag does not establish correct iPad playback layout.")
+                    StatusNotice(title: "System geometry is not configurable here", detail: "No verified field controls system Dynamic Island roundness, proportions or orientation. Enabling a capability flag does not establish correct iPad appearance in any activity.")
                 }
                 Section("Local configuration actions") {
                     ForEach(IslandAction.allCases) { action in
-                        Button(L(action.rawValue)) { app.run { workspace in plan = try await workspace.islandPlan(documentID: id, action: action) } }
+                        Button(localization.text(action.rawValue)) { app.run { workspace in plan = try await workspace.islandPlan(documentID: id, action: action) } }
                     }
                     Text("Recorded baseline means the bytes originally imported into this document. It may already contain tweaks and is not a verified factory original. Restore changes only the DI flag and artwork subtype, preserving other edits.").font(.caption).foregroundStyle(.secondary)
                     NavigationLink("Open full editor", value: Screen.document(id))
@@ -45,12 +46,12 @@ struct IslandConfigurationView: View {
                 List {
                     StatusNotice(title: "Review local changes", detail: "These changes apply to the managed local document only. No system write or device repair will be performed.")
                     if let baseline = proposal.baseline {
-                        Text(L("Imported baseline") + " • " + baseline.date.formatted()).font(.caption)
+                        Text(localization.text("Imported baseline") + " • " + baseline.date.formatted(.dateTime.locale(localization.locale))).font(.caption)
                     }
                     ForEach(proposal.changes) { ChangeRow(change: $0) }
                     if proposal.changes.isEmpty { Text("No pending changes") }
                 }
-                .navigationTitle(L(proposal.action.rawValue))
+                .navigationTitle(localization.text(proposal.action.rawValue))
                 .safeAreaInset(edge: .bottom) {
                     VStack(spacing: 8) {
                         Button("Confirm & save local copy") {
@@ -79,6 +80,6 @@ struct IslandConfigurationView: View {
             let current = try await workspace.snapshot(id)
             snapshot = current
             inspection = try DynamicIslandEngine.inspect(current.value, physicalHardware: RuntimeDeviceContext.current.hardware)
-        } catch { app.error = L(error.localizedDescription) }
+        } catch { app.error = error.localizedDescription }
     }
 }

@@ -21,7 +21,7 @@ struct AssetBackupsView: View {
                     HStack {
                         Button("Restore local file") {
                             guard let current = app.state.assets.first(where: { $0.id == backup.assetID }) else {
-                                app.error = L("Restore this file from Trash before restoring its backup."); return
+                                app.error = "Restore this file from Trash before restoring its backup."; return
                             }
                             restoring = backup; expected = current; confirmation = true
                         }

@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 import ImageIO
 
 struct ArchiveInspector: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let id: UUID
     @EnvironmentObject private var app: AppEnvironment
     @State private var summary: ArchiveSummary?
@@ -19,7 +20,7 @@ struct ArchiveInspector: View {
             if let summary {
                 Section {
                     LabeledContent("Entries", value: String(summary.items.count))
-                    LabeledContent("Expanded size", value: ByteCountFormatter.string(fromByteCount: Int64(summary.expandedByteCount), countStyle: .file))
+                    LabeledContent("Expanded size", value: localization.bytes(Int64(summary.expandedByteCount)))
                     if summary.hasWallpaperDescriptors { Text("Wallpaper descriptor filenames were found. Provider installation is not verified.").font(.caption).foregroundStyle(.secondary) }
                 }
                 Section("Archive contents") {
@@ -31,13 +32,13 @@ struct ArchiveInspector: View {
                                 preview = ArchivePreviewItem(path: item.path, data: bytes)
                             }
                         } label: {
-                            FeatureLabel(title: item.path, detail: ByteCountFormatter.string(fromByteCount: Int64(item.byteCount), countStyle: .file), symbol: item.directory ? "folder" : "doc")
+                            FeatureLabel(title: item.path, detail: localization.bytes(Int64(item.byteCount)), symbol: item.directory ? "folder" : "doc", localizesTitle: false)
                         }.disabled(item.directory || item.byteCount > 8 * 1024 * 1024)
                     }
                 }
             } else if let error {
                 Section {
-                    Text(L(error)).foregroundStyle(.secondary)
+                    Text(localization.text(error)).foregroundStyle(.secondary)
                     Button("Try again") { self.error = nil; retry = UUID() }
                 }
             } else { Section { ProgressView("Checking archive…") } }
@@ -63,6 +64,7 @@ private struct ArchivePreviewItem: Identifiable {
     let data: Data
 }
 private struct ArchiveEntryPreview: View {
+    @EnvironmentObject private var localization: LocalizationStore
     let item: ArchivePreviewItem
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var app: AppEnvironment

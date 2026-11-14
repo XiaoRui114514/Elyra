@@ -2,7 +2,7 @@
 import SwiftUI
 
 enum Screen: Hashable, Codable {
-    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses
+    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses, language
 }
 enum Area: String, CaseIterable {
     case home = "Home", appearance = "Appearance", system = "System", tools = "Tools", settings = "Settings"
@@ -17,6 +17,7 @@ enum Area: String, CaseIterable {
     }
 }
 struct RootView: View {
+    @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
     @Environment(\.dynamicTypeSize) private var typeSize
     @Environment(\.scenePhase) private var phase
@@ -32,11 +33,11 @@ struct RootView: View {
                     NavigationStack(path: $path) {
                         TabView(selection: $area) {
                             ForEach(Area.allCases, id: \.rawValue) { item in
-                                AreaView(area: item).tabItem { Label(L(item.rawValue), systemImage: item.symbol) }.tag(item.rawValue)
+                                AreaView(area: item).tabItem { Label(localization.text(item.rawValue), systemImage: item.symbol) }.tag(item.rawValue)
                             }
                         }
                         .navigationDestination(for: Screen.self, destination: destination)
-                        .navigationTitle(area == "Home" ? "Elyra" : L(area))
+                        .navigationTitle(area == "Home" ? "Elyra" : localization.text(area))
                     }
                 } else {
                     NavigationSplitView {
@@ -44,7 +45,7 @@ struct RootView: View {
                             if let value { area = value; path.removeAll() }
                         })) {
                             ForEach(Area.allCases, id: \.rawValue) { item in
-                                Label(L(item.rawValue), systemImage: item.symbol).tag(item.rawValue)
+                                Label(localization.text(item.rawValue), systemImage: item.symbol).tag(item.rawValue).accessibilityIdentifier("area." + item.rawValue.lowercased())
                             }
                         }
                         .listStyle(.sidebar)
@@ -53,7 +54,7 @@ struct RootView: View {
                     } detail: {
                         NavigationStack(path: $path) {
                             AreaView(area: Area(rawValue: area) ?? .home)
-                                .navigationTitle(area == "Home" ? "Elyra" : L(area))
+                                .navigationTitle(area == "Home" ? "Elyra" : localization.text(area))
                                 .navigationDestination(for: Screen.self, destination: destination)
                         }
                     }.navigationSplitViewStyle(.balanced)
@@ -88,6 +89,7 @@ struct RootView: View {
         case .diagnostics: DiagnosticsView()
         case .history: HistoryView()
         case .licenses: LicensesView()
+        case .language: LanguageSettingsView()
         }
     }
 }
