@@ -28,7 +28,7 @@ struct AboutView: View {
                 }.padding(.vertical, 12)
             }
             Section {
-                Button { profiles = true } label: { FeatureLabel(title: "Creator profiles", detail: "GitHub, Douyin and Xiaohongshu", symbol: "person.crop.square") }.accessibilityIdentifier("about.profiles")
+                Button { profiles = true } label: { FeatureLabel(title: "Creator profiles", detail: "GitHub, Douyin and Xiaohongshu", symbol: "person.crop.square").contentShape(Rectangle()) }.buttonStyle(.plain).accessibilityIdentifier("about.profiles")
             }
             Section {
                 NavigationLink(value: Screen.openSource) { Label("Open-source licenses", systemImage: "doc.text") }
@@ -54,8 +54,8 @@ struct CreatorProfilesView: View {
                             }
                             Spacer(minLength: 12)
                             Image(systemName: "arrow.up.right").foregroundStyle(.secondary).accessibilityHidden(true)
-                        }.frame(minHeight: 60).padding(.vertical, 5)
-                    }.accessibilityIdentifier("profile." + profile.id)
+                        }.frame(minHeight: 60).padding(.vertical, 5).contentShape(Rectangle())
+                    }.buttonStyle(.plain).accessibilityIdentifier("profile." + profile.id)
                 }
             }.navigationTitle(localization.text("Creator profiles"))
                 .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
