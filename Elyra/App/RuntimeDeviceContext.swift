@@ -15,8 +15,11 @@ struct RuntimeDeviceContext: Sendable {
         let simulator = false
         let hardware = readSysctl("hw.machine")
         #endif
-        return Self(hardware: hardware, osVersion: ProcessInfo.processInfo.operatingSystemVersionString,
-                    build: readSysctl("kern.osversion"), simulator: simulator)
+        let osVersion = ProcessInfo.processInfo.operatingSystemVersionString
+        let build = DeviceBuildIdentification.build(simulator: simulator,
+                                                    environmentBuild: ProcessInfo.processInfo.environment["SIMULATOR_RUNTIME_BUILD_VERSION"],
+                                                    versionDescription: osVersion, kernelBuild: readSysctl("kern.osversion")) ?? "Unavailable"
+        return Self(hardware: hardware, osVersion: osVersion, build: build, simulator: simulator)
     }
     private static func readSysctl(_ key: String) -> String {
         var size = 0

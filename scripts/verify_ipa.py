@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Check a device IPA, not just a ZIP renamed to .ipa. No installation claims."""
-import argparse, hashlib, json, plistlib, struct, zipfile
+import argparse, hashlib, json, plistlib, re, struct, zipfile
 from pathlib import Path, PurePosixPath
 
 def check_macho(data):
@@ -56,6 +56,9 @@ def verify(path):
         if info.get('CFBundlePackageType')!='APPL': raise ValueError('Not an application bundle')
         if set(info.get('UIDeviceFamily',[]))!={1,2}: raise ValueError('Not a universal iPhone/iPad app')
         if info.get('CFBundleSupportedPlatforms')!=['iPhoneOS']: raise ValueError('Not a device build')
+        if not re.fullmatch(r'\d+(?:\.\d+){0,2}', str(info.get('CFBundleVersion',''))): raise ValueError('Missing or invalid build version')
+        if not re.fullmatch(r'\d+(?:\.\d+){1,2}', str(info.get('CFBundleShortVersionString',''))): raise ValueError('Missing or invalid app version')
+        if not re.fullmatch(r'\d+(?:\.\d+){1,2}', str(info.get('MinimumOSVersion',''))): raise ValueError('Missing deployment version')
         executable=info['CFBundleExecutable']
         if '/' in executable or executable in ['.','..']: raise ValueError('Invalid executable path')
         binary=archive.read(base+executable);check_macho(binary)
@@ -66,7 +69,7 @@ def verify(path):
         signed=any(n.startswith(base+'_CodeSignature/') for n in names)
         extensions=sorted({n.split('.appex/')[0]+'.appex' for n in names if '.appex/' in n})
         if extensions: raise ValueError('Unexpected extension: verify signing and entitlements before adding it')
-    return {'path':str(path),'sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'bundleID':info['CFBundleIdentifier'],'executableBytes':len(binary),'architecture':'arm64','signatureDirectoryPresent':signed,'signing':'unsigned; requires legitimate signing' if not signed else 'signature present; validity and provisioning require codesign/device verification','installationTested':False}
+    return {'path':str(path),'sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),'bundleID':info['CFBundleIdentifier'],'version':info['CFBundleShortVersionString'],'build':info['CFBundleVersion'],'minimumOS':info['MinimumOSVersion'],'sdk':info.get('DTSDKName'),'executableBytes':len(binary),'architecture':'arm64','signatureDirectoryPresent':signed,'signing':'unsigned; requires legitimate signing' if not signed else 'signature present; validity and provisioning require codesign/device verification','installationTested':False}
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('ipa');args=parser.parse_args()
     print(json.dumps(verify(args.ipa),indent=2))

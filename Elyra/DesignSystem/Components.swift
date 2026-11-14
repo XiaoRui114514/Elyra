@@ -15,12 +15,13 @@ struct StatusNotice: View {
     }
 }
 struct FeatureLabel: View {
+    @ScaledMetric(relativeTo: .title3) private var scaledSymbolSize: CGFloat = 22
     let title: String
     let detail: String
     let symbol: String
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: symbol).font(.title3).foregroundStyle(.tint).frame(width: 28).accessibilityHidden(true)
+            Image(systemName: symbol).font(.system(size: min(scaledSymbolSize, 36))).foregroundStyle(.tint).frame(width: min(scaledSymbolSize, 36) + 6).accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 4) {
                 Text(L(title)).foregroundStyle(.primary)
                 Text(L(detail)).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)

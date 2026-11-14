@@ -9,6 +9,7 @@ struct AssetBackupsView: View {
     @State private var confirmation = false
     @State private var export: ExportDocument?
     @State private var exporting = false
+    @State private var exportName = "Elyra-file-backup"
     var body: some View {
         List {
             Section { StatusNotice(title: "Managed file backups", detail: "Restores update the matching file in Elyra’s library. Current bytes are backed up first; SHA-256 and revision checks must pass.") }
@@ -25,7 +26,7 @@ struct AssetBackupsView: View {
                             restoring = backup; expected = current; confirmation = true
                         }
                         Spacer()
-                        Button("Export") { app.run { workspace in export = ExportDocument(data: try await workspace.assetBackupData(backup.id)); exporting = true } }
+                        Button("Export") { app.run { workspace in export = ExportDocument(data: try await workspace.assetBackupData(backup.id)); exportName = URL(fileURLWithPath: backup.name).lastPathComponent; exporting = true } }
                     }.buttonStyle(.bordered)
                 }
             }
@@ -36,7 +37,7 @@ struct AssetBackupsView: View {
                 if let restoring, let expected { app.run { _ = try await $0.restoreAssetBackup(restoring.id, expected: expected) } }
             }
         } message: { Text("The current file is backed up first. This restores the selected bytes, not a device system file.") }
-        .fileExporter(isPresented: $exporting, document: export, contentType: .data, defaultFilename: restoring?.name ?? "Elyra-file-backup") { result in
+        .fileExporter(isPresented: $exporting, document: export, contentType: .data, defaultFilename: exportName) { result in
             if case .failure(let error) = result { app.error = error.localizedDescription }
         }
     }

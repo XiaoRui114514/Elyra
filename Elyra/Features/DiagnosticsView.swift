@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-only
 import SwiftUI
 import UniformTypeIdentifiers
-import Darwin
 
 struct DiagnosticsView: View {
+    private let device = RuntimeDeviceContext.current
     private var report: CompatibilityReport { CompatibilityEngine.report(version: ProcessInfo.processInfo.operatingSystemVersion) }
     var body: some View {
         List {
             Section("Device") {
-                LabeledContent("Hardware identifier", value: sysctl("hw.machine"))
-                LabeledContent("System build", value: sysctl("kern.osversion"))
+                LabeledContent("Hardware identifier", value: device.hardware)
+                LabeledContent("System build", value: device.build)
                 Text(ProcessInfo.processInfo.operatingSystemVersionString).textSelection(.enabled)
                 LabeledContent("Processors", value: String(ProcessInfo.processInfo.processorCount))
                 LabeledContent("Physical memory", value: ByteCountFormatter.string(fromByteCount: Int64(ProcessInfo.processInfo.physicalMemory), countStyle: .memory))
@@ -28,13 +28,7 @@ struct DiagnosticsView: View {
     private func compatibility(_ name: String, _ status: SupportStatus) -> some View {
         VStack(alignment: .leading, spacing: 4) { Text(L(name)); SupportBadge(status: status) }
     }
-    private func sysctl(_ key: String) -> String {
-        var size = 0
-        guard sysctlbyname(key, nil, &size, nil, 0) == 0, size > 0 else { return L("Unavailable") }
-        var buffer = [CChar](repeating: 0, count: size)
-        guard sysctlbyname(key, &buffer, &size, nil, 0) == 0 else { return L("Unavailable") }
-        return String(cString: buffer)
-    }
+
 }
 struct HistoryView: View {
     @EnvironmentObject private var app: AppEnvironment

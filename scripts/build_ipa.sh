@@ -8,6 +8,7 @@ xcodebuild -version
 xcodebuild -resolvePackageDependencies -project Elyra.xcodeproj -scheme Elyra
 xcodebuild archive -project Elyra.xcodeproj -scheme Elyra -configuration Release \
   -destination 'generic/platform=iOS' -archivePath "$output/Elyra.xcarchive" \
+  CURRENT_PROJECT_VERSION="${ELYRA_BUILD_NUMBER:-${GITHUB_RUN_NUMBER:-2}}" \
   CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO | tee "$output/archive.log"
 app="$output/Elyra.xcarchive/Products/Applications/Elyra.app"
 test -d "$app"
