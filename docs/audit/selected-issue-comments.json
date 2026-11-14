@@ -1,0 +1,87 @@
+{
+  "19": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/19#issuecomment-6748722524",
+      "created_at": "2026-11-09T19:00:28Z",
+      "body": "## Update: Feather standalone installation successfully obtains write access\n\nI have a significant update!\n\nI installed the same locally patched GestaltX V6 IPA as a standalone application using Feather, instead of running it inside LiveContainer.\n\n**Device:** iPhone 13 (iPhone14,5)  \n**iOS:** 27.0 public release (24A437)\n\n### Results\n\n**Both `O_RDWR` permission tests now pass!**\n\n| Test | LiveContainer | Feather |\n|---|---|---|\n| Signed App Groups | 2 | 5 |\n| Class-7 sandbox extension | Acquired | Acquired |\n| Original file `O_RDWR` | DENIED (EPERM) | PERMITTED |\n| Symlink alias `O_RDWR` | DENIED (EPERM) | PERMITTED |\n| Class-13 queries | Failed | Failed |\n\n### Relevant Feather Logs\n\n```text\nApp Group: effective signature contains 5 group(s)\nQuery configured: class=7 part=3 flags=0x0000008100000000\nExtension consumed: handle=3\n\n[LC DIAG v3] open(O_RDWR) PERMITTED; FD closed; NO WRITE ATTEMPTED\n\n[LC DIAG v5] ALIAS VERIFIED: device/inode match, size=10765\n[LC DIAG v5] alias open(O_RDONLY) PERMITTED; FD closed; NO WRITE ATTEMPTED\n[LC DIAG v5] alias open(O_RDWR) PERMITTED; FD closed; NO WRITE ATTEMPTED\n\n[LC DIAG v6] class13-direct: result=YES token=NO consume=-5\n[LC DIAG v6] class13-file-var: result=NO token=NO consume=-5\n[LC DIAG v6] class13-file-private: result=NO token=NO consume=-5\n\nOriginal Caches directory restored (contents preserved)\n```\n\nThe successful results were reproduced twice.\n\n### Conclusion\n\nThis strongly suggests that the execution environment or signing configuration is responsible for the earlier permission failures.\n\nThe same patched application could read MobileGestalt inside LiveContainer but couldn't open it for writing. When installed standalone through Feather, it successfully opened the actual MobileGestalt plist using `O_RDWR`.\n\nBoth the execution environment and signing configuration changed, so I haven't isolated the exact cause yet.\n\n**Important:** No MobileGestalt bytes have been modified during these tests. Successful `O_RDWR` does not yet establish that an actual write and recovery will succeed.\n\n### Next Steps\n\nI'm currently investigating the safest way to perform a verified write while preserving the original MobileGestalt cache and ensuring recovery is possible if something fails.\n\nAny developer guidance on the write/recovery implementation or LiveContainer compatibility would be appreciated."
+    },
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/19#issuecomment-6757556899",
+      "created_at": "2026-11-10T02:48:49Z",
+      "body": "For now, I recommend installing GestaltX as a standalone app with at least one valid App Group. LiveContainer write compatibility remains unconfirmed."
+    }
+  ],
+  "21": [],
+  "29": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/29#issuecomment-6760341542",
+      "created_at": "2026-11-10T06:04:05Z",
+      "body": "已在 #47 提交对应修复：acquire 时遍历所有已签名 App Group 逐个尝试（并在 `-4` 时补建 `Library/Caches` 重试一次），不再依赖排序后的第一个组。补丁内容见 PR。"
+    }
+  ],
+  "49": [],
+  "79": [],
+  "82": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/82#issuecomment-6765895011",
+      "created_at": "2026-11-10T11:15:35Z",
+      "body": "v1.0.4 是可以的，用新版本。"
+    },
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/82#issuecomment-6769374221",
+      "created_at": "2026-11-10T14:04:25Z",
+      "body": "> v1.0.4 是可以的，用新版本。\n\n1.0.4也不行"
+    },
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/82#issuecomment-6784903865",
+      "created_at": "2026-11-11T02:08:25Z",
+      "body": "用iloader\n"
+    }
+  ],
+  "93": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/93#issuecomment-6772398741",
+      "created_at": "2026-11-10T16:06:36Z",
+      "body": "当前无法切换回ESIM，显示无sim卡"
+    },
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/93#issuecomment-6773101486",
+      "created_at": "2026-11-10T16:36:16Z",
+      "body": "可以看看[#78](https://github.com/huamidev/GestaltX/issues/78)的方式，看能恢复不，记得要先用之前的备份"
+    }
+  ],
+  "98": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/98#issuecomment-6786208640",
+      "created_at": "2026-11-11T03:33:19Z",
+      "body": "你好，想请问一下，现在是开启的是SiriAI（beta）吗，AppleID需要外区的还是大陆地区的也可以，我一直卡在跑马灯的2.0，chatgpt也显示不支持当前区域，所以想问下，感谢"
+    },
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/98#issuecomment-6793072188",
+      "created_at": "2026-11-11T10:11:56Z",
+      "body": "遇到同样的问题，27.3是不是无法开启 Siri AI"
+    },
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/98#issuecomment-6793744575",
+      "created_at": "2026-11-11T10:46:10Z",
+      "body": "> 遇到同样的问题，27.3是不是无法开启 Siri AI\n\n我这边在国行 iPad Pro M4（iPadOS 27.3 Beta 1）上测试，27.3 并非完全无法开启新版 Siri。\n\n通过 GestaltX 修改 Sales Region、Region Code，并启用 Apple Intelligence Capability 后，可以正常显示新版圆形玻璃球界面。\n\n但目前只能激活界面，Siri AI 实际功能仍不可用，ChatGPT Extensions 也提示地区不受支持，即使已经使用美区账户、美国系统地区与语言，以及美国全局 VPN。\n\n作为对照，我的原生港版 iPhone 17 Pro Max（iOS 27.3 Beta 1）在中国大陆拔掉 +86 实体 SIM 卡并使用美国 VPN 后，可以正常使用 Siri AI。\n\n完整测试记录见 [#107](https://github.com/huamidev/GestaltX/issues/107)。"
+    }
+  ],
+  "125": [],
+  "128": [],
+  "141": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/141#issuecomment-6847243949",
+      "created_at": "2026-11-13T07:47:16Z",
+      "body": "<img width=\"414\" height=\"896\" alt=\"IMG_4178\" src=\"https://github.com/user-attachments/assets/e8fbfa57-a563-4242-b6bb-6a049a1874f0\" />"
+    }
+  ],
+  "143": [],
+  "152": [
+    {
+      "url": "https://github.com/huamidev/GestaltX/issues/152#issuecomment-6873777802",
+      "created_at": "2026-11-14T07:24:35Z",
+      "body": "<img width=\"645\" height=\"1398\" alt=\"IMG_1309\" src=\"https://github.com/user-attachments/assets/ce43f694-57aa-4a94-b184-a4af861271c8\" />"
+    }
+  ]
+}

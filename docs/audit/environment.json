@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "architecture": "x86_64",
+  "xcodebuild": null,
+  "swift_for_core": "Swift 6.0.3, downloaded Linux toolchain",
+  "github_account": "XiaoRui114514",
+  "physical_devices": [],
+  "repository": "https://github.com/XiaoRui114514/Elyra",
+  "apple_toolchain": {
+    "xcode": "26.3",
+    "build": "17C529",
+    "sdk": "26.2",
+    "candidate_qualification": "pending"
+  }
+}

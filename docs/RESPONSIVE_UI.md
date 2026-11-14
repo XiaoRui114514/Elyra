@@ -1,0 +1,19 @@
+# Responsive interface
+
+WindowLayout uses actual window width and height together with Dynamic Type. Compact navigation applies below 720 points, below 360 points in height or at accessibility text sizes. Medium windows use a sidebar; widths at least 1100 points enable parallel document/difference content. The same routes and feature catalog serve every window.
+
+Navigation uses NavigationStack and NavigationSplitView. SceneStorage retains selected area, paths, search and draft identifiers. One shared Workspace actor protects writes. Language changes update locale and bundled text lookups without resetting the root view or drafts.
+
+| Scenario | Coverage |
+| --- | --- |
+| Compact iPhone | Simulator navigation and portrait/landscape checks in CI |
+| iPad portrait/landscape | Sidebar/detail and rotation checks in CI |
+| Large Dynamic Type | Chinese maximum-accessibility-size reachability checks in CI |
+| Width policy | Core sweep from 320 to 1600 points |
+| Stage Manager continuous resize | Implementation present; runtime acceptance pending |
+| Narrow Split View / arbitrary windows | Geometry policy present; continuous drag test pending |
+| Parallel document/difference editor | Implemented; dedicated UI workflow pending |
+| External display / multiple windows | WindowGroup and shared state present; hardware/UI acceptance pending |
+| VoiceOver | Native labels and controls present; listening review pending |
+
+Actual run identities, simulator models and screenshots belong in TEST_REPORT. Policy sweeps and rotation do not constitute continuous-window-resize testing. Scroll/disclosure persistence and search-focus behavior across all transitions remain open work.

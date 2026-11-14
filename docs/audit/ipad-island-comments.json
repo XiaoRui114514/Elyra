@@ -1,0 +1,76 @@
+[
+  {
+    "repository": "straight-tamago/misakaX",
+    "number": 53,
+    "comments": [
+      {
+        "url": "https://github.com/straight-tamago/misakaX/issues/53#issuecomment-2336409703",
+        "body": "Stock bug. You can't fix that."
+      }
+    ]
+  },
+  {
+    "repository": "straight-tamago/misakaX",
+    "number": 285,
+    "comments": []
+  },
+  {
+    "repository": "straight-tamago/misakaX",
+    "number": 42,
+    "comments": [
+      {
+        "url": "https://github.com/straight-tamago/misakaX/issues/42#issuecomment-2335511357",
+        "body": "Are you using misakaX to process two different devices one after the other? It looks like misakaX doesn't use the newly selected Mobile Gestalt but the first one, so if you're working with two devices one after the other, try exiting the app completely and selecting the corresponding plist file again.\r\n"
+      },
+      {
+        "url": "https://github.com/straight-tamago/misakaX/issues/42#issuecomment-2335819329",
+        "body": "@mentalfl0w Already did it some times. no difference."
+      },
+      {
+        "url": "https://github.com/straight-tamago/misakaX/issues/42#issuecomment-2335838648",
+        "body": "> @mentalfl0w Already did it some times. no difference.\r\n\r\nOh...so weired🤔"
+      },
+      {
+        "url": "https://github.com/straight-tamago/misakaX/issues/42#issuecomment-2336411131",
+        "body": "iPad did not in the plan to use with Dynamic Island. Just disable it and all be fine"
+      }
+    ]
+  },
+  {
+    "repository": "straight-tamago/misakaX",
+    "number": 265,
+    "comments": []
+  },
+  {
+    "repository": "straight-tamago/misaka26",
+    "number": 143,
+    "comments": [
+      {
+        "url": "https://github.com/straight-tamago/misaka26/issues/143#issuecomment-3553271390",
+        "body": "on an ipad?\n"
+      },
+      {
+        "url": "https://github.com/straight-tamago/misaka26/issues/143#issuecomment-3553441370",
+        "body": "iphone se 2020 with ios 26.2 (not beta)"
+      },
+      {
+        "url": "https://github.com/straight-tamago/misaka26/issues/143#issuecomment-3554947030",
+        "body": "那与iPad一样，灵动岛是由屏幕边角弧度决定的"
+      }
+    ]
+  },
+  {
+    "repository": "leminlimez/Nugget",
+    "number": 834,
+    "comments": [
+      {
+        "url": "https://github.com/leminlimez/Nugget/issues/834#issuecomment-3618638528",
+        "body": "<img width=\"1210\" height=\"834\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/375cc926-0e4b-496f-a9a5-47ddf322271b\" />"
+      },
+      {
+        "url": "https://github.com/leminlimez/Nugget/issues/834#issuecomment-3618641051",
+        "body": "it doesnt show on screenshots btw"
+      }
+    ]
+  }
+]
