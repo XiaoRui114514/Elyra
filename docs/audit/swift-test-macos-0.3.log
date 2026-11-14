@@ -1,0 +1,248 @@
+Fetching https://github.com/weichsel/ZIPFoundation.git
+[1/6511] Fetching zipfoundation
+Fetched https://github.com/weichsel/ZIPFoundation.git from cache (1.29s)
+Creating working copy for https://github.com/weichsel/ZIPFoundation.git
+Working copy of https://github.com/weichsel/ZIPFoundation.git resolved at 22787ffb59de99e5dc1fbfe80b19c97a904ad48d
+Building for debugging...
+[0/9] /Users/runner/work/Elyra/Elyra/.build/arm64-apple-macosx/debug/ElyraCorePackageTests.derived/runner.swift
+[1/9] Write sources
+[1/9] Copying PrivacyInfo.xcprivacy
+[1/9] Write sources
+[6/9] Write swift-version-1977FEB4D2752686.txt
+[8/25] Emitting module ZIPFoundation
+[9/32] Compiling ZIPFoundation Entry+Serialization.swift
+[10/32] Compiling ZIPFoundation Entry+ZIP64.swift
+[11/32] Compiling ZIPFoundation Entry.swift
+[12/32] Compiling ZIPFoundation FileManager+ZIP.swift
+[13/32] Compiling ZIPFoundation FileManager+ZIPDeprecated.swift
+[14/32] Compiling ZIPFoundation URL+ZIP.swift
+[15/32] Compiling ZIPFoundation resource_bundle_accessor.swift
+[16/32] Compiling ZIPFoundation Archive+BackingConfiguration.swift
+[17/32] Compiling ZIPFoundation Archive+Deprecated.swift
+[18/32] Compiling ZIPFoundation Archive+Helpers.swift
+[19/32] Compiling ZIPFoundation Archive+MemoryFile.swift
+[20/32] Compiling ZIPFoundation Archive+Progress.swift
+[21/32] Compiling ZIPFoundation Archive+Reading.swift
+[22/32] Compiling ZIPFoundation Archive+ReadingDeprecated.swift
+[23/32] Compiling ZIPFoundation Archive+Writing.swift
+[24/32] Compiling ZIPFoundation Archive+WritingDeprecated.swift
+[25/32] Compiling ZIPFoundation Archive+ZIP64.swift
+[26/32] Compiling ZIPFoundation Archive.swift
+[27/32] Compiling ZIPFoundation Data+Compression.swift
+[28/32] Compiling ZIPFoundation Data+CompressionDeprecated.swift
+[29/32] Compiling ZIPFoundation Data+Serialization.swift
+[30/32] Compiling ZIPFoundation Date+ZIP.swift
+[31/41] Compiling ElyraCore AppLanguage.swift
+[32/41] Compiling ElyraCore ArchiveInspection.swift
+[33/41] Compiling ElyraCore Capability.swift
+[34/41] Compiling ElyraCore Compatibility.swift
+[35/41] Emitting module ElyraCore
+[36/41] Compiling ElyraCore DeviceBuildIdentification.swift
+[37/41] Compiling ElyraCore Digest.swift
+[38/41] Compiling ElyraCore DynamicIsland.swift
+[39/41] Compiling ElyraCore PlistValue.swift
+[40/44] Compiling ElyraCore SystemConfiguration.swift
+[41/44] Compiling ElyraCore TextAsset.swift
+[42/44] Compiling ElyraCore Workspace.swift
+[43/50] Emitting module ElyraCoreTests
+[44/50] Compiling ElyraCoreTests AppLanguageTests.swift
+[45/50] Compiling ElyraCoreTests ArchiveTests.swift
+[46/50] Compiling ElyraCoreTests DeviceBuildTests.swift
+[47/50] Compiling ElyraCoreTests DynamicIslandTests.swift
+[48/50] Compiling ElyraCoreTests ElyraCoreTests.swift
+[49/52] Compiling ElyraCoreTests SystemConfigurationTests.swift
+[50/52] Compiling ElyraCoreTests TextAssetTests.swift
+[51/54] Compiling ElyraCorePackageTests runner.swift
+[52/54] Emitting module ElyraCorePackageTests
+[52/54] Write Objects.LinkFileList
+[53/54] Linking ElyraCorePackageTests
+Build complete! (35.29s)
+Test Suite 'All tests' started at 2026-11-14 16:47:24.025.
+Test Suite 'ElyraCorePackageTests.xctest' started at 2026-11-14 16:47:24.028.
+Test Suite 'AppLanguageTests' started at 2026-11-14 16:47:24.029.
+Test Case '-[ElyraCoreTests.AppLanguageTests testExplicitLanguageOverridesTheSystem]' started.
+Test Case '-[ElyraCoreTests.AppLanguageTests testExplicitLanguageOverridesTheSystem]' passed (0.003 seconds).
+Test Case '-[ElyraCoreTests.AppLanguageTests testFollowSystemUsesFirstSupportedPreferenceAndEnglishFallback]' started.
+Test Case '-[ElyraCoreTests.AppLanguageTests testFollowSystemUsesFirstSupportedPreferenceAndEnglishFallback]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.AppLanguageTests testMissingAndUnknownPreferencesSafelyFollowSystem]' started.
+Test Case '-[ElyraCoreTests.AppLanguageTests testMissingAndUnknownPreferencesSafelyFollowSystem]' passed (0.000 seconds).
+Test Suite 'AppLanguageTests' passed at 2026-11-14 16:47:24.034.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+Test Suite 'ArchiveTests' started at 2026-11-14 16:47:24.034.
+Test Case '-[ElyraCoreTests.ArchiveTests testConflictingParentFileAndDirectoryNamesAreRejectedInEitherOrder]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testConflictingParentFileAndDirectoryNamesAreRejectedInEitherOrder]' passed (0.005 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testCRCFailureRejected]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testCRCFailureRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testDataSliceWithNonzeroIndexIsHandledSafely]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testDataSliceWithNonzeroIndexIsHandledSafely]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testDeclaredExpansionAndPreviewLimitsEnforced]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testDeclaredExpansionAndPreviewLimitsEnforced]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testDirectoryEntriesRemainVisibleAndCannotBeReadAsFiles]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testDirectoryEntriesRemainVisibleAndCannotBeReadAsFiles]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testEncryptedFlagAndCentralDirectoryCountMismatchRejected]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testEncryptedFlagAndCentralDirectoryCountMismatchRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testLinksAndCaseInsensitiveDuplicateNamesAreRejected]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testLinksAndCaseInsensitiveDuplicateNamesAreRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testTruncatedEmptyAndUnsupportedArchivesRejected]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testTruncatedEmptyAndUnsupportedArchivesRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testUnsafeAndAbsolutePathsAreRejected]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testUnsafeAndAbsolutePathsAreRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.ArchiveTests testValidZipAndTendiesDescriptorBytesAreInspected]' started.
+Test Case '-[ElyraCoreTests.ArchiveTests testValidZipAndTendiesDescriptorBytesAreInspected]' passed (0.002 seconds).
+Test Suite 'ArchiveTests' passed at 2026-11-14 16:47:24.044.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.008 (0.010) seconds
+Test Suite 'DeviceBuildTests' started at 2026-11-14 16:47:24.044.
+Test Case '-[ElyraCoreTests.DeviceBuildTests testPhysicalDeviceUsesItsKernelBuildWithoutGuessing]' started.
+Test Case '-[ElyraCoreTests.DeviceBuildTests testPhysicalDeviceUsesItsKernelBuildWithoutGuessing]' passed (0.002 seconds).
+Test Case '-[ElyraCoreTests.DeviceBuildTests testSimulatorEnvironmentIsValidatedAndPreferred]' started.
+Test Case '-[ElyraCoreTests.DeviceBuildTests testSimulatorEnvironmentIsValidatedAndPreferred]' passed (0.003 seconds).
+Test Case '-[ElyraCoreTests.DeviceBuildTests testSimulatorNeverFallsBackToMacOSBuildWhenRuntimeIsUnknown]' started.
+Test Case '-[ElyraCoreTests.DeviceBuildTests testSimulatorNeverFallsBackToMacOSBuildWhenRuntimeIsUnknown]' passed (0.001 seconds).
+Test Case '-[ElyraCoreTests.DeviceBuildTests testSimulatorUsesRuntimeBuildInsteadOfHostKernel]' started.
+Test Case '-[ElyraCoreTests.DeviceBuildTests testSimulatorUsesRuntimeBuildInsteadOfHostKernel]' passed (0.001 seconds).
+Test Suite 'DeviceBuildTests' passed at 2026-11-14 16:47:24.051.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.006 (0.007) seconds
+Test Suite 'DynamicIslandTests' started at 2026-11-14 16:47:24.051.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testEnableFlagDoesNotChangeSubtypeIdentityOrRoot]' started.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testEnableFlagDoesNotChangeSubtypeIdentityOrRoot]' passed (0.001 seconds).
+Test Case '-[ElyraCoreTests.DynamicIslandTests testFlagTypesAndIPadArtworkAreReportedWithoutClaimingEffect]' started.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testFlagTypesAndIPadArtworkAreReportedWithoutClaimingEffect]' passed (0.001 seconds).
+Test Case '-[ElyraCoreTests.DynamicIslandTests testMalformedArtworkAndNonGestaltDocumentsAreRejected]' started.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testMalformedArtworkAndNonGestaltDocumentsAreRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.DynamicIslandTests testMismatchedCacheGenerationIsRejectedAndCaseIsAccepted]' started.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testMismatchedCacheGenerationIsRejectedAndCaseIsAccepted]' passed (0.001 seconds).
+Test Case '-[ElyraCoreTests.DynamicIslandTests testRestorePreservesExactOriginalTypesAndEmptyArtworkPresence]' started.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testRestorePreservesExactOriginalTypesAndEmptyArtworkPresence]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.DynamicIslandTests testRestoreRemovesOriginallyAbsentFieldsAndPreservesArtworkName]' started.
+Test Case '-[ElyraCoreTests.DynamicIslandTests testRestoreRemovesOriginallyAbsentFieldsAndPreservesArtworkName]' passed (0.000 seconds).
+Test Suite 'DynamicIslandTests' passed at 2026-11-14 16:47:24.055.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+Test Suite 'IslandWorkspaceTests' started at 2026-11-14 16:47:24.055.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testCorruptBaselineIsNotUsedAsARecoverySource]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testCorruptBaselineIsNotUsedAsARecoverySource]' passed (0.010 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testFutureLibrarySchemaFailsClosed]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testFutureLibrarySchemaFailsClosed]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testNonMediaActivitiesKeepPlaybackUnspecifiedAndRoundnessEvidence]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testNonMediaActivitiesKeepPlaybackUnspecifiedAndRoundnessEvidence]' passed (0.008 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testObservationCannotAttachToStaleOrMissingDocument]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testObservationCannotAttachToStaleOrMissingDocument]' passed (0.011 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testObservationExportLabelsSimulatorAndNeverExposesFullPlist]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testObservationExportLabelsSimulatorAndNeverExposesFullPlist]' passed (0.003 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testTargetedPlanUsesItsOwnVerifiedBaselineAndRemainsStaged]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testTargetedPlanUsesItsOwnVerifiedBaselineAndRemainsStaged]' passed (0.018 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testVersionOneLibraryMigratesWithoutLosingExistingRecords]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testVersionOneLibraryMigratesWithoutLosingExistingRecords]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testVersionTwoObservationsRetainLegacyPlaybackAndMigrateToVersionThree]' started.
+Test Case '-[ElyraCoreTests.IslandWorkspaceTests testVersionTwoObservationsRetainLegacyPlaybackAndMigrateToVersionThree]' passed (0.002 seconds).
+Test Suite 'IslandWorkspaceTests' passed at 2026-11-14 16:47:24.113.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.056 (0.058) seconds
+Test Suite 'PlistTests' started at 2026-11-14 16:47:24.113.
+Test Case '-[ElyraCoreTests.PlistTests testAllTypesRoundTripWithoutCoercion]' started.
+Test Case '-[ElyraCoreTests.PlistTests testAllTypesRoundTripWithoutCoercion]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testBoolIntegerAndRealDiffer]' started.
+Test Case '-[ElyraCoreTests.PlistTests testBoolIntegerAndRealDiffer]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testDeviceSpecificSiriNotGuessedAndNoCacheExtraRejected]' started.
+Test Case '-[ElyraCoreTests.PlistTests testDeviceSpecificSiriNotGuessedAndNoCacheExtraRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testDifferenceIDsDoNotCollideOnSlashKeys]' started.
+Test Case '-[ElyraCoreTests.PlistTests testDifferenceIDsDoNotCollideOnSlashKeys]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testMalformedAndOversizedPlistsAreRejected]' started.
+Test Case '-[ElyraCoreTests.PlistTests testMalformedAndOversizedPlistsAreRejected]' passed (0.002 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testNestedEditingAndAbsentOriginal]' started.
+Test Case '-[ElyraCoreTests.PlistTests testNestedEditingAndAbsentOriginal]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testNonFiniteValuesAndDeepNestingRejected]' started.
+Test Case '-[ElyraCoreTests.PlistTests testNonFiniteValuesAndDeepNestingRejected]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testNoOSVersionClaimsSystemWriteSupport]' started.
+Test Case '-[ElyraCoreTests.PlistTests testNoOSVersionClaimsSystemWriteSupport]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testResponsiveThresholdsAndAccessibility]' started.
+Test Case '-[ElyraCoreTests.PlistTests testResponsiveThresholdsAndAccessibility]' passed (0.001 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testSHA256KnownVectors]' started.
+Test Case '-[ElyraCoreTests.PlistTests testSHA256KnownVectors]' passed (0.001 seconds).
+Test Case '-[ElyraCoreTests.PlistTests testUntouchedPresetPreservesArtworkMembersAndRoot]' started.
+Test Case '-[ElyraCoreTests.PlistTests testUntouchedPresetPreservesArtworkMembersAndRoot]' passed (0.000 seconds).
+Test Suite 'PlistTests' passed at 2026-11-14 16:47:24.120.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.005 (0.007) seconds
+Test Suite 'SystemConfigurationTests' started at 2026-11-14 16:47:24.120.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testBackupBindingPreventsCrossInstallationRestore]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testBackupBindingPreventsCrossInstallationRestore]' passed (0.006 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testChangedGenerationBlocksRecoveryEvenAtSameFileIdentity]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testChangedGenerationBlocksRecoveryEvenAtSameFileIdentity]' passed (0.009 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testConcurrentWindowsOnlyOneRevisionCanCommit]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testConcurrentWindowsOnlyOneRevisionCanCommit]' passed (0.009 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testCorruptBackupCannotBeRestored]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testCorruptBackupCannotBeRestored]' passed (0.005 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testDirectCaptureWriteReadbackAndExactXMLRestore]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testDirectCaptureWriteReadbackAndExactXMLRestore]' passed (0.006 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testGenerationHashUsesCanonicalDictionaryOrder]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testGenerationHashUsesCanonicalDictionaryOrder]' passed (0.000 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testPartialWriteFailureRestoresPreviousBytes]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testPartialWriteFailureRestoresPreviousBytes]' passed (0.005 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testProtectedIdentityAndRootCacheChangesAreRejected]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testProtectedIdentityAndRootCacheChangesAreRejected]' passed (0.002 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testReadOnlyProbeDoesNotPretendToGrantWrites]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testReadOnlyProbeDoesNotPretendToGrantWrites]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testRecoveryJournalSurvivesReopening]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testRecoveryJournalSurvivesReopening]' passed (0.007 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testReplacedCacheIsNotOverwrittenDuringRecovery]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testReplacedCacheIsNotOverwrittenDuringRecovery]' passed (0.006 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testRollbackFailureBlocksWritesAndAllowsVerifiedRecovery]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testRollbackFailureBlocksWritesAndAllowsVerifiedRecovery]' passed (0.011 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testStaleSessionAndExternalChangesAreRejectedBeforeWriting]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testStaleSessionAndExternalChangesAreRejectedBeforeWriting]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testUnsupportedFlagTypesAndUnknownSubtypesAreRejected]' started.
+Test Case '-[ElyraCoreTests.SystemConfigurationTests testUnsupportedFlagTypesAndUnknownSubtypesAreRejected]' passed (0.001 seconds).
+Test Suite 'SystemConfigurationTests' passed at 2026-11-14 16:47:24.198.
+	 Executed 14 tests, with 0 failures (0 unexpected) in 0.075 (0.078) seconds
+Test Suite 'TextAssetTests' started at 2026-11-14 16:47:24.198.
+Test Case '-[ElyraCoreTests.TextAssetTests testAssetCommitJournalRecoversMatchingPayloadAndMetadata]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testAssetCommitJournalRecoversMatchingPayloadAndMetadata]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testAssetRollbackRecoveryRestoresPreviousMetadata]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testAssetRollbackRecoveryRestoresPreviousMetadata]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testBinaryOversizedAndInvalidUTF8TextRejected]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testBinaryOversizedAndInvalidUTF8TextRejected]' passed (0.012 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testCorruptAssetBackupAndCrossFileRestoreRejected]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testCorruptAssetBackupAndCrossFileRestoreRejected]' passed (0.012 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testStaleWindowTextSaveIsRejected]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testStaleWindowTextSaveIsRejected]' passed (0.008 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testTextCanBeClearedAndRestored]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testTextCanBeClearedAndRestored]' passed (0.013 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testTextNoOpDoesNotReencodeOrCreateBackup]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testTextNoOpDoesNotReencodeOrCreateBackup]' passed (0.003 seconds).
+Test Case '-[ElyraCoreTests.TextAssetTests testTextSaveCreatesVerifiedBackupAndRestoresExactBOMBytes]' started.
+Test Case '-[ElyraCoreTests.TextAssetTests testTextSaveCreatesVerifiedBackupAndRestoresExactBOMBytes]' passed (0.007 seconds).
+Test Suite 'TextAssetTests' passed at 2026-11-14 16:47:24.262.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.062 (0.064) seconds
+Test Suite 'WorkspaceTests' started at 2026-11-14 16:47:24.262.
+Test Case '-[ElyraCoreTests.WorkspaceTests testAssetTrashRestoreAndTamperCheck]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testAssetTrashRestoreAndTamperCheck]' passed (0.007 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testBackupFailurePreventsSave]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testBackupFailurePreventsSave]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testConcurrentSavesOnlyOneCanCommit]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testConcurrentSavesOnlyOneCanCommit]' passed (0.011 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testCorruptIndexDoesNotSilentlyResetLibrary]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testCorruptIndexDoesNotSilentlyResetLibrary]' passed (0.002 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testCrossDocumentBackupRejected]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testCrossDocumentBackupRejected]' passed (0.007 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testDraftsIsolatedByWindowAndPersistTypes]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testDraftsIsolatedByWindowAndPersistTypes]' passed (0.002 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testImportCreatesVerifiedBaselineAndReloads]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testImportCreatesVerifiedBaselineAndReloads]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testJournalRecoversAfterFileWriteBeforeIndexUpdate]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testJournalRecoversAfterFileWriteBeforeIndexUpdate]' passed (0.008 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testPendingRecoveryJournalBlocksFurtherCommit]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testPendingRecoveryJournalBlocksFurtherCommit]' passed (0.004 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testSaveBacksUpAndRestoresExactOriginalBytes]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testSaveBacksUpAndRestoresExactOriginalBytes]' passed (0.012 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testStaleWindowCannotOverwriteOtherWindow]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testStaleWindowCannotOverwriteOtherWindow]' passed (0.007 seconds).
+Test Case '-[ElyraCoreTests.WorkspaceTests testTamperedSameSizeBackupIsRejectedBeforeRestore]' started.
+Test Case '-[ElyraCoreTests.WorkspaceTests testTamperedSameSizeBackupIsRejectedBeforeRestore]' passed (0.005 seconds).
+Test Suite 'WorkspaceTests' passed at 2026-11-14 16:47:24.338.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.073 (0.075) seconds
+Test Suite 'ElyraCorePackageTests.xctest' passed at 2026-11-14 16:47:24.338.
+	 Executed 76 tests, with 0 failures (0 unexpected) in 0.293 (0.309) seconds
+Test Suite 'All tests' passed at 2026-11-14 16:47:24.338.
+	 Executed 76 tests, with 0 failures (0 unexpected) in 0.293 (0.313) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

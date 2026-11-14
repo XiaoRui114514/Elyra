@@ -36,7 +36,7 @@ GitHub issues/release API 已实际读取全部可访问分页：Erosion issues 
 | 写入实现 | A `WriteHelpers.swift` | `writeFile(data,to:)` 实际写死 MG URL，忽略传入目标；`writeFileAtomically` 是 inode 内 truncate/write/fsync，不是原子 rename，失败恢复不完全验证。不能直接复用为通用安全写入器。 |
 | 状态共享 | A `KeypadManager.swift`, 全局 `kp` | 同时有全局实例和 `shared`；Elyra 使用单个应用级 actor，UI 状态属于窗口。 |
 | 二进制修改 | A `mgSetiPadOS` | 在 CacheData hex 固定片段用正则猜偏移，存在无法泛化的布局风险；不迁移该算法。 |
-| MG 事务 | B `GestaltManager.swift`, `GestaltDocument.swift` | snapshot freshness、备份完整性、原值缺失记录、差异与类型对比、恢复失败明确报错较完善。Elyra 采用其事务思想，自行实现本地 actor；未复制设备写入后端。 |
+| MG 事务 | B `GestaltManager.swift`, `GestaltDocument.swift` | snapshot freshness、备份完整性、原值缺失记录、差异与类型对比、恢复失败明确报错较完善。Elyra 采用其事务思想，自行实现本地与设备事务 actor；0.3 复用固定版本原生访问模块，并独立实现受限 descriptor 写入。 |
 | 设备归属 | B `DevicePlistIdentity.swift`, `DeviceBoundPlist.swift` | 同设备 unique IDs、Keychain HMAC 与模型/地区分开；hash 不是身份。Elyra 导入文件不产生设备归属证明。 |
 | CacheData | B `MobileGestaltCacheLayout.swift`, `DeviceCacheOptions.swift`, `GXMobileGestaltImage.m` | 设备 Mach-O 描述符匹配 UUID/count/index/type，拒绝不明确布局；与 A 偏移猜测有实质区别。仍需设备侧验证；当前不修改二进制系统缓存。 |
 | DI | A `GestaltStore`, `GestaltView`; B `Capabilities`, `ContentView`, manager artwork logic | 可见能力位与 artwork subtype，未发现独立媒体几何参数。B 关闭 DI 仅恢复共享 Artwork dictionary 的 subtype 成员，避免覆盖设备名。 |
@@ -46,7 +46,7 @@ GitHub issues/release API 已实际读取全部可访问分页：Erosion issues 
 | 通知音 | B `AppSound*`, `NotificationSound*`, `CapturedSoundStore` | AVFoundation 转码、捕获路径、按 app 管理原值；替换需要其他应用容器写入，不能将本地音频预览称为替换成功。 |
 | 配对 | B `DeviceConnection*`, `DeviceConsole*`, `DevicePairingStore`, `Native/DeviceConsole` | Rust RPPairing/RSD/Lockdown/syslog_relay；私密 PIN 不记日志、generation-scoped cancellation、路径迁移与 LocalDevVPN 依赖。合法配对模块不应混同文件逃逸，但尚需独立迁移/构建与隐私审查。 |
 | 配置资料 | A `ConfigView`; B `SystemSettingsStore` | A 混合锁屏 footnote 与监督/组织信息。Elyra 不执行未经授权的管理配置修改，也不以普通外观设置包装它。 |
-| 文件 | A `FileBrowserView`, `FileHelpers`, `PlistManager`, `TextViewer`, `OperationsView` | 普通浏览编辑与 escape/grant 混合；Elyra 仅对授权导入及受管理副本操作，尚未移植完整目录浏览与文本编辑。 |
+| 文件 | A `FileBrowserView`, `FileHelpers`, `PlistManager`, `TextViewer`, `OperationsView` | 普通浏览编辑与 escape/grant 混合；Elyra 仅对授权导入及受管理副本操作，已实现受管理 UTF-8 文本编辑；完整目录浏览未迁移。 |
 | Respring | A `Respring`; B `NeoSpringView` | 资源压力 WebKit 方法，不是受支持 API；0.3 接入手动确认的实验性入口，不自动执行，不在模拟器触发。 |
 | 扩展 | B `ShareExtension`, `Shared*`; A 无独立扩展目标 | 共同签名 App Group、持久 inbox、文件大小、验证、取消；Elyra 尚未迁移，不声称 fileImporter 等同分享扩展。 |
 | 持久化 | A AppStorage/UserDefaults + 文件；B actor 文件、Keychain、App Group | Elyra 文件 JSON/plist + actor，共享数据与窗口草稿分开；已有 index 损坏不静默重置。 |

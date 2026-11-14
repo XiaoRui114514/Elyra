@@ -1,0 +1,82 @@
+[
+  {
+    "file": "iphone-about.png",
+    "originalAttachment": "About account cards_0_A0CB8A8E-2460-46E6-A2BE-C7D94DB895AF.png",
+    "sha256": "1205e126beca9258400b4a10a2025fc55114599f00b1ea50c73985ff5083d165",
+    "test": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "iphone-system.png",
+    "originalAttachment": "System overview_0_ABA7B487-D0FB-4265-A0EE-D2A02C5B40F0.png",
+    "sha256": "ac1f08e7f41c705e9d3d91c87b86022382e5b2313159dcc55606fc24135ecd76",
+    "test": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "iphone-home.png",
+    "originalAttachment": "Home device actions_0_1D1C2B1D-6FAA-4632-AEB5-F0B56B746568.png",
+    "sha256": "571175e1936aca827a9d5a60ee990987bafbd0f95347455cbca87dce2586d7a0",
+    "test": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "iphone-large-text.png",
+    "originalAttachment": "Chinese accessibility lab_0_0F000835-69F1-4624-8370-EA591EC4D798.png",
+    "sha256": "4993910fc4cb541173105711f3856ab4fa5100f1c0fc1d9bedfe6efd94139ec7",
+    "test": "ElyraUITests/testChineseAccessibilityTextKeepsNavigationReachable()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "iphone-language.png",
+    "originalAttachment": "Chinese language selection_0_161BD031-BDA6-4BAC-8EE9-7D14F830F94F.png",
+    "sha256": "a72885faaa1358ab1fb9d4f1bccb234b178a8990151bed31c77b220c42d4a9bf",
+    "test": "ElyraUITests/testLanguageSwitchUpdatesCustomLabelsAndPersists()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "ipad-about.png",
+    "originalAttachment": "About account cards_0_34489B9B-1017-4746-883F-607C1F78C140.png",
+    "sha256": "d1b543660a995dbc635f5ae03c6795fb45c3a5f698cba6ef29440665a6b5a2a4",
+    "test": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "ipad-system.png",
+    "originalAttachment": "System overview_0_8EC18C17-F8A0-41E8-A21E-5157AFCED40F.png",
+    "sha256": "745f7a6d14d3ff6f9605b430c56ce3e501e0381d29d5b8219e3ebef3989232b5",
+    "test": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "ipad-home.png",
+    "originalAttachment": "Home device actions_0_D6E523D5-77FE-45AB-ABB3-F2790398DB6A.png",
+    "sha256": "43d99bda3002c3005ae984f56e4cf88de91d6ed90e998f296ee3651920437973",
+    "test": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "ipad-large-text.png",
+    "originalAttachment": "Chinese accessibility lab_0_5169C49B-D237-4FCE-A063-D57CACBCBBE1.png",
+    "sha256": "9cb8c544be9930af7abb7688ce809fda48f278bc54b61c84fdf3c3ba8006ba56",
+    "test": "ElyraUITests/testChineseAccessibilityTextKeepsNavigationReachable()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  },
+  {
+    "file": "ipad-language.png",
+    "originalAttachment": "Chinese language selection_0_B720E792-49DD-471F-B7AB-FA1BD495108D.png",
+    "sha256": "5a5111ac76a051734faca15d4bfeb81e819ecc6ee1bf59a9b79997d8d780a70e",
+    "test": "ElyraUITests/testLanguageSwitchUpdatesCustomLabelsAndPersists()",
+    "sourceCommit": "b0f2232d3ff989cfae673dce94241dc4eebd563e",
+    "run": 43617128024
+  }
+]

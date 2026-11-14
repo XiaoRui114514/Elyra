@@ -8,7 +8,7 @@ CI remains unsigned and exports `Elyra.entitlements` beside the IPA for signing 
 
 GitHub Actions generates a genuine arm64 `Payload/Elyra.app` and packages it as an unsigned IPA. The exact qualified build, checksum and download link are recorded in TEST_REPORT.md.
 
-Qualified build: **0.2.0 (10)**, [source tag](https://github.com/XiaoRui114514/Elyra/tree/v0.2.0-dev), [unsigned artifact](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290/artifacts/14112913746). SHA-256: `a47c784cbcc27b6c64a40835586a9e6d38000d2c0ed99fca6be25e846874df55`.
+Qualified build: **0.3.0 (18)**, [source tag](https://github.com/XiaoRui114514/Elyra/tree/v0.3.0-dev), [unsigned artifact](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024/artifacts/14122258455). SHA-256: `ee171a77bc4254da198e08653a16e7ddf062a566f50560211db307c9fc291487`.
 
 1. Choose a completely successful run in [Actions](https://github.com/XiaoRui114514/Elyra/actions/workflows/build.yml).
 2. Download `Elyra-unsigned-<source SHA>` and extract the artifact wrapper ZIP.

@@ -4,9 +4,9 @@
 
 [功能矩阵](docs/FEATURE_MATRIX.md) · [构建与测试](docs/TEST_REPORT.md) · [构建说明](docs/BUILDING.md) · [已知问题](docs/KNOWN_ISSUES.md)
 
-0.3 新增设备端 MobileGestalt 访问及能力字段写入，接入已固定版本的上游原生模块。直接访问不可用时，需要签名配置提供有效 App Group；26、27 系统均以实际读写权限检测为准，不承诺每个构建都可用。外部导入文件仍是独立本地文档。新版本的 Apple CI 结果待更新，下方 Build 10 链接属于此前的 0.2 本地工具版。
+0.3 新增设备端 MobileGestalt 访问及能力字段写入，接入已固定版本的上游原生模块。直接访问不可用时，需要签名配置提供有效 App Group；26、27 系统均以实际读写权限检测为准，不承诺每个构建都可用。外部导入文件仍是独立本地文档。编译、签名与真机测试状态分别记录在测试报告中。
 
-[下载 Build 10 未签名产物](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290/artifacts/14112913746) · [已通过的 CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290)。安装需要合法签名，尚未完成真机安装测试。
+[下载 0.3.0（18）未签名 IPA](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024/artifacts/14122258455) · [已通过的 CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024)。开发版 IPA 需要签名，尚未完成真机安装与系统效果测试。
 
 - 浏览和编辑 8 类 plist 数据，搜索嵌套字段，暂存修改并预览差异。
 - 保存前校验备份，按原始字节恢复，检测多窗口版本冲突。
@@ -16,7 +16,7 @@
 - 预览和导出文件；编辑 UTF-8 文本，保留文件版本备份。
 - 检查 ZIP 与 `.tendies` 归档，验证路径、CRC 和解压大小限制。
 - 在“设置 → 语言”选择简体中文、English 或跟随系统。
-- 重新设计系统概览，提供手动实验性注销按钮及关于页面的账号卡片。
+- 重新设计系统概览，提供手动实验性注销按钮；关于页直接显示三个账号卡片，使用官方应用图标及品牌配色。
 
 功能名称沿用 Apple 官方用语及参考项目的通用叫法。参见[命名与本地化](docs/NAMING_AND_LOCALIZATION.md)、[灵动岛研究](docs/DYNAMIC_ISLAND_RESEARCH.md)。
 

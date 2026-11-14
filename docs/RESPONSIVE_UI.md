@@ -2,7 +2,7 @@
 
 WindowLayout uses actual window width and height together with Dynamic Type. Compact navigation applies below 720 points, below 360 points in height or at accessibility text sizes. Medium windows use a sidebar; widths at least 1100 points enable parallel document/difference content. The same routes and feature catalog serve every window.
 
-Navigation uses NavigationStack and NavigationSplitView. SceneStorage retains selected area, paths, search and draft identifiers. One shared Workspace actor protects writes. Language changes update locale and bundled text lookups without resetting the root view or drafts.
+Navigation uses NavigationStack and NavigationSplitView. SceneStorage retains selected area, paths, search and draft identifiers. Shared Workspace and SystemConfigurationStore actors protect local and device writes. System categories reflow through an adaptive grid and use one column at accessibility text sizes. About shows its three account rows directly, without an intermediate sheet. Language changes update locale and bundled text lookups without resetting the root view or drafts.
 
 | Scenario | Coverage |
 | --- | --- |
@@ -18,4 +18,4 @@ Navigation uses NavigationStack and NavigationSplitView. SceneStorage retains se
 
 Actual run identities, simulator models and screenshots belong in TEST_REPORT. Policy sweeps and rotation do not constitute continuous-window-resize testing. Scroll/disclosure persistence and search-focus behavior across all transitions remain open work.
 
-Build 10 passed the simulator scenarios above in run 43593518290. Original screenshots were reviewed for the language screen, Chinese accessibility text and iPad sidebar/detail. They are preserved in [screenshots](screenshots/README.md), with exact source and hashes. Continuous Stage Manager drag-resize and physical display/window acceptance remain pending.
+Build 18 passed five UI scenarios per simulator in [run 43617128024](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024). Original screenshots were reviewed for direct About account cards, adaptive System categories, Chinese accessibility text and iPad sidebar/detail. Source identities and hashes are preserved in [screenshots](screenshots/README.md). Continuous Stage Manager drag-resize and physical display/window acceptance remain pending.
