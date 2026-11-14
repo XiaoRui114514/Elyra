@@ -74,8 +74,12 @@ final class ElyraUITests: XCTestCase {
         let tab = app.tabBars.buttons[title]
         if tab.exists { tab.tap() }
         else {
-            let row = app.descendants(matching: .any)["area." + identifier].firstMatch
-            reveal(row, app: app); row.tap()
+            // Label identifiers also reach their decorative image. The selectable
+            // sidebar cell is the user control; the image itself is not hittable.
+            let row = app.cells.containing(.any, identifier: "area." + identifier).firstMatch
+            XCTAssertTrue(row.waitForExistence(timeout: 5))
+            XCTAssertTrue(row.isHittable)
+            row.tap()
         }
     }
     @MainActor func testLanguageSwitchUpdatesCustomLabelsAndPersists() {

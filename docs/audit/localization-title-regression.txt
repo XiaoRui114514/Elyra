@@ -5,6 +5,8 @@ UI hierarchy after selecting zh-Hans: navigation title remained Language;
 Follow System row and footer were correctly translated into Chinese.
 Fix: resolve navigation/dialog/search titles through the shared localization
 store so native UIKit presentation updates when the selected language changes.
+The iPad test selector also matched a decorative Label image instead of its
+selectable sidebar cell. The test now locates and taps the containing native cell.
 2026-11-14T11:51:35.1885850Z Test Case '-[ElyraUITests.ElyraUITests testLanguageSwitchUpdatesCustomLabelsAndPersists]' started.
 2026-11-14T11:51:52.8373230Z /Users/runner/work/Elyra/Elyra/UITests/ElyraUITests.swift:88: error: -[ElyraUITests.ElyraUITests testLanguageSwitchUpdatesCustomLabelsAndPersists] : XCTAssertTrue failed
 2026-11-14T11:51:53.0574940Z Test Case '-[ElyraUITests.ElyraUITests testLanguageSwitchUpdatesCustomLabelsAndPersists]' failed (17.924 seconds).
