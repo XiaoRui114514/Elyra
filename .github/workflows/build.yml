@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}
+  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 jobs:
   package:
@@ -50,7 +50,8 @@ jobs:
       - name: Release archive and unsigned device IPA
         run: scripts/build_ipa.sh "$PWD/build"
       - name: Upload build evidence
-        if: always()
+        if: ${{ !cancelled() }}
+        timeout-minutes: 5
         uses: actions/upload-artifact@v4
         with:
           name: Elyra-validation-${{ github.sha }}
@@ -93,14 +94,16 @@ jobs:
           set -o pipefail
           xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$SIMULATOR_ID,arch=$(uname -m)" -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 300 -resultBundlePath build/Tests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/ui.log
       - name: Export test screenshots and summary
-        if: always()
+        if: ${{ !cancelled() }}
+        timeout-minutes: 3
         run: |
           if [[ -d build/Tests.xcresult ]]; then
             xcrun xcresulttool export attachments --path build/Tests.xcresult --output-path build/screenshots
             xcrun xcresulttool get test-results summary --path build/Tests.xcresult > build/ui-summary.json
           fi
       - name: Upload UI evidence
-        if: always()
+        if: ${{ !cancelled() }}
+        timeout-minutes: 5
         uses: actions/upload-artifact@v4
         with:
           name: Elyra-UI-${{ matrix.family }}-${{ github.sha }}

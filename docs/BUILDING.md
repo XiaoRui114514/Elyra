@@ -14,6 +14,8 @@ Three mandatory jobs run independently:
 
 Each UI job selects an available runtime/model (preferring a narrow iPhone and an iPad mini representative), runs on the runner's native architecture, and uploads full logs, xcresult, screenshot attachments and a summary. The whole run must succeed before treating an artifact as UI-tested or passing the release guard. Missing simulators are errors. Documentation-only commits can retain the exact tested code SHA without forcing an unrelated rebuild; reports must identify that SHA explicitly.
 
+Concurrency is grouped by branch/PR and source SHA, allowing a newer revision to proceed independently of an obsolete run. Evidence export/upload has explicit time limits and runs on success or failure, with canceled runs excluded. This prevents a canceled xcresult export from holding subsequent builds; all core, analysis, UI and archive checks remain mandatory.
+
 Debug uses standard ONLY_ACTIVE_ARCH=YES, Release NO. This fixes the observed mismatch where the app compiled an extra simulator slice while SwiftPM built only the native ZIPFoundation slice. No feature/dependency was removed to make compilation succeed.
 
 ## macOS commands
