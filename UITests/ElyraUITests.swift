@@ -75,6 +75,10 @@ final class ElyraUITests: XCTestCase {
     @MainActor private func selectArea(_ app: XCUIApplication, identifier: String, title: String) {
         let tab = app.tabBars.buttons[title]
         if tab.exists { tab.tap() }
+        else if app.buttons[title].firstMatch.exists && app.buttons[title].firstMatch.isHittable {
+            // iPadOS can expose compact-mode top tabs as ordinary buttons.
+            app.buttons[title].firstMatch.tap()
+        }
         else {
             // Label identifiers also reach their decorative image. The selectable
             // sidebar cell is the user control; the image itself is not hittable.

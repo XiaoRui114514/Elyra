@@ -4,6 +4,7 @@ import SwiftUI
 struct SystemOverview: View {
     @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment
+    @Environment(\.dynamicTypeSize) private var typeSize
     private let categories = [("display","Display","sun.max"),("device","Device","iphone"),("ipad","iPad","ipad.landscape"),("intelligence","Intelligence","sparkle"),("advanced","Advanced","gearshape.2")]
     var body: some View {
         Section {
@@ -19,7 +20,7 @@ struct SystemOverview: View {
             }.accessibilityIdentifier("system.device")
         }
         Section("System features") {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 180), alignment: .top)], alignment: .leading, spacing: 16) {
+            LazyVGrid(columns: typeSize.isAccessibilitySize ? [GridItem(.flexible(), alignment: .top)] : [GridItem(.adaptive(minimum: 180), alignment: .top)], alignment: .leading, spacing: 16) {
                 ForEach(categories, id: \.0) { category in
                     NavigationLink(value: Screen.category(category.0)) {
                         VStack(alignment: .leading, spacing: 12) {
