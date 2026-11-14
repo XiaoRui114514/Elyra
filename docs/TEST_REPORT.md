@@ -19,6 +19,8 @@
 
 [Download unsigned IPA artifact](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024/artifacts/14122258455). Extract its wrapper ZIP, then verify `Elyra-unsigned.ipa` against `SHA256SUMS`. SHA-256: `ee171a77bc4254da198e08653a16e7ddf062a566f50560211db307c9fc291487`. The supplied `Elyra.entitlements` matches the source template; it does not grant permissions without a valid provisioning profile and signature.
 
+The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43618402178) also passed and retained `v0.3.0-dev` as a draft prerelease with the same unsigned IPA, checksum, report and entitlement template.
+
 ## Coverage
 
 Fourteen system-transaction tests use temporary files and injected access/failure modes. They exercise direct capture, exact XML/binary byte restoration, protected fields, stale sessions, external changes, canonical generation identity, corrupt backups, partial writes, failed rollback, persistent recovery journals, replaced inodes, cross-installation rejection and concurrent windows. These tests validate the transaction policy, not the operating system's native access mechanism.

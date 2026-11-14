@@ -10,6 +10,7 @@
 - [x] English, Simplified Chinese and Follow System; 523 matching localized entries.
 - [x] Portable validation: 76 Swift core tests, 8 Python negative tests, repository/workflow checks.
 - [x] Apple qualification for source `b0f2232d3ff989cfae673dce94241dc4eebd563e`, [run 43617128024](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024): analysis, both five-scenario UI jobs, Release archive and downloaded IPA verification. Version 0.3.0 (18), unsigned.
+- [x] Guarded release workflow 43618402178; v0.3.0-dev remains a draft prerelease with four verified build assets.
 - [ ] Legitimate signing, physical installation and per-build read/write/restore/Respring validation.
 
 ## Remaining implementation

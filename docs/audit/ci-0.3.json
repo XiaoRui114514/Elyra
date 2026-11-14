@@ -90,5 +90,9 @@
         "head_sha": "b0f2232d3ff989cfae673dce94241dc4eebd563e"
       }
     }
-  ]
+  ],
+  "releaseRun": 43618402178,
+  "releaseConclusion": "success",
+  "releaseDraft": true,
+  "releasePrerelease": true
 }
