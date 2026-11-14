@@ -1,0 +1,32 @@
+name: Publish verified CI artifact
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful build workflow run ID for the tagged commit
+        required: true
+      tag:
+        description: Existing version tag (v*)
+        required: true
+permissions:
+  contents: write
+  actions: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: ${{ inputs.run_id }}
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source run and tag match
+        run: python3 scripts/verify_release_run.py
+      - name: Download artifact and verify hashes
+        run: |
+          gh run download "$RUN_ID" --name "Elyra-unsigned-$VERIFIED_SHA" --dir build
+          (cd build && sha256sum --check SHA256SUMS)
+          python3 scripts/verify_ipa.py build/Elyra-unsigned.ipa
+      - name: Create draft release for installation review
+        run: |
+          gh release create "$RELEASE_TAG" --verify-tag --draft --title "Elyra $RELEASE_TAG" --notes-file docs/RELEASE_NOTES.md build/Elyra-unsigned.ipa build/SHA256SUMS build/ipa-report.json

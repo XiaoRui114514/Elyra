@@ -1,0 +1,77 @@
+name: Build and test Elyra
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select installed stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - name: Toolchain evidence
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+          swift --version
+      - name: Static checks and reproducible project
+        run: |
+          python3 scripts/check_repository.py
+          python3 scripts/generate_project.py
+          git diff --exit-code -- Elyra.xcodeproj Elyra/Resources/Info.plist Elyra/Resources/PrivacyInfo.xcprivacy
+          bash -n scripts/build_ipa.sh
+          python3 -m unittest discover -s Tests -p 'test_*.py'
+          plutil -lint Elyra.xcodeproj/project.pbxproj Elyra/Resources/Info.plist Elyra/Resources/PrivacyInfo.xcprivacy
+          swiftc -frontend -parse Elyra/App/*.swift Elyra/Features/*.swift Elyra/DesignSystem/*.swift UITests/*.swift
+      - name: Core tests
+        run: |
+          set -o pipefail
+          mkdir -p build
+          swift test 2>&1 | tee build/core-tests.log
+      - name: Static analyzer
+        run: |
+          set -o pipefail
+          xcodebuild analyze -project Elyra.xcodeproj -scheme Elyra -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/analyze.log
+      - name: Choose available iPhone and iPad simulators
+        run: |
+          xcrun simctl list devices available --json > build/simulators.json
+          python3 scripts/select_simulators.py build/simulators.json >> "$GITHUB_ENV"
+      - name: iPhone simulator UI tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$IPHONE_SIM" -resultBundlePath build/iPhone.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/iphone-ui.log
+      - name: iPad simulator UI tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$IPAD_SIM" -resultBundlePath build/iPad.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/ipad-ui.log
+      - name: Release archive and unsigned device IPA
+        run: scripts/build_ipa.sh "$PWD/build"
+      - name: Upload logs and test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Elyra-validation-${{ github.sha }}
+          path: |
+            build/*.log
+            build/*.json
+            build/*.xcresult
+          if-no-files-found: warn
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Elyra-unsigned-${{ github.sha }}
+          path: |
+            build/Elyra-unsigned.ipa
+            build/SHA256SUMS
+            build/ipa-report.json
+          if-no-files-found: error

@@ -1,0 +1,11 @@
+# Third-party notices
+
+Elyra application and adaptations: Copyright (C) 2026 Elyra contributors, GPL-3.0-only. Full GPL text: LICENSE. No warranty. Modified source is supplied with this repository.
+
+**GestaltX** — Copyright (C) 2026 huamidev, https://github.com/huamidev/GestaltX, GPL-3.0-only. `Elyra/Core/Capability.swift` adapts the capability key catalog from `GestaltX/Capabilities.swift` at commit `d1d5473734440e8f2e797494ac373427c02fd674`. Elyra changes: Sendable typed values, one local staging engine, no on-device writer, explicit device-specific Siri rejection, unified universal UI. Original copyright retained in the adapted source. Remaining application/transaction/UI code was written for Elyra; architecture was informed by the source audit.
+
+**Erosion** — lunginspector / jailbreak.party and contributors, https://github.com/jailbreakdotparty/Erosion, GPLv3. Audited at `12c0a2d00c444c9b09112608b47d4d6c10e0df14` for function inventory, compatibility issues and behavior. Its application UI, assets, system access and exploit code are not compiled into this build. GPL text and upstream component notices retained for provenance.
+
+Unmodified upstream notices/license texts in `Elyra/Resources/Licenses` are **reference copies**, not a claim that all named components are linked into Elyra. They include GestaltX/Erosion GPL, worse_query GPL-3.0-or-later, PrivateKits, ZIPFoundation MIT, Gester MIT, AirCard MIT, idevice MIT and Primer Octicons MIT. Upstream `ThirdPartyNotices.txt` describes upstream inclusion; this file describes actual Elyra inclusion. No upstream art/icon, Rust native library, NeoSpring HTML, ZIPFoundation code or sandbox escape is currently embedded. Do not remove required notices if those components are later incorporated.
+
+Public key-name research references in GestaltX include PoomSmart/MGKeys, leminlimez/Nugget and rooootdev/mond; their application source/assets/noncommercial components are not copied into Elyra. Each keeps its own terms. Apple frameworks are supplied by the platform. The Elyra icon was newly drawn for this project.

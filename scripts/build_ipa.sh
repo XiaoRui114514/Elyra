@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+output="${1:-$PWD/build}"
+mkdir -p "$output"
+output="$(cd "$output" && pwd)"
+xcodebuild -version
+xcodebuild -resolvePackageDependencies -project Elyra.xcodeproj -scheme Elyra
+xcodebuild archive -project Elyra.xcodeproj -scheme Elyra -configuration Release \
+  -destination 'generic/platform=iOS' -archivePath "$output/Elyra.xcarchive" \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO | tee "$output/archive.log"
+app="$output/Elyra.xcarchive/Products/Applications/Elyra.app"
+test -d "$app"
+test -x "$app/Elyra"
+stage="$(mktemp -d)"
+trap 'rm -rf "$stage"' EXIT
+mkdir -p "$stage/Payload"
+ditto "$app" "$stage/Payload/Elyra.app"
+rm -f "$output/Elyra-unsigned.ipa"
+(cd "$stage" && /usr/bin/zip -qry "$output/Elyra-unsigned.ipa" Payload)
+python3 scripts/verify_ipa.py "$output/Elyra-unsigned.ipa" > "$output/ipa-report.json"
+(cd "$output" && shasum -a 256 Elyra-unsigned.ipa > SHA256SUMS)
