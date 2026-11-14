@@ -6,12 +6,19 @@ struct CreatorProfile: Identifiable {
     let id: String
     let title: String
     let detail: String
-    let symbol: String
+    let imageName: String
     let url: URL
+    var accent: Color {
+        switch id {
+        case "douyin": Color(red: 0.0, green: 0.65, blue: 0.70)
+        case "xiaohongshu": Color(red: 1.0, green: 0.14, blue: 0.26)
+        default: .primary
+        }
+    }
     static let all: [Self] = [
-        .init(id: "github", title: "GitHub", detail: "XiaoRui114514", symbol: "chevron.left.forwardslash.chevron.right", url: URL(string: "https://github.com/XiaoRui114514")!),
-        .init(id: "douyin", title: "Douyin", detail: "Videos and updates", symbol: "play.rectangle", url: URL(string: "https://v.douyin.com/MKmK56P4roo/")!),
-        .init(id: "xiaohongshu", title: "Xiaohongshu", detail: "Posts and updates", symbol: "book.closed", url: URL(string: "https://xhslink.cn/o/29eRubHJXk9")!)
+        .init(id: "github", title: "GitHub", detail: "XiaoRui114514", imageName: "ProfileGitHub", url: URL(string: "https://github.com/XiaoRui114514")!),
+        .init(id: "douyin", title: "Douyin", detail: "Videos and updates", imageName: "ProfileDouyin", url: URL(string: "https://v.douyin.com/MKmK56P4roo/")!),
+        .init(id: "xiaohongshu", title: "Xiaohongshu", detail: "Posts and updates", imageName: "ProfileXiaohongshu", url: URL(string: "https://xhslink.cn/o/29eRubHJXk9")!)
     ]
 }
 struct AboutView: View {
@@ -31,15 +38,19 @@ struct AboutView: View {
                 ForEach(CreatorProfile.all) { profile in
                     Button { selected = profile } label: {
                         HStack(spacing: 16) {
-                            Image(systemName: profile.symbol).font(.title2).frame(width: 36).foregroundStyle(.tint).accessibilityHidden(true)
+                            Image(profile.imageName).resizable().renderingMode(.original).scaledToFit()
+                                .frame(width: 44, height: 44)
+                                .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous)).accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(localization.text(profile.title)).font(.headline).foregroundStyle(.primary)
                                 Text(profile.id == "github" ? profile.detail : localization.text(profile.detail)).font(.subheadline).foregroundStyle(.secondary)
                             }
                             Spacer(minLength: 12)
-                            Image(systemName: "arrow.up.right").foregroundStyle(.secondary).accessibilityHidden(true)
+                            Image(systemName: "arrow.up.right").foregroundStyle(profile.accent).accessibilityHidden(true)
                         }.frame(minHeight: 60).padding(.vertical, 5).contentShape(Rectangle())
-                    }.buttonStyle(.plain).accessibilityIdentifier("profile." + profile.id)
+                    }.buttonStyle(.plain)
+                        .listRowBackground(profile.accent.opacity(0.055))
+                        .accessibilityIdentifier("profile." + profile.id)
                 }
             }
             Section {

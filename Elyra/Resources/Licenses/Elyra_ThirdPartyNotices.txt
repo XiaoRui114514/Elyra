@@ -11,3 +11,5 @@ Elyra application and adaptations: Copyright (C) 2026 Elyra contributors, GPL-3.
 **ZIPFoundation** — Copyright (C) Thomas Zoechling, MIT. Version 0.9.20, revision `22787ffb59de99e5dc1fbfe80b19c97a904ad48d`, compiled for bounded offline archive inspection. Full MIT notice is bundled.
 
 Resources/Licenses also contains unmodified upstream reference notices, including PrivateKits, Gester, AirCard, idevice and Primer Octicons. These reference copies do not imply that those components are linked into Elyra. Apple frameworks are supplied by the platform. Key research references remain credited in the upstream source/audit. Mandatory copyright and license notices remain accessible in the separate Open-source licenses page.
+
+**Platform app icons** — GitHub, Douyin and Xiaohongshu icons are the respective publishers' App Store artwork, used to identify their outbound profile links. Copyright and trademarks remain with their respective owners; these brand assets are not part of Elyra's GPL license grant. Original artwork, publisher lookup URLs and byte hashes are recorded in `docs/audit/brand-assets.json`. Their use does not indicate endorsement.

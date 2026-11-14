@@ -6,7 +6,7 @@
 - Added a restricted capability/artwork writer, installation-bound device backups, inode/revision checks, confirmed changes, exact readback, rollback and interrupted-write recovery.
 - Removed Home quick access and the special Dynamic Island placement; added manually confirmed experimental Respring.
 - Redesigned the System overview with adaptive categories and a shared device configuration editor.
-- Added creator-profile cards for GitHub, Douyin and Xiaohongshu; moved source attribution to the dedicated open-source license page.
+- Added direct About-page account cards for GitHub, Douyin and Xiaohongshu with official app icons and restrained brand colors; moved source attribution to the dedicated open-source license page.
 - Expanded bilingual resources and system-transaction fault tests. Physical installation, system effects and Respring remain unverified.
 
 ## 0.1.0 — 2026-11-14 (unreleased foundation)
@@ -20,7 +20,7 @@
 
 ## 0.2.0 — 2026-11-14 (development)
 
-- Published the user's new Elyra repository and obtained a successful real Xcode baseline build, iPhone/iPad simulator tests and unsigned arm64 IPA.
+- Established the Elyra repository and obtained a successful real Xcode baseline build, iPhone/iPad simulator tests and unsigned arm64 IPA.
 - Added structured Dynamic Island file inspection, recorded-field local restoration and appearance observations across activity types and JSON export with explicit simulator provenance.
 - Added UTF-8 text-file editing, verified raw file backups/restores, conflict checks and asset-commit recovery; corrected document rollback history recovery.
 - Added pinned ZIPFoundation and bounded classic ZIP/tendies validation, actual image/text entry previews and export; system provider installation remains unavailable.
