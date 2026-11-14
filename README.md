@@ -6,7 +6,7 @@ A SwiftUI configuration and file toolkit for iPhone and iPad. Navigation adapts 
 
 Elyra 0.3 adds a native MobileGestalt connection and capability writer using the pinned upstream access modules. A usable signed App Group is required when direct access is unavailable. Exact build permissions are probed on the device; iOS/iPadOS 26 and 27 are not blanket guarantees. Imported files remain separate local documents. Build, signing and physical-test status are recorded separately in the test report.
 
-[Download unsigned 0.3.0 (18)](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024/artifacts/14122258455) · [Passed CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024). The development IPA requires signing; physical installation and system effects are untested.
+[Download unsigned 0.3.0 (18)](https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa) · [Passed CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024). The development IPA requires signing; physical installation and system effects are untested.
 
 - Browse and edit eight plist types, search nested fields, stage changes and review differences before saving.
 - Create verified backups, restore original bytes and detect stale edits across windows.

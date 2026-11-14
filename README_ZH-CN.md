@@ -6,7 +6,7 @@
 
 0.3 新增设备端 MobileGestalt 访问及能力字段写入，接入已固定版本的上游原生模块。直接访问不可用时，需要签名配置提供有效 App Group；26、27 系统均以实际读写权限检测为准，不承诺每个构建都可用。外部导入文件仍是独立本地文档。编译、签名与真机测试状态分别记录在测试报告中。
 
-[下载 0.3.0（18）未签名 IPA](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024/artifacts/14122258455) · [已通过的 CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024)。开发版 IPA 需要签名，尚未完成真机安装与系统效果测试。
+[下载 0.3.0（18）未签名 IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa) · [已通过的 CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024)。开发版 IPA 需要签名，尚未完成真机安装与系统效果测试。
 
 - 浏览和编辑 8 类 plist 数据，搜索嵌套字段，暂存修改并预览差异。
 - 保存前校验备份，按原始字节恢复，检测多窗口版本冲突。

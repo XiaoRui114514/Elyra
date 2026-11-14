@@ -93,6 +93,8 @@
   ],
   "releaseRun": 43618402178,
   "releaseConclusion": "success",
-  "releaseDraft": true,
-  "releasePrerelease": true
+  "releaseDraft": false,
+  "releasePrerelease": true,
+  "publicDownloadURL": "https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa",
+  "anonymousDownloadVerified": true
 }

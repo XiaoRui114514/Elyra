@@ -17,9 +17,9 @@
 | Signing | Unsigned; matching App Group entitlement template supplied alongside the IPA |
 | Physical installation, system writes, restoration, Respring | Not tested |
 
-[Download unsigned IPA artifact](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024/artifacts/14122258455). Extract its wrapper ZIP, then verify `Elyra-unsigned.ipa` against `SHA256SUMS`. SHA-256: `ee171a77bc4254da198e08653a16e7ddf062a566f50560211db307c9fc291487`. The supplied `Elyra.entitlements` matches the source template; it does not grant permissions without a valid provisioning profile and signature.
+[Download unsigned IPA artifact](https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa). The published attachment downloads the IPA directly without GitHub sign-in. Verify it against `SHA256SUMS` from the release page. SHA-256: `ee171a77bc4254da198e08653a16e7ddf062a566f50560211db307c9fc291487`. The supplied `Elyra.entitlements` matches the source template; it does not grant permissions without a valid provisioning profile and signature.
 
-The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43618402178) also passed and retained `v0.3.0-dev` as a draft prerelease with the same unsigned IPA, checksum, report and entitlement template.
+The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43618402178) also passed. `v0.3.0-dev` is published as a development prerelease with the same unsigned IPA, checksum, report and entitlement template. An anonymous download returned HTTP 200 and the exact qualified SHA-256; see [public download evidence](audit/public-download-0.3.json).
 
 ## Coverage
 

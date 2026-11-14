@@ -1,0 +1,12 @@
+{
+  "url": "https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa",
+  "checkedAt": "2026-11-14T17:19:03.392108+00:00",
+  "authenticationUsed": false,
+  "httpStatus": 200,
+  "contentType": "application/octet-stream",
+  "bytes": 828470,
+  "sha256": "ee171a77bc4254da198e08653a16e7ddf062a566f50560211db307c9fc291487",
+  "matchesQualifiedCIArtifact": true,
+  "signing": "unsigned",
+  "physicalInstallationTested": false
+}

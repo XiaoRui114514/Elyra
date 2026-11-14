@@ -2,6 +2,8 @@
 
 ## 0.3.0 — 2026-11-14 (development)
 
+- Published development release attachments and replaced sign-in-only Actions download links with a verified anonymous IPA download.
+
 - Integrated the pinned native MobileGestalt access modules, signed App Group discovery and actual read/write permission probes.
 - Added a restricted capability/artwork writer, installation-bound device backups, inode/revision checks, confirmed changes, exact readback, rollback and interrupted-write recovery.
 - Removed Home quick access and the special Dynamic Island placement; added manually confirmed experimental Respring.
