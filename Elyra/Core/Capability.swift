@@ -11,6 +11,7 @@ public struct Capability: Identifiable, Sendable {
     public let value: Int64
     public let caution: Bool
     public func stage(in document: inout PlistValue) throws {
+        if id == "dynamicIsland" { document = try DynamicIslandEngine.enablingFlag(in: document); return }
         guard case .dictionary = document.value(at: ["CacheExtra"]) else { throw ElyraError.invalid("This document has no CacheExtra dictionary.") }
         guard id != "siriOnDevice" else { throw ElyraError.invalid("On-Device Siri has a device-specific type. Restore a recorded original instead of guessing.") }
         for key in keys {

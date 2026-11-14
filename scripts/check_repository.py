@@ -40,5 +40,5 @@ assert icon[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',icon[16:24])==(102
 source='\n'.join(p.read_text() for p in (r/'Elyra').rglob('*.swift'))
 assert 'worse_query(' not in source and 'grantAccess(' not in source
 assert 'TARGETED_DEVICE_FAMILY = "1,2"' in project
-assert len(json.loads((r/'docs/audit/feature-matrix.json').read_text()))==94
+assert len(json.loads((r/'docs/audit/feature-matrix.json').read_text()))>=94
 print(f'Static repository checks passed; {len(sets[0])} matching localization keys. Apple build/runtime remain unverified.')

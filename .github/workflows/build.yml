@@ -2,6 +2,7 @@ name: Build and test Elyra
 on:
   push:
     branches: [main]
+    paths-ignore: ['docs/**', 'README*.md', 'CHANGELOG.md', 'AGENTS.md']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -10,13 +11,13 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
-  build:
+  package:
+    name: Analyze, core tests and device IPA
     runs-on: macos-15
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: Select installed stable Xcode
-        uses: maxim-lobanov/setup-xcode@v1
+      - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
       - name: Toolchain evidence
@@ -28,7 +29,8 @@ jobs:
         run: |
           python3 scripts/check_repository.py
           python3 scripts/generate_project.py
-          git diff --exit-code -- Elyra.xcodeproj Elyra/Resources/Info.plist Elyra/Resources/PrivacyInfo.xcprivacy
+          python3 scripts/generate_localizations.py
+          git diff --exit-code -- Elyra.xcodeproj Elyra/Resources
           bash -n scripts/build_ipa.sh
           python3 -m unittest discover -s Tests -p 'test_*.py'
           plutil -lint Elyra.xcodeproj/project.pbxproj Elyra/Resources/Info.plist Elyra/Resources/PrivacyInfo.xcprivacy
@@ -42,21 +44,9 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild analyze -project Elyra.xcodeproj -scheme Elyra -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/analyze.log
-      - name: Choose available iPhone and iPad simulators
-        run: |
-          xcrun simctl list devices available --json > build/simulators.json
-          python3 scripts/select_simulators.py build/simulators.json >> "$GITHUB_ENV"
-      - name: iPhone simulator UI tests
-        run: |
-          set -o pipefail
-          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$IPHONE_SIM" -resultBundlePath build/iPhone.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/iphone-ui.log
-      - name: iPad simulator UI tests
-        run: |
-          set -o pipefail
-          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$IPAD_SIM" -resultBundlePath build/iPad.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/ipad-ui.log
       - name: Release archive and unsigned device IPA
         run: scripts/build_ipa.sh "$PWD/build"
-      - name: Upload logs and test reports
+      - name: Upload build evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -64,7 +54,6 @@ jobs:
           path: |
             build/*.log
             build/*.json
-            build/*.xcresult
           if-no-files-found: warn
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4
@@ -75,3 +64,46 @@ jobs:
             build/SHA256SUMS
             build/ipa-report.json
           if-no-files-found: error
+  ui:
+    name: UI tests (${{ matrix.family }})
+    runs-on: macos-15
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [iPhone, iPad]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - name: Select installed simulator
+        env:
+          FAMILY: ${{ matrix.family }}
+        run: |
+          mkdir -p build
+          xcodebuild -version | tee build/toolchain.log
+          xcrun simctl list devices available --json > build/simulators.json
+          python3 scripts/select_simulators.py build/simulators.json "$FAMILY" >> "$GITHUB_ENV"
+      - name: Build and run UI tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$SIMULATOR_ID" -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 300 -resultBundlePath build/Tests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/ui.log
+      - name: Export test screenshots and summary
+        if: always()
+        run: |
+          if [[ -d build/Tests.xcresult ]]; then
+            xcrun xcresulttool export attachments --path build/Tests.xcresult --output-path build/screenshots
+            xcrun xcresulttool get test-results summary --path build/Tests.xcresult > build/ui-summary.json
+          fi
+      - name: Upload UI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Elyra-UI-${{ matrix.family }}-${{ github.sha }}
+          path: |
+            build/*.log
+            build/*.json
+            build/Tests.xcresult
+            build/screenshots
+          if-no-files-found: warn

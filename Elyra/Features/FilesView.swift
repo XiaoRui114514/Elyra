@@ -11,6 +11,11 @@ struct FilesView: View {
     @State private var previewURL: URL?
     @State private var deleting: AssetRecord?
     @State private var showDelete = false
+    private func isEditableText(_ asset: AssetRecord) -> Bool {
+        let ext = URL(fileURLWithPath: asset.name).pathExtension.lowercased()
+        return asset.byteCount <= TextAssetSnapshot.maximumBytes && ["txt", "md", "json", "xml", "csv", "log", "yaml", "yml", "strings", "html", "css", "swift", "conf"].contains(ext)
+    }
+
     var body: some View {
         List {
             Section {
@@ -29,6 +34,10 @@ struct FilesView: View {
                         Text(asset.date, style: .date).font(.caption).foregroundStyle(.secondary)
                         Text("SHA-256: " + asset.digest).font(.system(.caption2, design: .monospaced)).textSelection(.enabled)
                         HStack {
+                            if isEditableText(asset) { NavigationLink("Edit text", value: Screen.textAsset(asset.id)) }
+                            if ["zip", "tendies"].contains(URL(fileURLWithPath: asset.name).pathExtension.lowercased()) {
+                                NavigationLink("Inspect archive", value: Screen.archive(asset.id))
+                            }
                             Button("Export") { app.run { workspace in previewURL = try await workspace.assetURL(asset.id) } }
                             Spacer()
                             Button("Move to Trash", role: .destructive) { deleting = asset; showDelete = true }

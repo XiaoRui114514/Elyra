@@ -35,7 +35,7 @@ struct AreaView: View {
                              detail: app.workspace == nil ? "Workspace could not be opened. Export existing files before attempting recovery." : "System modification is unavailable in this build. All imported files and presets are edited as local copies.", symbol: "lock.shield")
             }
             Section("Quick access") {
-                NavigationLink(value: Screen.island) { FeatureLabel(title: "Dynamic Island Lab", detail: "Media states, capability flags and research", symbol: "capsule") }
+                NavigationLink(value: Screen.island) { FeatureLabel(title: "Dynamic Island Lab", detail: "Media states, capability flags and research", symbol: "capsule") }.accessibilityIdentifier("home.island")
                 Button { importing = true } label: { Label("Import plist", systemImage: "square.and.arrow.down") }
                 NavigationLink(value: Screen.backups) { Label("Backup center", systemImage: "externaldrive.badge.timemachine") }
             }
@@ -117,7 +117,7 @@ struct AreaView: View {
                 Text("Elyra follows the system language, appearance, text size and Reduce Motion preferences.")
                 Button("Open app settings") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
             }
-            Section { Text("Elyra 0.1.0 • Development build").foregroundStyle(.secondary) }
+            Section { Text("Elyra 0.2.0 • Development build").foregroundStyle(.secondary) }
         }
     }
     private var searchResults: some View {

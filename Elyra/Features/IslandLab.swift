@@ -1,27 +1,57 @@
 // SPDX-License-Identifier: GPL-3.0-only
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct IslandLab: View {
     @EnvironmentObject private var app: AppEnvironment
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var state = "Compact music"
     @State private var playing = true
-    @State private var configuration: [String] = []
-    private let states = ["Idle", "Compact music", "Expanded music", "Multiple activities", "Landscape", "Portrait"]
+    @State private var observing = false
+    @State private var importing = false
+    @State private var exporting = false
+    @State private var export: ExportDocument?
+    private let states = ["Idle", "Compact music", "Expanded music", "Multiple activities"]
+    private let device = RuntimeDeviceContext.current
     var body: some View {
         List {
             Section {
-                StatusNotice(title: "iPad music playback investigation", detail: "Your screenshots show a tall media region on the left edge, with album art above the waveform. A separate recording activity is also visible. Notification banners at the top are separate system UI.", symbol: "waveform")
+                StatusNotice(title: "iPad music playback investigation", detail: "iPad capability overrides can show a tall media region at the screen edge during playback. Inspect configuration and record each activity and orientation separately.", symbol: "waveform")
                 SupportBadge(status: .unverified)
             }
             Section("Device & access") {
-                Text(UIDevice.current.model)
-                Text(ProcessInfo.processInfo.operatingSystemVersionString).textSelection(.enabled)
+                LabeledContent("Hardware identifier", value: device.hardware)
+                Text(device.osVersion).textSelection(.enabled)
+                LabeledContent("System build", value: device.build)
+                if device.simulator { Text("Simulator records are not evidence of system modification.").foregroundStyle(.secondary) }
                 StatusNotice(title: "System write unavailable", detail: "No authorized, verified system writer is installed. Elyra cannot change the system capsule geometry with public APIs.")
             }
-            Section("Imported configuration") {
-                if configuration.isEmpty { Text("No imported Dynamic Island configuration").foregroundStyle(.secondary) }
-                ForEach(configuration, id: \.self) { Text($0).font(.caption).textSelection(.enabled) }
+            Section("Inspect actual configuration") {
+                Button("Import plist", systemImage: "square.and.arrow.down") { importing = true }
+                ForEach(app.state.documents) { document in
+                    NavigationLink(value: Screen.islandDocument(document.id)) {
+                        FeatureLabel(title: document.name, detail: "Inspect flag, artwork identity and recorded local baseline", symbol: "doc.text.magnifyingglass")
+                    }
+                }
+                if app.state.documents.isEmpty { Text("No imported Dynamic Island configuration").foregroundStyle(.secondary) }
+            }
+            Section("Playback observation log") {
+                Button("Record playback observation", systemImage: "plus") { observing = true }.accessibilityIdentifier("island.record")
+                Button("Export research log", systemImage: "square.and.arrow.up") {
+                    app.run { workspace in export = ExportDocument(data: try await workspace.exportResearchReport()); exporting = true }
+                }.disabled(app.state.islandObservations.isEmpty)
+                ForEach(app.state.islandObservations) { observation in
+                    NavigationLink {
+                        IslandObservationDetail(observation: observation)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(L(observation.activity.rawValue) + " • " + L(observation.orientation.rawValue))
+                            Text(L(observation.outcome.rawValue)).font(.caption)
+                            Text(observation.hardware + " • " + observation.build).font(.caption).foregroundStyle(.secondary)
+                            Text(observation.simulator ? "Simulator observation" : "User-recorded physical-device observation").font(.caption2).foregroundStyle(.secondary)
+                        }
+                    }
+                }
             }
             Section("Source-confirmed controls") {
                 Text("DeviceSupportsDynamicIsland changes a capability flag. ArtworkDeviceSubType selects a device artwork/layout identity. Neither exposes independent music capsule radius, album art spacing, waveform alignment or animation controls.")
@@ -43,21 +73,16 @@ struct IslandLab: View {
         }
         .navigationTitle("Dynamic Island Lab")
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: state)
-        .task(id: app.state.documents) {
-            guard let workspace = app.workspace else { return }
-            var lines: [String] = []
-            for record in app.state.documents {
-                do {
-                    let doc = try await workspace.snapshot(record.id)
-                    let flag = doc.value.value(at: ["CacheExtra", "YlEtTtHlNesRBMal1CqRaA"])?.summary ?? L("Absent")
-                    let subtype = doc.value.value(at: ["CacheExtra", "oPeik/9e8lQWMszEjbPzng", "ArtworkDeviceSubType"])?.summary ?? L("Absent")
-                    lines.append(record.name + "\nDynamic Island: " + flag + "\nArtworkDeviceSubType: " + subtype + "\n" + L("Managed local copy"))
-                } catch { app.error = error.localizedDescription }
-            }
-            configuration = lines
+        .sheet(isPresented: $observing) { IslandObservationForm() }
+        .fileImporter(isPresented: $importing, allowedContentTypes: [.propertyList, .xml, .data]) { result in
+            switch result { case .success(let url): app.importURL(url); case .failure(let error): app.error = error.localizedDescription }
+        }
+        .fileExporter(isPresented: $exporting, document: export, contentType: .json, defaultFilename: "Elyra-DI-observations.json") { result in
+            if case .failure(let error) = result { app.error = error.localizedDescription }
         }
     }
 }
+
 private struct IslandStudy: View {
     let state: String
     let playing: Bool

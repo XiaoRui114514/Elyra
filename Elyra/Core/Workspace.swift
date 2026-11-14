@@ -39,17 +39,39 @@ public struct AssetRecord: Codable, Identifiable, Sendable, Equatable {
     public let digest: String
 }
 public struct WorkspaceState: Codable, Sendable {
+    public var schemaVersion = 2
     public var documents: [DocumentRecord] = []
     public var backups: [BackupRecord] = []
     public var assets: [AssetRecord] = []
     public var trash: [AssetRecord] = []
     public var history: [OperationRecord] = []
     public var favorites: Set<String> = []
+    public var islandObservations: [IslandObservation] = []
+    public var assetBackups: [AssetBackupRecord] = []
+    public init() {}
+    private enum CodingKeys: String, CodingKey {
+        case schemaVersion, documents, backups, assets, trash, history, favorites, islandObservations, assetBackups
+    }
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let version = try c.decodeIfPresent(Int.self, forKey: .schemaVersion) ?? 1
+        guard (1...2).contains(version) else { throw ElyraError.invalid("This workspace was created by a newer Elyra version.") }
+        documents = try c.decode([DocumentRecord].self, forKey: .documents)
+        backups = try c.decode([BackupRecord].self, forKey: .backups)
+        assets = try c.decode([AssetRecord].self, forKey: .assets)
+        trash = try c.decode([AssetRecord].self, forKey: .trash)
+        history = try c.decode([OperationRecord].self, forKey: .history)
+        favorites = try c.decode(Set<String>.self, forKey: .favorites)
+        islandObservations = try c.decodeIfPresent([IslandObservation].self, forKey: .islandObservations) ?? []
+        assetBackups = try c.decodeIfPresent([AssetBackupRecord].self, forKey: .assetBackups) ?? []
+    }
 }
+
 private struct CommitJournal: Codable {
     let document: DocumentRecord
     let expected: String
     let desired: String
+    let previousState: WorkspaceState?
     let state: WorkspaceState
 }
 
@@ -62,7 +84,7 @@ public actor Workspace {
         self.root = root.standardizedFileURL
         let fm = FileManager.default
         try fm.createDirectory(at: root, withIntermediateDirectories: true)
-        for name in ["Documents", "Backups", "Assets", "Drafts"] {
+        for name in ["Documents", "Backups", "Assets", "AssetBackups", "Drafts"] {
             try fm.createDirectory(at: root.appendingPathComponent(name), withIntermediateDirectories: true)
         }
         let index = root.appendingPathComponent("index.json")
@@ -76,8 +98,25 @@ public actor Workspace {
             if digest == journal.desired {
                 state = journal.state
                 try JSONEncoder().encode(state).write(to: index, options: .atomic)
-            } else if digest != journal.expected { throw ElyraError.integrity }
+            } else if digest == journal.expected {
+                if let previous = journal.previousState { state = previous; try JSONEncoder().encode(state).write(to: index, options: .atomic) }
+            } else { throw ElyraError.integrity }
             try fm.removeItem(at: journalURL)
+        }
+        let assetJournalURL = root.appendingPathComponent("asset-commit.json")
+        if fm.fileExists(atPath: assetJournalURL.path) {
+            let journal = try JSONDecoder().decode(AssetCommitJournal.self, from: Data(contentsOf: assetJournalURL))
+            guard journal.asset.filename == URL(fileURLWithPath: journal.asset.filename).lastPathComponent,
+                  journal.asset.filename.hasPrefix(journal.asset.id.uuidString),
+                  journal.asset.byteCount <= 64 * 1024 * 1024 else { throw ElyraError.integrity }
+            let target = root.appendingPathComponent("Assets").appendingPathComponent(journal.asset.filename)
+            guard target.resolvingSymlinksInPath().path.hasPrefix(root.resolvingSymlinksInPath().path + "/") else { throw ElyraError.outsideWorkspace }
+            let digest = Digest.sha256(try Data(contentsOf: target))
+            if digest == journal.desired { state = journal.state }
+            else if digest == journal.asset.digest { state = journal.previousState }
+            else { throw ElyraError.integrity }
+            try JSONEncoder().encode(state).write(to: index, options: .atomic)
+            try fm.removeItem(at: assetJournalURL)
         }
     }
     public func listing() -> WorkspaceState { state }
@@ -89,7 +128,8 @@ public actor Workspace {
         return result
     }
     private func requireWritableState() throws {
-        guard !fm.fileExists(atPath: root.appendingPathComponent("commit.json").path) else {
+        guard !fm.fileExists(atPath: root.appendingPathComponent("commit.json").path),
+              !fm.fileExists(atPath: root.appendingPathComponent("asset-commit.json").path) else {
             throw ElyraError.invalid("An interrupted transaction requires workspace recovery. Reopen Elyra before saving.")
         }
     }
@@ -153,10 +193,11 @@ public actor Workspace {
         let decoded = try PlistValue.decode(output)
         if current.data == output { return current }
         _ = try createBackup(current.data, document: current.record, reason: "Before " + reason)
+        let previousState = state
         var next = state
         event(reason, current.record.name + " • local copy • readback verified", in: &next)
         let journalURL = root.appendingPathComponent("commit.json")
-        let journal = CommitJournal(document: current.record, expected: current.revision, desired: Digest.sha256(output), state: next)
+        let journal = CommitJournal(document: current.record, expected: current.revision, desired: Digest.sha256(output), previousState: previousState, state: next)
         try JSONEncoder().encode(journal).write(to: journalURL, options: .atomic)
         let target = try url("Documents", current.record.filename)
         do {
@@ -169,7 +210,7 @@ public actor Workspace {
             do {
                 try current.data.write(to: target, options: .atomic)
                 guard try Data(contentsOf: target) == current.data else { throw ElyraError.integrity }
-                var recovered = state
+                var recovered = previousState
                 event("Save failed; previous bytes restored", current.record.name, in: &recovered)
                 try persist(recovered)
                 try fm.removeItem(at: journalURL)
@@ -233,6 +274,113 @@ public actor Workspace {
         var next = state; next.trash.removeAll { $0.id == id }; next.assets.insert(asset, at: 0)
         event("Restore asset", asset.name, in: &next)
         do { try persist(next) } catch { try fm.moveItem(at: target, to: source); throw error }
+    }
+    public func assetData(_ id: UUID) throws -> Data { try Data(contentsOf: assetURL(id)) }
+    public func textSnapshot(_ id: UUID) throws -> TextAssetSnapshot {
+        guard let record = state.assets.first(where: { $0.id == id }) else { throw ElyraError.invalid("Asset not found.") }
+        return try TextAssetSnapshot(asset: record, data: assetData(id))
+    }
+    public func saveText(_ text: String, expected: TextAssetSnapshot) throws -> TextAssetSnapshot {
+        let output = try expected.encoded(text)
+        let record = try commitAsset(output, expected: expected.asset, reason: "Save text file")
+        return try TextAssetSnapshot(asset: record, data: output)
+    }
+    private func commitAsset(_ output: Data, expected: AssetRecord, reason: String) throws -> AssetRecord {
+        try requireWritableState()
+        guard let current = state.assets.first(where: { $0.id == expected.id }), current == expected else { throw ElyraError.conflict }
+        guard output.count <= 64 * 1024 * 1024 else { throw ElyraError.invalid("Choose a nonempty asset smaller than 64 MB.") }
+        let target = try assetURL(current.id)
+        let bytes = try Data(contentsOf: target)
+        if bytes == output { return current }
+        let backup = AssetBackupRecord(id: UUID(), assetID: current.id, name: current.name, date: Date(), reason: "Before " + reason, digest: current.digest, byteCount: bytes.count)
+        let backupURL = try url("AssetBackups", backup.filename)
+        try bytes.write(to: backupURL, options: .atomic)
+        guard try Data(contentsOf: backupURL) == bytes else { throw ElyraError.integrity }
+        var previous = state; previous.assetBackups.insert(backup, at: 0)
+        try persist(previous)
+        let updated = AssetRecord(id: current.id, name: current.name, filename: current.filename, category: current.category, date: current.date, byteCount: output.count, digest: Digest.sha256(output))
+        var next = previous
+        next.assets = next.assets.map { $0.id == updated.id ? updated : $0 }
+        event(reason, current.name + " • local copy • readback verified", in: &next)
+        let journalURL = root.appendingPathComponent("asset-commit.json")
+        try JSONEncoder().encode(AssetCommitJournal(asset: current, desired: updated.digest, previousState: previous, state: next)).write(to: journalURL, options: .atomic)
+        do {
+            try output.write(to: target, options: .atomic)
+            guard try Data(contentsOf: target) == output else { throw ElyraError.integrity }
+            try persist(next)
+            try fm.removeItem(at: journalURL)
+        } catch {
+            do {
+                try bytes.write(to: target, options: .atomic)
+                guard try Data(contentsOf: target) == bytes else { throw ElyraError.integrity }
+                var recovered = previous
+                event("Save failed; previous bytes restored", current.name, in: &recovered)
+                try persist(recovered)
+                try fm.removeItem(at: journalURL)
+            } catch { throw ElyraError.invalid("Write and recovery failed. Keep the backup and commit journal; reopen the workspace before further edits.") }
+            throw error
+        }
+        return updated
+    }
+    public func assetBackupData(_ id: UUID) throws -> Data {
+        guard let record = state.assetBackups.first(where: { $0.id == id }) else { throw ElyraError.invalid("Backup not found.") }
+        let data = try Data(contentsOf: url("AssetBackups", record.filename))
+        guard data.count == record.byteCount, Digest.sha256(data) == record.digest else { throw ElyraError.integrity }
+        return data
+    }
+    public func restoreAssetBackup(_ id: UUID, expected: AssetRecord) throws -> AssetRecord {
+        guard let backup = state.assetBackups.first(where: { $0.id == id }), backup.assetID == expected.id else {
+            throw ElyraError.invalid("This backup belongs to a different local file.")
+        }
+        return try commitAsset(assetBackupData(id), expected: expected, reason: "Restore local file")
+    }
+    public func exportOperationHistory() throws -> Data {
+        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(state.history)
+    }
+    public func islandPlan(documentID: UUID, action: IslandAction) throws -> IslandPlan {
+        let current = try snapshot(documentID)
+        switch action {
+        case .enableFlag:
+            return IslandPlan(action: action, snapshot: current, target: try DynamicIslandEngine.enablingFlag(in: current.value), baseline: nil)
+        case .restoreBaseline:
+            guard let baseline = state.backups.filter({ $0.documentID == documentID && $0.reason == "Imported baseline" }).min(by: { $0.date < $1.date }) else {
+                throw ElyraError.invalid("No recorded imported baseline exists. Original values will not be guessed.")
+            }
+            let original = try PlistValue.decode(backupData(baseline.id))
+            let target = try DynamicIslandEngine.restoringRecordedFields(in: current.value, baseline: original)
+            return IslandPlan(action: action, snapshot: current, target: target, baseline: baseline)
+        }
+    }
+    public func recordIslandObservation(_ observation: IslandObservation) throws {
+        try requireWritableState()
+        guard observation.notes.utf8.count <= 16_000, !observation.hardware.isEmpty,
+              !observation.osVersion.isEmpty, !observation.build.isEmpty else {
+            throw ElyraError.invalid("Complete device details and keep observation notes under 16 KB.")
+        }
+        if let id = observation.documentID {
+            let current = try snapshot(id)
+            guard current.revision == observation.documentRevision else { throw ElyraError.conflict }
+        } else if observation.documentRevision != nil { throw ElyraError.invalid("Observation revision has no matching document.") }
+        var next = state
+        next.islandObservations.insert(observation, at: 0)
+        event("Record DI observation", observation.activity.rawValue + " • " + (observation.simulator ? "simulator; no system proof" : "user-reported physical device; not verified by Elyra"), in: &next)
+        try persist(next)
+    }
+    public func exportResearchReport() throws -> Data {
+        struct Report: Encodable {
+            let schemaVersion: Int
+            let generatedAt: Date
+            let scope: String
+            let observations: [IslandObservation]
+        }
+        let report = Report(schemaVersion: 1, generatedAt: Date(),
+                            scope: "User-recorded observations, not automated proof of system modification. Simulator records are never physical-device evidence.",
+                            observations: state.islandObservations)
+        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(report)
     }
     public func draftURL(window: UUID, document: UUID) -> URL {
         root.appendingPathComponent("Drafts").appendingPathComponent(window.uuidString + "-" + document.uuidString + ".json")

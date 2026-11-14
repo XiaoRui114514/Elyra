@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 import SwiftUI
+import UniformTypeIdentifiers
 import Darwin
 
 struct DiagnosticsView: View {
@@ -38,6 +39,8 @@ struct DiagnosticsView: View {
 struct HistoryView: View {
     @EnvironmentObject private var app: AppEnvironment
     @State private var search = ""
+    @State private var export: ExportDocument?
+    @State private var exporting = false
     var body: some View {
         List {
             Section { Text("History is an operation log, not a backup. It contains local filenames; review it before sharing.").font(.caption).foregroundStyle(.secondary) }
@@ -50,6 +53,14 @@ struct HistoryView: View {
             }
             if app.state.history.isEmpty { Text("No operations yet") }
         }.navigationTitle("Operation history").searchable(text: $search)
+        .toolbar {
+            Button("Export history", systemImage: "square.and.arrow.up") {
+                app.run { workspace in export = ExportDocument(data: try await workspace.exportOperationHistory()); exporting = true }
+            }
+        }
+        .fileExporter(isPresented: $exporting, document: export, contentType: .json, defaultFilename: "Elyra-history.json") { result in
+            if case .failure(let error) = result { app.error = error.localizedDescription }
+        }
     }
 }
 struct LicensesView: View {

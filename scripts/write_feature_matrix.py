@@ -45,7 +45,7 @@ entries=[
 ('单预设恢复／原值记录','B: OriginalValues / Capability.apply','保留原值、原类型及不存在状态','可信原始快照','可信原始数据','高','B 更完善','Backups','可完整恢复本地快照；专用单预设恢复未迁移','缺失值测试；系统无验证'),
 ('备份删除','B: deleteBackup','保留可恢复元数据直到 payload 删除','文件管理','无','中','B','Backups','尚未提供备份删除 UI','不删除原始基准'),
 ('MobileGestalt 缓存删除重置','A: GestaltView.swift reset','删除缓存强制重建；上游警告软砖风险','系统文件删除','系统访问','严重','A 独有','System','不迁移破坏性重置','明确不可用，不伪造默认值'),
-('壁纸包与 .tendies 导入解析','A: PBHandler.swift; B: CustomizationFiles.swift / CustomizationThemes.swift','PB 三种 provider 结构、标识随机化、资源预览','libarchive(A) / ZIPFoundation(B)','仅解析无需系统权限','中','A/B','Appearance','仅原始包存储与导出；尚未解析／安装描述符','不把原始文件存储称为完成导入壁纸'),
+('壁纸包与 .tendies 导入解析','A: PBHandler.swift; B: CustomizationFiles.swift / CustomizationThemes.swift','PB 三种 provider 结构、标识随机化、资源预览','libarchive(A) / ZIPFoundation(B)','仅解析无需系统权限','中','A/B','Appearance','已实现 ZIP/tendies 路径、CRC、有界离线检查及条目预览导出；尚未安装提供器','恶意路径/链接/CRC/加密/截断/大小测试通过；不是系统壁纸安装'),
 ('PosterBoard 应用／移除／刷新','A: PosterBoardView; B: CustomizationStore','安装记录、目录散列、受控移除与刷新','PosterBoard container','特殊容器访问','高','A/B','Appearance','未迁移系统安装','B 验证比 A 完善，待授权后端'),
 ('Collections 重置','A: PosterBoardView.swift','清除集合缓存，可能丢失用户数据','PosterBoard prefs','系统容器访问','高','A 独有','Appearance','不提供破坏性系统清除','审计原删除路径'),
 ('拨号键盘图片','A: KeypadManager.swift / KeypadView.swift','12 按键、亮暗 mask、图片预览及替换','TelephonyUI cache','Phone 容器访问','高','A 独有','Appearance','仅图片素材管理；系统替换未迁移','12 键/6 文件变体源码追踪'),
@@ -58,27 +58,30 @@ entries=[
 ('监督状态／组织名称修改','A: ConfigView.swift','修改 CloudConfigurationDetails / 监督标记','设备管理配置','未经授权管理修改','严重','A 独有','无可执行模块','按用户要求排除未经授权管理配置修改','明确不运行、不保留隐蔽开关'),
 ('文件目录浏览与搜索','A: FileBrowserView.swift','实际权限范围内目录／文件搜索','Foundation','所选目录/文件权限','低','A','FilesView','只实现受管理库文件搜索；目录层级浏览待迁移','资产真实文件测试，完整目录浏览未完成'),
 ('文件元数据／预览／导入导出','A: InfoViewer / TextViewer / FileHelpers','实际文件字节、名称、日期、大小、hash、Quick Look','FileDocument / QuickLook','文件选择授权','低','A','FilesView','已实现本地','文件真实读回通过；Quick Look UI 待测'),
-('文本文件编辑','A: TextViewer.swift','受支持的 UTF-8 文件编辑','Foundation','实际文件权限','中','A','Tools','尚未迁移文本编辑器；plist 编辑已实现','记录为未完成'),
+('文本文件编辑','A: TextViewer.swift','受支持的 UTF-8 文件编辑','Foundation','实际文件权限','中','A','Tools','已实现受管理 UTF-8 文本编辑、BOM 保留、版本备份及恢复','8 项文本/文件事务测试通过；界面待本轮 CI'),
 ('任意路径覆盖／移动／删除','A: OperationsView.swift','不能以沙盒逃逸授予权限','worse_query upstream','特殊访问','高','A 独有','FileAccess','不迁移任意系统目标；提供库回收站恢复','资产 path traversal 与 trash 恢复测试'),
 ('设备配对与连接','B: DeviceConnectionModel + Native/DeviceConsole','RPPairing、RSD、Lockdown、LocalDevVPN 指引','Rust idevice @7bd551c','配对记录/本地网络','中','B 独有','Tools','未迁移；保留前置条件说明','PIN/密钥不记日志的源码策略已记录'),
-('设备信息／诊断','A: DeviceInfoHelpers; B: GXDeviceIdentity','系统版本/Build/硬件、公开进程信息','Darwin sysctl / ProcessInfo','公开信息无需特别权限','低','A/B','Diagnostics','已实现公开信息页面；系统服务诊断未迁移','UI 未运行，版本策略 Core 测试通过'),
-('日志／调试导出','A: LogView; B: DeviceConsole','Elyra 记录本地操作；上游 exploit 日志不运行','operation records','本地无','低','A/B','History','本地列表/搜索实现；日志导出未提供','持久化／并发 Core 测试'),
+('设备信息／诊断','A: DeviceInfoHelpers; B: GXDeviceIdentity','系统版本/Build/硬件、公开进程信息','Darwin sysctl / ProcessInfo','公开信息无需特别权限','低','A/B','Diagnostics','已实现公开信息页面；系统服务诊断未迁移','基线 UI 运行通过；版本策略 Core 测试通过'),
+('日志／调试导出','A: LogView; B: DeviceConsole','Elyra 记录本地操作；上游 exploit 日志不运行','operation records','本地无','低','A/B','History','本地列表/搜索及 JSON 导出已实现','持久化／并发 Core 测试'),
 ('Respring／自动 Respring','A: Respring.swift; B: NeoSpringView.swift','WebKit 资源耗尽；不是受支持系统 API','WebKit','系统行为不可靠','高','A/B','Tools','不迁移不可靠触发；入口解释限制','无实际触发'),
 ('全局搜索／收藏','新增；B 部分字段搜索','搜索分类、功能、字段；收藏首页显示','本地索引','无','低','统一新增','AreaView / Workspace','已实现嵌套字段直接定位','持久收藏 Core 待专项；UI 待测'),
 ('窗口与草稿独立','新增，B 单窗口 manager','每窗口导航、搜索与草稿；统一写入 actor','SceneStorage + actor','无','中','统一新增','RootView / Workspace','已实现基本状态；滚动位置未持久化','并发测试、草稿隔离测试通过；系统窗口待测'),
-('响应式 iPhone/iPad 导航','新增重构','按真实宽高与大字级别切换；720/1100 渐进断点','NavigationSplitView / TabView','无','低','统一新增','DesignSystem','已实现布局策略；真实拖动窗口测试阻断','320...1600 逐点策略测试，不等于视觉验证'),
+('响应式 iPhone/iPad 导航','新增重构','按真实宽高与大字级别切换；720/1100 渐进断点','NavigationSplitView / TabView','无','低','统一新增','DesignSystem','已实现布局策略；真实拖动窗口测试阻断','策略测试及基线 iPhone/iPad 旋转测试通过；Stage Manager 连续拖动仍待真机'),
 ('中英文／无障碍','B: Localizable.xcstrings；A 原英文','系统语言、字体、VoiceOver 标签与减少动态效果','lproj / SwiftUI','无','低','统一重构','Resources','中英文核心界面已实现；VoiceOver 和字体验收待测','静态资源检查；未完成辅助技术验收'),
-('CI 与 IPA','A: ipabuild.sh; B: build.yml / build-ipa.sh','真实 arm64 archive、bundle/Mach-O 验证、SHA-256','macOS + Xcode','GitHub repo Actions 权限','中','统一重构','scripts / .github','已配置，未运行；当前 token 创建仓库失败','本地静态检查；无 IPA 产物')
+('CI 与 IPA','A: ipabuild.sh; B: build.yml / build-ipa.sh','真实 arm64 archive、bundle/Mach-O 验证、SHA-256','macOS + Xcode','GitHub repo Actions 权限','中','统一重构','scripts / .github','仓库已推送；基线 Actions 成功生成真实 arm64 未签名 IPA','run 43585070407 全通过；新增功能构建结果见 TEST_REPORT')
 ]
 local_words=['本地','PlistValue','DocumentEditor','元数据','备份','字段']
 for e in entries:
  row(*e,local=e[7] in ['PlistValue','Workspace','DocumentEditor','FilesView','AppEnvironment','BackupsView'])
+row('Dynamic Island 配置检查与局部恢复','Elyra/Core/DynamicIsland.swift','检查实际导入标记/Artwork 类型，恢复原导入基准中的两个 DI 字段，保留其他成员','typed plist + verified baseline','本地无；系统仍无访问后端','中','统一新增','DynamicIslandEngine','本地已实现；不猜默认 subtype，不是系统修复','12 项 DI/观察/迁移测试通过',True)
+row('音乐/多活动观察记录','Elyra/Features/IslandObservations.swift','记录真实运行环境、方向、播放状态、用户观察；持久化并导出 JSON','RuntimeDeviceContext / Workspace','无','低','统一新增','DynamicIsland Lab','已实现；模拟器记录自动标注，不作为系统证据','观察持久化、版本关联和导出边界测试通过',True)
+row('文本文件版本与中断恢复','Elyra/Core/TextAsset.swift, Workspace.swift','原始字节备份、原子保存、版本冲突保护及 asset journal 重启恢复','SHA-256 / actor / journal','本地无','中','统一新增','AssetBackups','已实现 UTF-8 文件及文件备份恢复','BOM/CRLF/no-op/空文本/损坏备份/跨文件/中断恢复测试通过',True)
 headers=['功能名称','现有实现位置','功能说明','底层依赖','iOS 26 状态','iOS 27 状态','iPhone','iPad','特殊权限','风险','重复实现','Elyra 模块','实现进度','验证方法和结果']
 preamble='''# Elyra 功能并集与迁移矩阵
 
 审计快照：2026-11-14 UTC。A = Erosion `12c0a2d00c444c9b09112608b47d4d6c10e0df14`；B = GestaltX `d1d5473734440e8f2e797494ac373427c02fd674`。
 
-这是实际进度表，不是完成声明。iOS 26/27 的**系统行为均无本次真机验证**；上游的支持声明不继承为 Elyra 结论。iPhone/iPad 使用相同目录与业务代码；“同一入口”是源码实现事实，UI 尚未经 Xcode 构建/运行。系统写入无授权后端，因此全部阻断。UI 最低目标 iOS 17，26/27 SDK/构建/设备均待验证。
+这是实际进度表，不是完成声明。iOS 26/27 的**系统行为均无本次真机验证**；上游的支持声明不继承为 Elyra 结论。iPhone/iPad 使用相同目录与业务代码；“同一入口”是源码实现事实，基线已通过 Xcode 26.3 分析、iPhone/iPad 模拟器导航与旋转测试，新增 0.2 功能的 CI 结果见 TEST_REPORT。系统写入无授权后端，因此全部阻断。UI 最低目标 iOS 17；已运行 26.2 模拟器，27 SDK/真机行为仍待验证。
 
 位置中 B 的无目录 Swift 文件位于 `GestaltX/`；A 的短目录位于 `Erosion/`。精确路径、散列和声明参见 [source-inventory.json](audit/source-inventory.json)。完整风险与审查边界见 [SOURCE_AUDIT.md](SOURCE_AUDIT.md)。预设目录来自实际源码而非 README。按并集列出，重叠统一成 Capability/Workspace 引擎，不拼接原 UI。
 

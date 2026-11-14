@@ -9,6 +9,8 @@ for file in (r/'Elyra').rglob('*.swift'):
     for m in re.finditer(r'(?:Text|Button|Label|Section|L|StatusNotice|ContentUnavailableView|TextField|DisclosureGroup|navigationTitle|searchable|keyboardShortcut|accessibilityLabel)\(\s*"([^"\\]*)"',source): keys.add(m.group(1))
 for file in (r/'Elyra').rglob('*.swift'):
     keys.update(re.findall(r'\.invalid\("([^"\\]*)"', file.read_text()))
+for file in (r/'Elyra').rglob('*.swift'):
+    keys.update(re.findall(r'(?:title|detail|prompt):\s*"([^"\\]*)"', file.read_text()))
 for row in json.loads((r/'docs/audit/presets.json').read_text()): keys.add(row['detail']);keys.add(row['title'])
 for lang in ['en','zh-Hans']:
     lines=[json.dumps(k,ensure_ascii=False)+' = '+json.dumps(translations.get(k,k) if lang=='zh-Hans' else k,ensure_ascii=False)+';' for k in sorted(keys) if k]

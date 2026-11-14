@@ -10,6 +10,7 @@ struct BackupsView: View {
     var body: some View {
         List {
             Section { StatusNotice(title: "Local document backups", detail: "Imported baselines and pre-save snapshots are byte-for-byte copies with SHA-256 integrity checks. They are not verified factory device originals. Restoring here updates only the matching managed local document.", symbol: "externaldrive.badge.checkmark") }
+            Section { NavigationLink("Managed file backups") { AssetBackupsView() } }
             ForEach(app.state.backups) { record in
                 Section {
                     Text(record.name).font(.headline)

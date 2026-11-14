@@ -11,7 +11,16 @@ import UniformTypeIdentifiers
     init() {
         do {
             let base = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            workspace = try Workspace(root: base.appendingPathComponent("Elyra", isDirectory: true))
+            var root = base.appendingPathComponent("Elyra", isDirectory: true)
+            #if DEBUG
+            // UI tests use a fresh, isolated sandbox. No user library is erased or seeded.
+            let args = ProcessInfo.processInfo.arguments
+            if let index = args.firstIndex(of: "-ElyraTestWorkspace"), args.indices.contains(index + 1),
+               let id = UUID(uuidString: args[index + 1]) {
+                root = base.appendingPathComponent("ElyraUITests", isDirectory: true).appendingPathComponent(id.uuidString, isDirectory: true)
+            }
+            #endif
+            workspace = try Workspace(root: root)
         } catch { workspace = nil; self.error = error.localizedDescription }
     }
     func refresh() async {
@@ -76,7 +85,7 @@ struct FieldSearchResult: Identifiable, Sendable {
     var id: String { document.uuidString + ":" + path.map { "\($0.utf8.count):\($0)" }.joined() }
 }
 struct ExportDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.propertyList, .data] }
+    static var readableContentTypes: [UTType] { [.propertyList, .json, .plainText, .data] }
     let data: Data
     init(data: Data) { self.data = data }
     init(configuration: ReadConfiguration) throws { data = configuration.file.regularFileContents ?? Data() }

@@ -2,7 +2,7 @@
 import SwiftUI
 
 enum Screen: Hashable, Codable {
-    case document(UUID), field(UUID, [String]), capability(String), island, category(String), files, backups, diagnostics, history, licenses
+    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses
 }
 enum Area: String, CaseIterable {
     case home = "Home", appearance = "Appearance", system = "System", tools = "Tools", settings = "Settings"
@@ -40,11 +40,16 @@ struct RootView: View {
                     }
                 } else {
                     NavigationSplitView {
-                        List(Area.allCases, id: \.rawValue) { item in
-                            Button { area = item.rawValue; path.removeAll() } label: {
-                                Label(L(item.rawValue), systemImage: item.symbol).foregroundStyle(area == item.rawValue ? Color.accentColor : Color.primary)
-                            }.listRowBackground(area == item.rawValue ? Color.accentColor.opacity(0.1) : Color.clear)
-                        }.navigationTitle("Elyra")
+                        List(selection: Binding<String?>(get: { area }, set: { value in
+                            if let value { area = value; path.removeAll() }
+                        })) {
+                            ForEach(Area.allCases, id: \.rawValue) { item in
+                                Label(L(item.rawValue), systemImage: item.symbol).tag(item.rawValue)
+                            }
+                        }
+                        .listStyle(.sidebar)
+                        .navigationTitle("Elyra")
+                        .navigationSplitViewColumnWidth(min: 220, ideal: 260, max: 320)
                     } detail: {
                         NavigationStack(path: $path) {
                             AreaView(area: Area(rawValue: area) ?? .home)
@@ -75,7 +80,10 @@ struct RootView: View {
         case .capability(let id): CapabilityView(id: id)
         case .category(let category): CapabilityList(category: category)
         case .island: IslandLab()
+        case .islandDocument(let id): IslandConfigurationView(id: id)
         case .files: FilesView()
+        case .textAsset(let id): TextAssetEditor(id: id)
+        case .archive(let id): ArchiveInspector(id: id)
         case .backups: BackupsView()
         case .diagnostics: DiagnosticsView()
         case .history: HistoryView()
