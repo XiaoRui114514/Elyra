@@ -136,11 +136,14 @@ final class ElyraUITests: XCTestCase {
         app.navigationBars["Device configuration"].buttons.firstMatch.tap()
         selectArea(app, identifier: "settings", title: "Settings")
         app.buttons["About Elyra"].tap()
-        app.buttons["about.profiles"].tap()
-        XCTAssertTrue(app.buttons["profile.github"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["profile.douyin"].exists)
-        XCTAssertTrue(app.buttons["profile.xiaohongshu"].exists)
-        attach("Creator profile cards")
+        XCTAssertTrue(app.navigationBars["About Elyra"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["about.profiles"].exists)
+        for id in ["github", "douyin", "xiaohongshu"] {
+            let card = app.buttons["profile." + id]
+            reveal(card, app: app)
+            XCTAssertTrue(card.isHittable)
+        }
+        attach("About account cards")
     }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())

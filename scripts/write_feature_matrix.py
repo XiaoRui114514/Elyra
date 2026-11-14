@@ -94,7 +94,7 @@ row('Dynamic Island 配置检查与局部恢复','Elyra/Core/DynamicIsland.swift
 row('灵动岛外观记录','Elyra/Features/IslandObservations.swift','记录运行环境、方向、活动、形状与圆角；媒体播放状态可选；持久化并导出 JSON','RuntimeDeviceContext / Workspace','无','低','统一新增','DynamicIsland Lab','已实现；模拟器记录自动标注，不作为系统证据','观察持久化、版本关联和导出边界测试通过',True)
 row('文本文件版本与中断恢复','Elyra/Core/TextAsset.swift, Workspace.swift','原始字节备份、原子保存、版本冲突保护及 asset journal 重启恢复','SHA-256 / actor / journal','本地无','中','统一新增','AssetBackups','已实现 UTF-8 文件及文件备份恢复','BOM/CRLF/no-op/空文本/损坏备份/跨文件/中断恢复测试通过',True)
 row('语言选择','Elyra/App/LocalizationStore.swift; Features/LanguageSettingsView.swift','简体中文、English、跟随系统；保存偏好并同步全部窗口','SwiftUI locale / bundled resources','应用偏好','低','统一新增','Settings / Localization','已实现语言设置；功能名称使用统一术语','语言策略 Core 测试通过；真实切换与重启保留 UI 结果见 TEST_REPORT',True)
-row('关于与账号卡片','Elyra/Features/AboutView.swift','原生弹窗显示 GitHub、抖音、小红书按钮；独立开源许可页','SafariServices','打开指定公开主页','低','统一新增','Settings / About','已实现；主界面不展示源码审计叙述；保留法定版权与许可','模拟器覆盖卡片存在性；不自动打开外部主页',True)
+row('关于与账号卡片','Elyra/Features/AboutView.swift','关于页直接显示 GitHub、抖音、小红书卡片；独立开源许可页','SafariServices','打开指定公开主页','低','统一新增','Settings / About','已实现；主界面不展示源码审计叙述；保留法定版权与许可','模拟器覆盖三个卡片直接可达；不自动打开外部主页',True)
 headers=['功能名称','现有实现位置','功能说明','底层依赖','iOS 26 状态','iOS 27 状态','iPhone','iPad','特殊权限','风险','重复实现','Elyra 模块','实现进度','验证方法和结果']
 preamble='''# Elyra 功能并集与迁移矩阵
 

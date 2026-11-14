@@ -16,7 +16,7 @@ struct CreatorProfile: Identifiable {
 }
 struct AboutView: View {
     @EnvironmentObject private var localization: LocalizationStore
-    @State private var profiles = false
+    @State private var selected: CreatorProfile?
     var body: some View {
         List {
             Section {
@@ -27,23 +27,7 @@ struct AboutView: View {
                     Text((Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "") + " (" + (Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "") + ")").font(.caption).foregroundStyle(.secondary)
                 }.padding(.vertical, 12)
             }
-            Section {
-                Button { profiles = true } label: { FeatureLabel(title: "Creator profiles", detail: "GitHub, Douyin and Xiaohongshu", symbol: "person.crop.square").contentShape(Rectangle()) }.buttonStyle(.plain).accessibilityIdentifier("about.profiles")
-            }
-            Section {
-                NavigationLink(value: Screen.openSource) { Label("Open-source licenses", systemImage: "doc.text") }
-            }
-        }.navigationTitle(localization.text("About Elyra"))
-        .sheet(isPresented: $profiles) { CreatorProfilesView() }
-    }
-}
-struct CreatorProfilesView: View {
-    @EnvironmentObject private var localization: LocalizationStore
-    @Environment(\.dismiss) private var dismiss
-    @State private var selected: CreatorProfile?
-    var body: some View {
-        NavigationStack {
-            List {
+            Section("Creator profiles") {
                 ForEach(CreatorProfile.all) { profile in
                     Button { selected = profile } label: {
                         HStack(spacing: 16) {
@@ -57,10 +41,12 @@ struct CreatorProfilesView: View {
                         }.frame(minHeight: 60).padding(.vertical, 5).contentShape(Rectangle())
                     }.buttonStyle(.plain).accessibilityIdentifier("profile." + profile.id)
                 }
-            }.navigationTitle(localization.text("Creator profiles"))
-                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
-                .sheet(item: $selected) { profile in ProfileBrowser(url: profile.url).ignoresSafeArea() }
-        }.presentationDetents([.medium, .large])
+            }
+            Section {
+                NavigationLink(value: Screen.openSource) { Label("Open-source licenses", systemImage: "doc.text") }
+            }
+        }.navigationTitle(localization.text("About Elyra"))
+        .sheet(item: $selected) { profile in ProfileBrowser(url: profile.url).ignoresSafeArea() }
     }
 }
 private struct ProfileBrowser: UIViewControllerRepresentable {
