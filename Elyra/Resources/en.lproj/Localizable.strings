@@ -452,6 +452,7 @@
 "The system denied write access. No device configuration was changed." = "The system denied write access. No device configuration was changed.";
 "The system file session is closed." = "The system file session is closed.";
 "The system target is not a regular file." = "The system target is not a regular file.";
+"The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes." = "The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes.";
 "The system write was verified, but the local working copy could not be updated. Reconnect before editing again." = "The system write was verified, but the local working copy could not be updated. Reconnect before editing again.";
 "The text editor supports UTF-8 files up to 1 MB. Binary files are not editable here." = "The text editor supports UTF-8 files up to 1 MB. Binary files are not editable here.";
 "These changes apply to the managed local document only. No system write or device repair will be performed." = "These changes apply to the managed local document only. No system write or device repair will be performed.";

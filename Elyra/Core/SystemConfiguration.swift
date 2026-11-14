@@ -185,7 +185,11 @@ public actor SystemConfigurationStore {
             } catch { current = nil; throw ElyraError.invalid("System write and rollback failed. Keep the device backup and run recovery before further changes.") }
             throw originalError
         }
-        try FileManager.default.removeItem(at: journalURL)
+        do { try FileManager.default.removeItem(at: journalURL) }
+        catch {
+            current = nil
+            throw ElyraError.invalid("The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes.")
+        }
         let saved = SystemSnapshot(id: UUID(), fileIdentity: file.identity, data: output, value: value, writable: true, accessError: nil)
         current = saved; return saved
     }

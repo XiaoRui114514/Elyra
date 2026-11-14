@@ -517,5 +517,6 @@
   "Workspace ready": "工作区已就绪",
   "Finish pending operations and system recovery before restarting the interface.": "请先完成当前操作和系统恢复，再注销系统界面。",
   "Configure on device": "在设备上配置",
-  "Device system access is unavailable. Check the current connection, signing profile and file permissions.": "设备系统访问不可用，请检查连接状态、签名配置和文件权限。"
+  "Device system access is unavailable. Check the current connection, signing profile and file permissions.": "设备系统访问不可用，请检查连接状态、签名配置和文件权限。",
+  "The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes.": "系统写入已通过回读验证，但恢复记录未能清除。请先执行恢复，再继续修改。"
 }

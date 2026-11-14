@@ -12,7 +12,7 @@ struct DeviceConfigurationView: View {
             Section {
                 Label(localization.text(app.deviceSnapshot?.writable == true ? "Device write access ready" : "Device configuration"), systemImage: "iphone.and.arrow.forward").font(.headline)
                 Text("Read the live MobileGestalt cache before editing. Each write creates a device-bound backup and verifies the actual file afterwards.").foregroundStyle(.secondary)
-                Button(app.deviceSnapshot == nil ? "Connect to device" : "Read device again") { app.connectDevice() }.disabled(app.busy > 0 || RuntimeDeviceContext.current.simulator).accessibilityIdentifier("device.connect")
+                Button(localization.text(app.deviceSnapshot == nil ? "Connect to device" : "Read device again")) { app.connectDevice() }.disabled(app.busy > 0 || RuntimeDeviceContext.current.simulator).accessibilityIdentifier("device.connect")
                 if RuntimeDeviceContext.current.simulator { Text("Device system access is unavailable in the Simulator.").font(.caption).foregroundStyle(.secondary) }
             }
             if let snapshot = app.deviceSnapshot {
@@ -32,7 +32,7 @@ struct DeviceConfigurationView: View {
                             Text(backup.date, format: .dateTime).foregroundStyle(.primary)
                             Text(localization.text(backup.reason)).font(.caption).foregroundStyle(.secondary)
                         }
-                    }.disabled(app.deviceSnapshot == nil || app.busy > 0)
+                    }.disabled(app.deviceSnapshot?.writable != true || app.busy > 0)
                 }
                 if app.deviceBackups.isEmpty { Text("No device backups yet") }
                 Text("Device backups are captured from this installation. They are not factory defaults and may already contain earlier modifications.").font(.caption).foregroundStyle(.secondary)

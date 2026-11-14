@@ -95,7 +95,6 @@ struct AreaView: View {
             documents
             Section("Advanced tools") {
                 StatusNotice(title: "Pairing & device connection", detail: "Not migrated. Upstream uses a Rust idevice console, tunnel, pairing record and signed entitlements. This build does not start a pairing service.")
-                StatusNotice(title: "Respring", detail: "No supported public respring API is available. Upstream WebKit resource-exhaustion techniques are not included.")
             }
         }
     }

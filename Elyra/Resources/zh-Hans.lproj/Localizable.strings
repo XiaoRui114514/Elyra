@@ -452,6 +452,7 @@
 "The system denied write access. No device configuration was changed." = "系统拒绝写入权限，设备配置未改变。";
 "The system file session is closed." = "系统文件会话已关闭。";
 "The system target is not a regular file." = "系统目标不是普通文件。";
+"The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes." = "系统写入已通过回读验证，但恢复记录未能清除。请先执行恢复，再继续修改。";
 "The system write was verified, but the local working copy could not be updated. Reconnect before editing again." = "系统写入已验证，但本地工作副本更新失败。再次编辑前请重新连接设备。";
 "The text editor supports UTF-8 files up to 1 MB. Binary files are not editable here." = "文本编辑器支持不超过 1 MB 的 UTF-8 文件，不能在此编辑二进制文件。";
 "These changes apply to the managed local document only. No system write or device repair will be performed." = "变更仅应用至受管理的本地文档，不会写入系统或修复设备。";
