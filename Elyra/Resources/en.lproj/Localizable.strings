@@ -61,11 +61,14 @@
 "Asset not found." = "Asset not found.";
 "Audio Intelligence" = "Audio Intelligence";
 "Audio Mix" = "Audio Mix";
+"Backup" = "Backup";
 "Backup integrity verification failed. No restore was started." = "Backup integrity verification failed. No restore was started.";
 "Backup not found." = "Backup not found.";
 "Backups" = "Backups";
 "Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original." = "Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original.";
 "Before" = "Before";
+"Before " = "Before ";
+"Before operation: %@" = "Before operation: %@";
 "Before saving" = "Before saving";
 "Binary entry" = "Binary entry";
 "Boolean" = "Boolean";
@@ -184,8 +187,10 @@
 "Illustrative layout only" = "Illustrative layout only";
 "Illustrative layout only. This preview does not read Now Playing, implement a system overlay or demonstrate a successful iPad fix." = "Illustrative layout only. This preview does not read Now Playing, implement a system overlay or demonstrate a successful iPad fix.";
 "Illustrative playback progress" = "Illustrative playback progress";
+"Import" = "Import";
 "Import a MobileGestalt plist in System first." = "Import a MobileGestalt plist in System first.";
 "Import a plist to browse, edit and compare actual values." = "Import a plist to browse, edit and compare actual values.";
+"Import asset" = "Import asset";
 "Import category" = "Import category";
 "Import file" = "Import file";
 "Import plist" = "Import plist";
@@ -224,6 +229,7 @@
 "Managed local copy" = "Managed local copy";
 "Manual backup" = "Manual backup";
 "Media playback" = "Media playback";
+"Move asset to Trash" = "Move asset to Trash";
 "Move asset to Trash?" = "Move asset to Trash?";
 "Move to Trash" = "Move to Trash";
 "Multiple activities" = "Multiple activities";
@@ -282,6 +288,7 @@
 "Quick access" = "Quick access";
 "Real" = "Real";
 "Recent operations" = "Recent operations";
+"Record DI observation" = "Record DI observation";
 "Record appearance observation" = "Record appearance observation";
 "Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers." = "Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers.";
 "Recorded baseline means the bytes originally imported into this document. It may already contain tweaks and is not a verified factory original. Restore changes only the DI flag and artwork subtype, preserving other edits." = "Recorded baseline means the bytes originally imported into this document. It may already contain tweaks and is not a verified factory original. Restore changes only the DI flag and artwork subtype, preserving other edits.";
@@ -293,6 +300,7 @@
 "Research findings" = "Research findings";
 "Respring" = "Respring";
 "Restore" = "Restore";
+"Restore asset" = "Restore asset";
 "Restore local document" = "Restore local document";
 "Restore local file" = "Restore local file";
 "Restore local file?" = "Restore local file?";
@@ -307,8 +315,12 @@
 "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary." = "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary.";
 "Risk" = "Risk";
 "SHA-256: " = "SHA-256: ";
+"Save DI fields (local)" = "Save DI fields (local)";
+"Save failed; previous bytes restored" = "Save failed; previous bytes restored";
+"Save local document" = "Save local document";
 "Save local file" = "Save local file";
 "Save observation" = "Save observation";
+"Save text file" = "Save text file";
 "Saving updates this imported document only. It does not write MobileGestalt on your device." = "Saving updates this imported document only. It does not write MobileGestalt on your device.";
 "Screen recording" = "Screen recording";
 "Search features and imported fields" = "Search features and imported fields";

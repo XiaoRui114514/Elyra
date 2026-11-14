@@ -15,7 +15,7 @@ struct BackupsView: View {
             ForEach(app.state.backups) { record in
                 Section {
                     Text(record.name).font(.headline)
-                    Text(localization.text(record.reason)).font(.subheadline)
+                    Text(localization.backupReason(record.reason)).font(.subheadline)
                     Text(record.date, format: .dateTime).font(.caption)
                     Text(record.digest).font(.system(.caption2, design: .monospaced)).textSelection(.enabled)
                     HStack {

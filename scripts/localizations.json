@@ -416,5 +416,17 @@
   "ipad": "iPad",
   "intelligence": "智能功能",
   "advanced": "高级功能",
-  "ArtworkDeviceSubType": "ArtworkDeviceSubType"
+  "ArtworkDeviceSubType": "ArtworkDeviceSubType",
+  "Backup": "创建备份",
+  "Import": "导入配置",
+  "Import asset": "导入素材",
+  "Move asset to Trash": "移至回收站",
+  "Record DI observation": "记录灵动岛外观",
+  "Restore asset": "恢复素材",
+  "Save DI fields (local)": "保存灵动岛字段（本地）",
+  "Save failed; previous bytes restored": "保存失败，已恢复原文件",
+  "Save text file": "保存文本文件",
+  "Save local document": "保存本地文档",
+  "Before ": "操作前：",
+  "Before operation: %@": "操作前：%@"
 }

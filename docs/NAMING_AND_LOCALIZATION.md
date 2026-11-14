@@ -23,4 +23,4 @@ Elyra 使用常见系统功能名称，不另造营销名称。优先参考 Appl
 
 共享 LocalizationStore 保存选择并同步全部窗口；SwiftUI locale 与动态词条查询使用同一语言。切换不重建窗口根视图，不修改 AppleLanguages 或系统语言，不清空导航或草稿。日期、文件大小、功能名称、状态、操作说明及 Elyra 自定义错误按选择显示。文件名、配置键和值保持原样。原生文件选择器、Quick Look 和系统产生的错误可能仍遵循系统自身语言；许可证原文和已记录的原始诊断细节保留。
 
-418 个中英文词条，回退报告见 audit/localization-fallbacks.json。新增 UI 测试验证即时切换、跟随系统、重启保留、首页自定义组件与灵动岛标题同步；准确执行结果以 TEST_REPORT 为准。VoiceOver 真机听读、多窗口同时切换和全部系统弹窗尚未人工验收。
+430 个中英文词条，回退报告见 audit/localization-fallbacks.json。新增 UI 测试验证即时切换、跟随系统、重启保留、首页自定义组件与灵动岛标题同步；准确执行结果以 TEST_REPORT 为准。VoiceOver 真机听读、多窗口同时切换和全部系统弹窗尚未人工验收。

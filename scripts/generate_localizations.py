@@ -11,6 +11,7 @@ for file in (r/'Elyra').rglob('*.swift'):
     keys.update(re.findall(r'\.invalid\("([^"\\]*)"', file.read_text()))
 for file in (r/'Elyra').rglob('*.swift'):
     keys.update(re.findall(r'(?:title|detail|prompt):\s*"([^"\\]*)"', file.read_text()))
+    keys.update(re.findall(r'(?:event\(\s*|reason:\s*(?:String\s*=\s*)?)"([^"\\]*)"', file.read_text()))
 for row in json.loads((r/'docs/audit/presets.json').read_text()): keys.add(row['detail']);keys.add(row['title'])
 for lang in ['en','zh-Hans']:
     lines=[json.dumps(k,ensure_ascii=False)+' = '+json.dumps(translations.get(k,k) if lang=='zh-Hans' else k,ensure_ascii=False)+';' for k in sorted(keys) if k]
@@ -18,3 +19,5 @@ for lang in ['en','zh-Hans']:
 missing=sorted(keys-translations.keys())
 (r/'docs/audit/localization-fallbacks.json').write_text(json.dumps(missing,indent=2,ensure_ascii=False)+'\n')
 print(f'{len(keys)} localization keys; {len(missing)} Chinese entries fall back to English (documented)')
+if missing:
+    raise SystemExit('Missing Chinese translations: ' + ', '.join(missing))

@@ -26,6 +26,11 @@ import SwiftUI
         return bundle
     }
     func text(_ key: String) -> String { bundle.localizedString(forKey: key, value: key, table: nil) }
+    func backupReason(_ reason: String) -> String {
+        guard reason.hasPrefix("Before ") else { return text(reason) }
+        return String(format: text("Before operation: %@"), locale: locale,
+                      arguments: [text(String(reason.dropFirst("Before ".count)))])
+    }
     func bytes(_ count: Int64, memory: Bool = false) -> String {
         count.formatted(.byteCount(style: memory ? .memory : .file).locale(locale))
     }

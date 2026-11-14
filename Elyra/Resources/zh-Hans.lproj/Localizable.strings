@@ -61,11 +61,14 @@
 "Asset not found." = "未找到素材。";
 "Audio Intelligence" = "音频智能";
 "Audio Mix" = "音频混合";
+"Backup" = "创建备份";
 "Backup integrity verification failed. No restore was started." = "备份完整性校验失败，未开始恢复。";
 "Backup not found." = "未找到备份。";
 "Backups" = "备份与恢复";
 "Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original." = "这里的备份仅恢复导入的本地文件。缺少授权访问及已验证的同设备原始数据时，Elyra 无法恢复系统灵动岛。";
 "Before" = "修改前";
+"Before " = "操作前：";
+"Before operation: %@" = "操作前：%@";
 "Before saving" = "保存前请检查";
 "Binary entry" = "二进制条目";
 "Boolean" = "布尔值 (Boolean)";
@@ -184,8 +187,10 @@
 "Illustrative layout only" = "仅为布局示意";
 "Illustrative layout only. This preview does not read Now Playing, implement a system overlay or demonstrate a successful iPad fix." = "仅为布局示意。此预览不会读取系统当前播放信息，不会创建系统悬浮层，也不是 iPad 修复成功的证据。";
 "Illustrative playback progress" = "示意播放进度";
+"Import" = "导入配置";
 "Import a MobileGestalt plist in System first." = "请先在“系统”中导入 MobileGestalt plist。";
 "Import a plist to browse, edit and compare actual values." = "导入 plist 后即可浏览、编辑和比较真实字段。";
+"Import asset" = "导入素材";
 "Import category" = "导入分类";
 "Import file" = "导入文件";
 "Import plist" = "导入 plist";
@@ -224,6 +229,7 @@
 "Managed local copy" = "受管理的本地副本";
 "Manual backup" = "手动备份";
 "Media playback" = "媒体播放";
+"Move asset to Trash" = "移至回收站";
 "Move asset to Trash?" = "将素材移至回收站？";
 "Move to Trash" = "移至回收站";
 "Multiple activities" = "多活动";
@@ -282,6 +288,7 @@
 "Quick access" = "快捷入口";
 "Real" = "实数 (Real)";
 "Recent operations" = "最近操作";
+"Record DI observation" = "记录灵动岛外观";
 "Record appearance observation" = "记录外观";
 "Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers." = "记录形状、圆角、位置、活动内容、显示缩放及键盘异常。请勿填写账号信息或设备唯一标识。";
 "Recorded baseline means the bytes originally imported into this document. It may already contain tweaks and is not a verified factory original. Restore changes only the DI flag and artwork subtype, preserving other edits." = "已记录基准是首次导入此文档的原始字节，可能已经包含修改，并非已验证的出厂配置。恢复仅处理灵动岛标记及外观 subtype，保留其他编辑。";
@@ -293,6 +300,7 @@
 "Research findings" = "研究结论";
 "Respring" = "重新加载系统界面";
 "Restore" = "恢复";
+"Restore asset" = "恢复素材";
 "Restore local document" = "恢复本地文档";
 "Restore local file" = "恢复本地文件";
 "Restore local file?" = "恢复本地文件？";
@@ -307,8 +315,12 @@
 "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary." = "请检查字段类型。Elyra 不会猜测如何修复损坏的外观字典。";
 "Risk" = "风险";
 "SHA-256: " = "SHA-256: ";
+"Save DI fields (local)" = "保存灵动岛字段（本地）";
+"Save failed; previous bytes restored" = "保存失败，已恢复原文件";
+"Save local document" = "保存本地文档";
 "Save local file" = "保存本地文件";
 "Save observation" = "保存观察记录";
+"Save text file" = "保存文本文件";
 "Saving updates this imported document only. It does not write MobileGestalt on your device." = "保存仅更新这个导入文档，不会写入设备上的 MobileGestalt。";
 "Screen recording" = "屏幕录制";
 "Search features and imported fields" = "搜索功能与导入字段";

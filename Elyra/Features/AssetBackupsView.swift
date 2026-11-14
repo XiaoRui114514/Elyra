@@ -17,6 +17,7 @@ struct AssetBackupsView: View {
             ForEach(app.state.assetBackups) { backup in
                 Section {
                     Text(backup.name).font(.headline)
+                    Text(localization.backupReason(backup.reason)).font(.subheadline)
                     Text(backup.date, format: .dateTime).font(.caption)
                     Text(backup.digest).font(.system(.caption2, design: .monospaced)).textSelection(.enabled)
                     HStack {
