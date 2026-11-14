@@ -23,11 +23,15 @@ final class ElyraUITests: XCTestCase {
     @MainActor private func openLab(_ app: XCUIApplication, expectedTitle: String? = nil) {
         let chinese = expectedTitle == "灵动岛" || app.launchArguments.contains("(zh-Hans)")
         selectArea(app, identifier: "system", title: chinese ? "系统" : "System")
-        let link = app.buttons["system.island"].firstMatch
-        reveal(link, app: app)
-        link.tap()
+        let display = app.buttons["system.category.display"].firstMatch
+        reveal(display, app: app); display.tap()
+        let feature = app.buttons["system.feature.dynamicIsland"].firstMatch
+        reveal(feature, app: app); feature.tap()
+        let lab = app.buttons["dynamicIsland.lab"].firstMatch
+        reveal(lab, app: app); lab.tap()
         let title = expectedTitle ?? (app.launchArguments.contains("(zh-Hans)") ? "灵动岛" : "Dynamic Island")
         XCTAssertTrue(app.navigationBars[title].waitForExistence(timeout: 10))
+        reveal(app.buttons["island.record"], app: app)
     }
     @MainActor func testLaunchNavigationAndRotation() {
         let app = makeApp(); app.launch()
@@ -144,6 +148,27 @@ final class ElyraUITests: XCTestCase {
             XCTAssertTrue(card.isHittable)
         }
         attach("About account cards")
+    }
+    @MainActor func testSystemFeatureRoundTripKeepsTileNavigationAndVisibleModify() {
+        let app = makeApp(); app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
+        selectArea(app, identifier: "system", title: "System")
+        for category in ["display", "device", "ipad", "intelligence", "advanced"] {
+            let tile = app.buttons["system.category." + category].firstMatch
+            reveal(tile, app: app); tile.tap()
+            XCTAssertTrue(app.scrollViews["system.category.page"].waitForExistence(timeout: 5))
+            let feature = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "system.feature.")).firstMatch
+            reveal(feature, app: app); feature.tap()
+            let modify = app.buttons["feature.modify"]
+            reveal(modify, app: app)
+            XCTAssertFalse(modify.isEnabled, "Simulator must not apply a device preset")
+            XCTAssertFalse(app.staticTexts["Dependencies & risk"].exists)
+            app.navigationBars.buttons.firstMatch.tap()
+            XCTAssertTrue(app.scrollViews["system.category.page"].waitForExistence(timeout: 5))
+            app.navigationBars.buttons.firstMatch.tap()
+            XCTAssertTrue(app.scrollViews["system.dashboard"].waitForExistence(timeout: 5))
+        }
+        attach("System tiles after feature round trips")
     }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())

@@ -10,7 +10,7 @@ struct DeviceConfigurationView: View {
     var body: some View {
         List {
             Section {
-                Label(localization.text(app.deviceSnapshot?.writable == true ? "Device write access ready" : "Device configuration"), systemImage: "iphone.and.arrow.forward").font(.headline)
+                Label(localization.text(app.deviceAccessState.rawValue), systemImage: "iphone.and.arrow.forward").font(.headline)
                 Text("Read the live MobileGestalt cache before editing. Each write creates a device-bound backup and verifies the actual file afterwards.").foregroundStyle(.secondary)
                 Button(localization.text(app.deviceSnapshot == nil ? "Connect to device" : "Read device again")) { app.connectDevice() }.disabled(app.busy > 0 || RuntimeDeviceContext.current.simulator).accessibilityIdentifier("device.connect")
                 if RuntimeDeviceContext.current.simulator { Text("Device system access is unavailable in the Simulator.").font(.caption).foregroundStyle(.secondary) }
@@ -23,6 +23,11 @@ struct DeviceConfigurationView: View {
                     Button("Edit device configuration", systemImage: "slider.horizontal.3") { app.openDeviceEditor { editor = $0 } }.disabled(app.busy > 0)
                     Text("Writing capability flags does not add hardware. Changes may need a system-interface restart or device restart to take effect.").font(.caption).foregroundStyle(.secondary)
                 }
+            }
+            Section("Signing configuration") {
+                LabeledContent("Embedded App Groups", value: DeviceBackend.declaredAppGroups().count.formatted())
+                LabeledContent("Accessible App Groups", value: GXEntitlementsReader.usableAppGroups().count.formatted())
+                Text("The signing tool must preserve App Groups and provide their container access.").font(.caption).foregroundStyle(.secondary)
             }
             if let error = app.systemError { Section("Connection details") { Text(localization.text(error)).textSelection(.enabled) } }
             Section("Device backups") {
@@ -43,6 +48,7 @@ struct DeviceConfigurationView: View {
             }
         }
         .navigationTitle(localization.text("Device configuration"))
+        .task { await app.ensureDeviceConnection() }
         .navigationDestination(item: $editor) { id in DocumentEditor(id: id, systemMode: true) }
         .confirmationDialog(localization.text("Restore device backup?"), isPresented: Binding(get: { restore != nil }, set: { if !$0 { restore = nil } }), titleVisibility: .visible) {
             Button("Confirm system restore", role: .destructive) {

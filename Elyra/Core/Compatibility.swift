@@ -15,9 +15,9 @@ public struct CompatibilityReport: Sendable {
 }
 public enum CompatibilityEngine {
     /// Never equate a major version, model, or readable file with an authorized system writer.
-    public static func report(version: OperatingSystemVersion, deviceReadable: Bool = false, deviceWritable: Bool = false) -> CompatibilityReport {
+    public static func report(version: OperatingSystemVersion, deviceReadable: Bool = false, deviceWritable: Bool = false, accessChecked: Bool = false) -> CompatibilityReport {
         CompatibilityReport(ui: version.majorVersion >= 17 ? .unverified : .unsupportedOS,
-                            localFiles: .partial, systemRead: deviceReadable ? .supported : .needsConditions, systemWrite: deviceWritable ? .experimental : .needsConditions,
+                            localFiles: .partial, systemRead: deviceReadable ? .supported : (accessChecked ? .needsConditions : .unverified), systemWrite: deviceWritable ? .experimental : (accessChecked ? .needsConditions : .unverified),
                             visualEffect: .unverified,
                             reason: "Connect to probe device access. A supported major version does not guarantee that an individual build permits reads or writes.")
     }

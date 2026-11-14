@@ -6,7 +6,7 @@ struct DiagnosticsView: View {
     @EnvironmentObject private var app: AppEnvironment
     @EnvironmentObject private var localization: LocalizationStore
     private let device = RuntimeDeviceContext.current
-    private var report: CompatibilityReport { CompatibilityEngine.report(version: ProcessInfo.processInfo.operatingSystemVersion, deviceReadable: app.deviceSnapshot != nil, deviceWritable: app.deviceSnapshot?.writable == true) }
+    private var report: CompatibilityReport { CompatibilityEngine.report(version: ProcessInfo.processInfo.operatingSystemVersion, deviceReadable: app.deviceSnapshot != nil, deviceWritable: app.deviceSnapshot?.writable == true, accessChecked: app.deviceAccessChecked) }
     var body: some View {
         List {
             Section("Device") {

@@ -47,7 +47,7 @@ jobs:
           python3 scripts/select_simulators.py build/simulators.json iPhone > "$RUNNER_TEMP/elyra-analysis.env"
           source "$RUNNER_TEMP/elyra-analysis.env"
           xcodebuild analyze -project Elyra.xcodeproj -scheme Elyra -destination "platform=iOS Simulator,id=$SIMULATOR_ID,arch=$(uname -m)" CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/analyze.log
-      - name: Release archive and unsigned device IPA
+      - name: Release archive and device IPAs
         run: scripts/build_ipa.sh "$PWD/build"
       - name: Upload build evidence
         if: ${{ !cancelled() }}
@@ -59,14 +59,18 @@ jobs:
             build/*.log
             build/*.json
           if-no-files-found: warn
-      - name: Upload unsigned IPA
+      - name: Upload re-signable and unsigned IPAs
         uses: actions/upload-artifact@v4
         with:
-          name: Elyra-unsigned-${{ github.sha }}
+          name: Elyra-package-${{ github.sha }}
           path: |
+            build/Elyra-resignable.ipa
             build/Elyra-unsigned.ipa
             build/SHA256SUMS
             build/ipa-report.json
+            build/resignable-ipa-report.json
+            build/embedded-entitlements.plist
+            build/signature-metadata.txt
             build/Elyra.entitlements
           if-no-files-found: error
   ui:

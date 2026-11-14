@@ -1,3 +1,13 @@
+# 0.4 candidate
+
+Implemented: independent per-area scene navigation; dashboard/category/feature tiles with no disclosure arrows; visible Modify action with confirmed device preset application and restoration from verified initial capture; Dynamic Island under Display; automatic access probing with separate unchecked/read-only/read-write/error states; removed generic dependency/risk block and language helper copy.
+
+Packaging now supplies both a fully unsigned IPA and a re-signable ad-hoc IPA embedding App Group entitlements, with strict macOS signature and portable blob checks. This template does not replace legitimate provisioning. Upstream recheck: GestaltX current HEAD 72bf625befdb5e9e16d52c663e123f9fbc8ec7bf differs from the pinned native baseline only in README files; Erosion HEAD remains 12c0a2d00c444c9b09112608b47d4d6c10e0df14.
+
+Local validation: 82 Swift core tests, 14 Python checks, 560 bilingual strings. Apple CI/IPA qualification pending. Physical system writes and iOS/iPadOS 27 runtime remain unverified. UI presentation does not prove per-feature hardware or service behavior.
+
+The 0.3 record below remains historical and does not qualify changed 0.4 code.
+
 # Development status
 
 ## 0.3 delivery

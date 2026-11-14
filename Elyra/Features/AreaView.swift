@@ -11,19 +11,21 @@ struct AreaView: View {
     @State private var respringConfirmation = false
     @State private var showRespring = false
     var body: some View {
-        List {
+        Group {
+            if area == .system && search.isEmpty { SystemOverview() }
+            else { List {
             if !search.isEmpty { searchResults }
             else {
                 switch area {
                 case .home: home
-                case .system: system
+                case .system: EmptyView()
                 case .appearance: appearance
                 case .tools: tools
                 case .settings: settings
                 }
             }
+            }.listStyle(.insetGrouped) }
         }
-        .listStyle(.insetGrouped)
         .searchable(text: $search, prompt: Text(localization.text("Search features and imported fields")))
         .confirmationDialog(localization.text("Restart the system interface?"), isPresented: $respringConfirmation, titleVisibility: .visible) {
             Button("Respring", role: .destructive) { if app.beginRespring() { showRespring = true } }
@@ -62,7 +64,6 @@ struct AreaView: View {
             }
         }
     }
-    private var system: some View { SystemOverview() }
     private var documents: some View {
         Section("Configuration documents") {
             Button { importing = true } label: { Label("Import plist", systemImage: "square.and.arrow.down") }
@@ -81,7 +82,7 @@ struct AreaView: View {
                 NavigationLink(value: Screen.files) { Label("Open asset library", systemImage: "photo.on.rectangle.angled") }
             }
             ForEach(["Wallpapers & .tendies", "Dialer themes", "Notification sounds", "App launch images", "Lock Screen text"], id: \.self) { title in
-                Section(localization.text(title)) { StatusNotice(title: "Additional conditions required", detail: "System application requires an authorized, verified backend. Original system files are not accessible in this build.", symbol: "lock") }
+                Section(localization.text(title)) { StatusNotice(title: "Implementation pending", detail: "System asset installation is not implemented yet. Import and preview are available in the asset library.", symbol: "wrench.and.screwdriver") }
             }
         }
     }
@@ -107,10 +108,9 @@ struct AreaView: View {
             }
             Section("Language & accessibility") {
                 NavigationLink(value: Screen.language) { Label("Language", systemImage: "globe") }.accessibilityIdentifier("settings.language")
-                Text("Choose English, Simplified Chinese or Follow System. Appearance, text size and Reduce Motion follow system settings.")
                 Button("Open app settings") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
             }
-            Section { Text("Elyra 0.3.0 • Development build").foregroundStyle(.secondary) }
+            Section { Text("Elyra 0.4.0 • Development build").foregroundStyle(.secondary) }
         }
     }
     private var searchResults: some View {
@@ -119,7 +119,7 @@ struct AreaView: View {
                 ForEach(Capability.all.filter { (localization.text($0.title) + $0.title + localization.text($0.category) + $0.keys.joined()).localizedCaseInsensitiveContains(search) }) { capability in
                     NavigationLink(localization.text(capability.title), value: Screen.capability(capability.id))
                 }
-                if "Dynamic Island 灵动岛".localizedCaseInsensitiveContains(search) { NavigationLink("Dynamic Island", value: Screen.island) }
+                if "Dynamic Island 灵动岛".localizedCaseInsensitiveContains(search) { NavigationLink("Dynamic Island", value: Screen.capability("dynamicIsland")) }
                 if "Files 文件 素材".localizedCaseInsensitiveContains(search) { NavigationLink("File Manager", value: Screen.files) }
                 if "Backups 备份 恢复".localizedCaseInsensitiveContains(search) { NavigationLink("Backups", value: Screen.backups) }
             }

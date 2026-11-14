@@ -61,6 +61,8 @@ enum DeviceBackend {
         guard SecItemAdd(add as CFDictionary, nil) == errSecSuccess else { throw ElyraError.invalid("The device backup key could not be saved. Check app signing and Keychain access.") }
         return Digest.sha256(data)
     }
+    private static let signatureGroups: [String] = ElyraDeclaredAppGroups()
+    static func declaredAppGroups() -> [String] { signatureGroups }
     static func access() -> SystemAccess { SystemAccess { writable in try open(writable: writable) } }
     private static func open(writable: Bool) throws -> any SystemConfigurationFile {
         #if targetEnvironment(simulator)
@@ -72,7 +74,10 @@ enum DeviceBackend {
         if fd < 0 {
             guard [26,27].contains(ProcessInfo.processInfo.operatingSystemVersion.majorVersion) else { throw ElyraError.invalid("The native access module has not been validated for this system version.") }
             let groups = GXEntitlementsReader.usableAppGroups()
-            guard !groups.isEmpty else { throw ElyraError.invalid("System access requires a signed, usable App Group. Enable App Groups in the signing profile and re-sign Elyra.") }
+            guard !groups.isEmpty else {
+                if declaredAppGroups().isEmpty { throw ElyraError.invalid("The app signature has no App Group entitlement. Re-sign the re-signable IPA with App Groups preserved.") }
+                throw ElyraError.invalid("App Groups are declared, but the signing profile did not grant an accessible container. Check the signing tool's App Group settings.")
+            }
             let target = (path as NSString).deletingLastPathComponent
             for group in groups {
                 // Both flags are existing upstream modes. Neither grants access on a patched build.

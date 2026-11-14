@@ -80,7 +80,7 @@ final class PlistTests: XCTestCase {
             let r = CompatibilityEngine.report(version: .init(majorVersion: major, minorVersion: 0, patchVersion: 1))
             XCTAssertEqual(r.ui, .unverified)
             XCTAssertEqual(r.localFiles, .partial)
-            XCTAssertEqual(r.systemWrite, .needsConditions)
+            XCTAssertEqual(r.systemWrite, .unverified)
             XCTAssertEqual(r.visualEffect, .unverified)
         }
     }

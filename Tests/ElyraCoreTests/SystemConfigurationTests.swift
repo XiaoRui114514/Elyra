@@ -130,4 +130,32 @@ final class SystemConfigurationTests: XCTestCase, @unchecked Sendable {
         do { try await store.recoverInterruptedWrite();XCTFail() } catch {}
         XCTAssertEqual(try PlistValue.decode(disk.read()),changed)
     }
+    func testFeatureApplyAndRestoreUseCapturedOriginalAndPreserveOtherChanges() async throws {
+        let (store,disk) = try make();let before = try await store.connect()
+        let enable = try await store.capabilityPlan("dynamicIsland", restoring: false, expected: before)
+        XCTAssertEqual(enable.changes.count,1)
+        var saved = try await store.commitCapability(enable)
+        var other = saved.value;try Capability.all.first { $0.id == "aod" }!.stage(in:&other)
+        saved = try await store.apply(other,expected:saved)
+        let restore = try await store.capabilityPlan("dynamicIsland",restoring:true,expected:saved)
+        XCTAssertNil(restore.target.value(at:["CacheExtra",flag]))
+        let restored = try await store.commitCapability(restore)
+        XCTAssertNil(restored.value.value(at:["CacheExtra",flag]))
+        XCTAssertEqual(restored.value.value(at:["CacheExtra","2OOJf1VhaM7NxfRok3HbWQ"]),.integer(1))
+        XCTAssertEqual(try disk.read(),restored.data)
+    }
+    func testFeaturePlansRejectStaleSessionAndCorruptOriginal() async throws {
+        let (store,_) = try make();let before = try await store.connect()
+        let plan = try await store.capabilityPlan("dynamicIsland",restoring:false,expected:before)
+        _ = try await store.connect()
+        do { _ = try await store.commitCapability(plan);XCTFail() } catch {}
+        let current = try await store.connect();let backups = await store.listing()
+        try Data("corrupt".utf8).write(to:root.appendingPathComponent("backups").appendingPathComponent(backups[0].filename))
+        do { _ = try await store.capabilityPlan("dynamicIsland",restoring:true,expected:current);XCTFail() } catch { XCTAssertEqual(error as? ElyraError,.integrity) }
+    }
+    func testDeviceSpecificSiriPresetCannotBypassValidationViaPlan() async throws {
+        let (store,_) = try make();let current = try await store.connect()
+        do { _ = try await store.capabilityPlan("siriOnDevice",restoring:false,expected:current);XCTFail() } catch {}
+    }
+
 }

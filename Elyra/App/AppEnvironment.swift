@@ -11,6 +11,8 @@ import UniformTypeIdentifiers
     @Published var deviceBackups: [SystemBackup] = []
     @Published var systemError: String?
     @Published var respringing = false
+    @Published var connectingDevice = false
+    @Published var deviceAccessChecked = false
     @Published var systemRecoveryPending = false
     var deviceStore: SystemConfigurationStore?
     var deviceLinks: [UUID: SystemSnapshot] = [:]
@@ -105,16 +107,30 @@ extension AppEnvironment {
         guard busy == 0, !respringing, !systemRecoveryPending, !RuntimeDeviceContext.current.simulator else { error = "Finish pending operations and system recovery before restarting the interface."; return false }
         respringing = true; return true
     }
-    func connectDevice() {
-        performDevice { store in
+    var deviceAccessState: DeviceAccessState {
+        DeviceAccessState.resolve(simulator: RuntimeDeviceContext.current.simulator, checking: connectingDevice,
+            readable: deviceSnapshot != nil, writable: deviceSnapshot?.writable == true,
+            failed: systemError != nil, recovery: systemRecoveryPending)
+    }
+    func ensureDeviceConnection() async {
+        guard !deviceAccessChecked, !connectingDevice, !RuntimeDeviceContext.current.simulator else { return }
+        if let task = startDeviceConnection(showErrorAlert: false) { await task.value }
+    }
+    func connectDevice() { _ = startDeviceConnection(showErrorAlert: true) }
+    private func startDeviceConnection(showErrorAlert: Bool) -> Task<Void, Never>? {
+        guard !connectingDevice, busy == 0, !respringing, !RuntimeDeviceContext.current.simulator else { return nil }
+        connectingDevice = true; deviceAccessChecked = true
+        return performDevice(showErrorAlert: showErrorAlert) { store in
+            defer { self.connectingDevice = false }
             self.deviceSnapshot = try await store.connect()
         }
     }
-    func performDevice(_ action: @escaping @MainActor (SystemConfigurationStore) async throws -> Void) {
-        guard busy == 0, !respringing else { return }
+    @discardableResult
+    func performDevice(showErrorAlert: Bool = true, _ action: @escaping @MainActor (SystemConfigurationStore) async throws -> Void) -> Task<Void, Never>? {
+        guard busy == 0, !respringing else { return nil }
         busy += 1
-        Task {
-            defer { busy -= 1 }
+        return Task {
+            defer { busy -= 1; connectingDevice = false }
             do {
                 if deviceStore == nil {
                     guard let workspace else { throw ElyraError.systemUnavailable }
@@ -127,7 +143,8 @@ extension AppEnvironment {
                 }
                 systemError = nil
             } catch {
-                systemError = error.localizedDescription; self.error = error.localizedDescription
+                systemError = error.localizedDescription
+                if showErrorAlert { self.error = error.localizedDescription }
                 deviceSnapshot = nil; deviceLinks.removeAll()
                 if let deviceStore {
                     deviceBackups = await deviceStore.listing()
@@ -137,7 +154,7 @@ extension AppEnvironment {
         }
     }
     func openDeviceEditor(_ completion: @escaping @MainActor (UUID) -> Void) {
-        guard let deviceSnapshot, let workspace else { return }
+        guard let deviceSnapshot, workspace != nil else { return }
         run { workspace in
             let document = try await workspace.importDocument(data: deviceSnapshot.data, name: "MobileGestalt.plist")
             self.deviceLinks[document.record.id] = deviceSnapshot

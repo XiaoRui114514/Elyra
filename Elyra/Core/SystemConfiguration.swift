@@ -29,6 +29,14 @@ public struct SystemBackup: Codable, Identifiable, Sendable {
     public let reason: String
     public var filename: String { id.uuidString + ".plist" }
 }
+public struct SystemCapabilityPlan: Identifiable, Sendable {
+    public let id: UUID
+    public let capabilityID: String
+    public let restoring: Bool
+    public let snapshot: SystemSnapshot
+    public let target: PlistValue
+    public var changes: [PlistChange] { PlistChange.between(snapshot.value, target) }
+}
 private struct SystemJournal: Codable {
     let backup: UUID
     let fileIdentity: String
@@ -149,6 +157,29 @@ public actor SystemConfigurationStore {
         var format = PropertyListSerialization.PropertyListFormat.binary
         _ = try PropertyListSerialization.propertyList(from: expected.data, options: [], format: &format)
         return try commit(edited.encoded(format: format), expected: expected, reason: "Before system write")
+    }
+    public func capabilityPlan(_ id: String, restoring: Bool, expected: SystemSnapshot) throws -> SystemCapabilityPlan {
+        guard current?.id == expected.id, !recoveryPending(), let capability = Capability.all.first(where: { $0.id == id }) else { throw ElyraError.conflict }
+        var target = expected.value
+        if restoring {
+            let generation = try SystemEditPolicy.generation(expected.value)
+            guard let original = backups.filter({ $0.binding == binding && $0.generation == generation && $0.reason == "Initial device capture" }).min(by: { $0.date < $1.date }) else {
+                throw ElyraError.invalid("No verified initial device capture is available for this cache generation.")
+            }
+            let baseline = try decoded(backupData(original))
+            for key in capability.keys { try target.set(baseline.value(at: ["CacheExtra", key]), at: ["CacheExtra", key]) }
+        } else { try capability.stage(in: &target) }
+        try SystemEditPolicy.validate(target, from: expected.value, restoring: restoring)
+        return SystemCapabilityPlan(id: UUID(), capabilityID: id, restoring: restoring, snapshot: expected, target: target)
+    }
+    public func commitCapability(_ plan: SystemCapabilityPlan) throws -> SystemSnapshot {
+        // Recompute restoration from a verified device capture; the UI cannot supply original values.
+        let verified = try capabilityPlan(plan.capabilityID, restoring: plan.restoring, expected: plan.snapshot)
+        guard verified.target == plan.target else { throw ElyraError.conflict }
+        if !plan.restoring { return try apply(verified.target, expected: plan.snapshot) }
+        var format = PropertyListSerialization.PropertyListFormat.binary
+        _ = try PropertyListSerialization.propertyList(from: plan.snapshot.data, options: [], format: &format)
+        return try commit(verified.target.encoded(format: format), expected: plan.snapshot, reason: "Before capability restore")
     }
     public func restore(_ id: UUID, expected: SystemSnapshot) throws -> SystemSnapshot {
         guard let backup = backups.first(where: { $0.id == id }), backup.generation == (try? SystemEditPolicy.generation(expected.value)) else { throw ElyraError.invalid("The backup does not match the current device cache generation.") }
