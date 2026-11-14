@@ -402,7 +402,6 @@
 "Workspace could not be opened. Export existing files before attempting recovery." = "无法打开工作区。尝试恢复前，请先导出现有文件。";
 "Workspace unavailable" = "工作区不可用";
 "Write and recovery failed. Keep the backup and commit journal; reopen the workspace before further edits." = "写入与恢复均失败。请保留备份及提交日志；继续编辑前请重新打开工作区。";
-"Your screenshots show a tall media region on the left edge, with album art above the waveform. A separate recording activity is also visible. Notification banners at the top are separate system UI." = "你的截图显示：左侧媒体区域呈竖向长条，封面位于波形上方；另一张还显示了独立的录屏活动。顶部通知横幅属于另一类系统界面。";
 "advanced" = "高级功能";
 "device" = "设备";
 "display" = "显示";

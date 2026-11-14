@@ -4,14 +4,14 @@ from pathlib import Path
 r=Path(__file__).resolve().parents[1]
 rows=[]
 def row(name,location,description,dependency,special,risk,duplicate,module,progress,verification,local=False):
-    status='本地可用；系统行为未验证' if local else '系统操作未验证／当前无后端'
-    rows.append([name,location,description,dependency,status,status,'同一入口；系统效果待真机验证','同一入口；系统效果待真机验证',special,risk,duplicate,module,progress,verification])
+    status='本地工具；系统效果尚未验证' if local else '系统操作尚未验证／当前无后端'
+    rows.append([name,location,description,dependency,status,'尚未验证（无 27 运行证据）','同一入口；系统效果待真机验证','同一入口；系统效果待真机验证',special,risk,duplicate,module,progress,verification])
 for p in json.loads((r/'docs/audit/presets.json').read_text()):
     row(p['title'],'B: GestaltX/Capabilities.swift (`'+p['id']+'`)',p['detail'],'CacheExtra: '+', '.join('`'+k+'`' for k in p['keys']),'系统写入需要授权后端','高' if p['caution'] else '较高','A/B 重复' if p['id'] in ['dynamicIsland','aod','aodVibrancy','pwm','bootChime','chargeLimit','tapToWake','cameraControl','actionButton','collisionSOS','pencil','stageManager','ai','internal','storage','srd'] else 'B 独有','Capability / System','已迁移本地预设；siriOnDevice 保留原类型、拒绝猜值；系统写入未迁移' if p['id']=='siriOnDevice' else '本地暂存与差异预览已实现；系统写入阻断','catalog 源码定位；公共引擎测试。仅 DI/Siri 有专项预设测试；其余效果未验证',True)
 entries=[
 ('设备配置读取','A: Tweaks/MobileGestalt/GestaltHelpers.swift; B: GestaltManager.swift','读取真实系统缓存，不能由导入文件代替','worse_query + signed App Group','需要系统容器访问','高','A/B','Compatibility','未迁移；当前只读导入文档','上游明确 26 不支持 MG；27 无真机证据'),
 ('全部字段浏览／递归容器','A: CustomKeyView.swift; B: GestaltDocument.swift, ContentView.swift','浏览全部可用 CacheExtra 以及根、数组、嵌套字典','Foundation plist','本地无特殊权限','低','A/B','DocumentEditor','已实现本地真实文档','8 类型往返与嵌套路径测试通过'),
-('搜索字段与值','B: ContentView.swift; A: PlistViewer.swift','编辑器内递归内容搜索；全局搜索导入字段名称','索引 + plist','本地无','低','A/B','AreaView / DocumentEditor','已实现；全局字段结果递归索引并直接打开字段编辑器','Core 可编译；UI 待 Xcode'),
+('搜索字段与值','B: ContentView.swift; A: PlistViewer.swift','编辑器内递归内容搜索；全局搜索导入字段名称','索引 + plist','本地无','低','A/B','AreaView / DocumentEditor','已实现；全局字段结果递归索引并直接打开字段编辑器','Core 测试及 Apple 编译已通过；该交互尚待 UI 专项'),
 ('添加自定义字段','A: CustomKeyView.swift; B: FieldDraft','8 类型完整 XML 值输入；重复字段拒绝覆盖','PlistValue','本地无','中','A/B','DocumentEditor','已实现','类型与异常输入测试通过'),
 ('重命名字段','B: field editor','原子重命名，保留原类型','字段身份','本地无','中','A/B','DocumentEditor','已实现字典字段重命名，复制草稿后统一替换','源码语法解析通过；重命名 UI 未运行'),
 ('删除字段与记录缺失值','B: GestaltDocument.swift; A: PlistManager.swift','删除不等于置零；恢复应保留原本缺失状态','typed diff','本地无','中','A/B','PlistValue','本地实现','缺失原值与删除测试通过'),
@@ -58,7 +58,7 @@ entries=[
 ('监督状态／组织名称修改','A: ConfigView.swift','修改 CloudConfigurationDetails / 监督标记','设备管理配置','未经授权管理修改','严重','A 独有','无可执行模块','按用户要求排除未经授权管理配置修改','明确不运行、不保留隐蔽开关'),
 ('文件目录浏览与搜索','A: FileBrowserView.swift','实际权限范围内目录／文件搜索','Foundation','所选目录/文件权限','低','A','FilesView','只实现受管理库文件搜索；目录层级浏览待迁移','资产真实文件测试，完整目录浏览未完成'),
 ('文件元数据／预览／导入导出','A: InfoViewer / TextViewer / FileHelpers','实际文件字节、名称、日期、大小、hash、Quick Look','FileDocument / QuickLook','文件选择授权','低','A','FilesView','已实现本地','文件真实读回通过；Quick Look UI 待测'),
-('文本文件编辑','A: TextViewer.swift','受支持的 UTF-8 文件编辑','Foundation','实际文件权限','中','A','Tools','已实现受管理 UTF-8 文本编辑、BOM 保留、版本备份及恢复','8 项文本/文件事务测试通过；界面待本轮 CI'),
+('文本文件编辑','A: TextViewer.swift','受支持的 UTF-8 文件编辑','Foundation','实际文件权限','中','A','Tools','已实现受管理 UTF-8 文本编辑、BOM 保留、版本备份及恢复','8 项文本/文件事务测试通过；准确界面覆盖见 TEST_REPORT'),
 ('任意路径覆盖／移动／删除','A: OperationsView.swift','不能以沙盒逃逸授予权限','worse_query upstream','特殊访问','高','A 独有','FileAccess','不迁移任意系统目标；提供库回收站恢复','资产 path traversal 与 trash 恢复测试'),
 ('设备配对与连接','B: DeviceConnectionModel + Native/DeviceConsole','RPPairing、RSD、Lockdown、LocalDevVPN 指引','Rust idevice @7bd551c','配对记录/本地网络','中','B 独有','Tools','未迁移；保留前置条件说明','PIN/密钥不记日志的源码策略已记录'),
 ('设备信息／诊断','A: DeviceInfoHelpers; B: GXDeviceIdentity','系统版本/Build/硬件、公开进程信息','Darwin sysctl / ProcessInfo','公开信息无需特别权限','低','A/B','Diagnostics','已实现公开信息页面；系统服务诊断未迁移','基线 UI 运行通过；版本策略 Core 测试通过'),
@@ -68,14 +68,15 @@ entries=[
 ('窗口与草稿独立','新增，B 单窗口 manager','每窗口导航、搜索与草稿；统一写入 actor','SceneStorage + actor','无','中','统一新增','RootView / Workspace','已实现基本状态；滚动位置未持久化','并发测试、草稿隔离测试通过；系统窗口待测'),
 ('响应式 iPhone/iPad 导航','新增重构','按真实宽高与大字级别切换；720/1100 渐进断点','NavigationSplitView / TabView','无','低','统一新增','DesignSystem','已实现布局策略；真实拖动窗口测试阻断','策略测试及基线 iPhone/iPad 旋转测试通过；Stage Manager 连续拖动仍待真机'),
 ('中英文／无障碍','B: Localizable.xcstrings；A 原英文','系统语言、字体、VoiceOver 标签与减少动态效果','lproj / SwiftUI','无','低','统一重构','Resources','中英文核心界面已实现；VoiceOver 和字体验收待测','静态资源检查；未完成辅助技术验收'),
-('CI 与 IPA','A: ipabuild.sh; B: build.yml / build-ipa.sh','真实 arm64 archive、bundle/Mach-O 验证、SHA-256','macOS + Xcode','GitHub repo Actions 权限','中','统一重构','scripts / .github','仓库已推送；基线 Actions 成功生成真实 arm64 未签名 IPA','run 43585070407 全通过；新增功能构建结果见 TEST_REPORT')
+('CI 与 IPA','A: ipabuild.sh; B: build.yml / build-ipa.sh','真实 arm64 archive、bundle/Mach-O 验证、SHA-256','macOS + Xcode','GitHub repo Actions 权限','中','统一重构','scripts / .github','仓库已推送；基线 Actions 成功生成真实 arm64 未签名 IPA','设备归档与 IPA 结构验证已通过；准确测试提交及最新结果见 TEST_REPORT')
 ]
 local_words=['本地','PlistValue','DocumentEditor','元数据','备份','字段']
 for e in entries:
  row(*e,local=e[7] in ['PlistValue','Workspace','DocumentEditor','FilesView','AppEnvironment','BackupsView'])
-row('Dynamic Island 配置检查与局部恢复','Elyra/Core/DynamicIsland.swift','检查实际导入标记/Artwork 类型，恢复原导入基准中的两个 DI 字段，保留其他成员','typed plist + verified baseline','本地无；系统仍无访问后端','中','统一新增','DynamicIslandEngine','本地已实现；不猜默认 subtype，不是系统修复','12 项 DI/观察/迁移测试通过',True)
-row('音乐/多活动观察记录','Elyra/Features/IslandObservations.swift','记录真实运行环境、方向、播放状态、用户观察；持久化并导出 JSON','RuntimeDeviceContext / Workspace','无','低','统一新增','DynamicIsland Lab','已实现；模拟器记录自动标注，不作为系统证据','观察持久化、版本关联和导出边界测试通过',True)
+row('Dynamic Island 配置检查与局部恢复','Elyra/Core/DynamicIsland.swift','检查实际导入标记/Artwork 类型，恢复原导入基准中的两个 DI 字段，保留其他成员','typed plist + verified baseline','本地无；系统仍无访问后端','中','统一新增','DynamicIslandEngine','本地已实现；不猜默认 subtype，不是系统修复','14 项 DI/观察/迁移测试通过',True)
+row('灵动岛外观记录','Elyra/Features/IslandObservations.swift','记录运行环境、方向、活动、形状与圆角；媒体播放状态可选；持久化并导出 JSON','RuntimeDeviceContext / Workspace','无','低','统一新增','DynamicIsland Lab','已实现；模拟器记录自动标注，不作为系统证据','观察持久化、版本关联和导出边界测试通过',True)
 row('文本文件版本与中断恢复','Elyra/Core/TextAsset.swift, Workspace.swift','原始字节备份、原子保存、版本冲突保护及 asset journal 重启恢复','SHA-256 / actor / journal','本地无','中','统一新增','AssetBackups','已实现 UTF-8 文件及文件备份恢复','BOM/CRLF/no-op/空文本/损坏备份/跨文件/中断恢复测试通过',True)
+row('语言选择','Elyra/App/LocalizationStore.swift; Features/LanguageSettingsView.swift','简体中文、English、跟随系统；保存偏好并同步全部窗口','SwiftUI locale / bundled resources','应用偏好','低','统一新增','Settings / Localization','已实现语言设置；功能名称使用统一术语','语言策略 Core 测试通过；真实切换与重启保留 UI 结果见 TEST_REPORT',True)
 headers=['功能名称','现有实现位置','功能说明','底层依赖','iOS 26 状态','iOS 27 状态','iPhone','iPad','特殊权限','风险','重复实现','Elyra 模块','实现进度','验证方法和结果']
 preamble='''# Elyra 功能并集与迁移矩阵
 

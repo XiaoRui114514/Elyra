@@ -109,7 +109,6 @@
   "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified.": "选择导入文件以预览预设。在文档编辑器中检查并确认，不会修改系统文件。",
   "Import a MobileGestalt plist in System first.": "请先在“系统”中导入 MobileGestalt plist。",
   "Feature not found": "未找到功能",
-  "Your screenshots show a tall media region on the left edge, with album art above the waveform. A separate recording activity is also visible. Notification banners at the top are separate system UI.": "你的截图显示：左侧媒体区域呈竖向长条，封面位于波形上方；另一张还显示了独立的录屏活动。顶部通知横幅属于另一类系统界面。",
   "Device & access": "设备与访问条件",
   "No authorized, verified system writer is installed. Elyra cannot change the system capsule geometry with public APIs.": "没有经过授权及验证的系统写入后端。Elyra 无法使用公开 API 改变系统胶囊的几何形状。",
   "Imported configuration": "已导入的配置",

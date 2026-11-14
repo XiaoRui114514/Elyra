@@ -402,7 +402,6 @@
 "Workspace could not be opened. Export existing files before attempting recovery." = "Workspace could not be opened. Export existing files before attempting recovery.";
 "Workspace unavailable" = "Workspace unavailable";
 "Write and recovery failed. Keep the backup and commit journal; reopen the workspace before further edits." = "Write and recovery failed. Keep the backup and commit journal; reopen the workspace before further edits.";
-"Your screenshots show a tall media region on the left edge, with album art above the waveform. A separate recording activity is also visible. Notification banners at the top are separate system UI." = "Your screenshots show a tall media region on the left edge, with album art above the waveform. A separate recording activity is also visible. Notification banners at the top are separate system UI.";
 "advanced" = "advanced";
 "device" = "device";
 "display" = "display";

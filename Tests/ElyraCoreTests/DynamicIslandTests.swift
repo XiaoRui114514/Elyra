@@ -11,12 +11,12 @@ final class DynamicIslandTests: XCTestCase {
     }
     func testFlagTypesAndIPadArtworkAreReportedWithoutClaimingEffect() throws {
         for (value, expected) in [(PlistValue.boolean(true), IslandFlag.enabled), (.integer(1), .enabled), (.integer(0), .disabled), (.boolean(false), .disabled), (.real(1), .invalid), (.string("true"), .invalid)] {
-            let inspected = try DynamicIslandEngine.inspect(document(extra: [flag: value, artwork: .dictionary([subtype: .integer(2736)])]), physicalHardware: "iPad14,1")
+            let inspected = try DynamicIslandEngine.inspect(document(extra: [flag: value, artwork: .dictionary([subtype: .integer(2736)])]), physicalHardware: "iPad16,2")
             XCTAssertEqual(inspected.flag, expected)
             XCTAssertTrue(inspected.isIPad)
             XCTAssertTrue(inspected.usesPhoneArtwork)
         }
-        XCTAssertEqual(try DynamicIslandEngine.inspect(document(), physicalHardware: "iPad14,2").flag, .absent)
+        XCTAssertEqual(try DynamicIslandEngine.inspect(document(), physicalHardware: "iPad16,2").flag, .absent)
     }
     func testEnableFlagDoesNotChangeSubtypeIdentityOrRoot() throws {
         let original = document(extra: [artwork: .dictionary([subtype: .integer(2436), "ArtworkDeviceProductDescription": .string("Mini")])])
@@ -59,10 +59,10 @@ final class DynamicIslandTests: XCTestCase {
     }
     func testMalformedArtworkAndNonGestaltDocumentsAreRejected() throws {
         let broken = document(extra: [artwork: .string("invalid")])
-        XCTAssertFalse(try DynamicIslandEngine.inspect(broken, physicalHardware: "iPad14,1").artworkIsValid)
+        XCTAssertFalse(try DynamicIslandEngine.inspect(broken, physicalHardware: "iPad16,2").artworkIsValid)
         XCTAssertThrowsError(try DynamicIslandEngine.enablingFlag(in: broken))
         XCTAssertThrowsError(try DynamicIslandEngine.restoringRecordedFields(in: broken, baseline: document()))
-        XCTAssertThrowsError(try DynamicIslandEngine.inspect(.array([]), physicalHardware: "iPad14,1"))
+        XCTAssertThrowsError(try DynamicIslandEngine.inspect(.array([]), physicalHardware: "iPad16,2"))
     }
 }
 final class IslandWorkspaceTests: XCTestCase, @unchecked Sendable {
@@ -93,7 +93,7 @@ final class IslandWorkspaceTests: XCTestCase, @unchecked Sendable {
     }
     func testObservationExportLabelsSimulatorAndNeverExposesFullPlist() async throws {
         let w = try Workspace(root: root)
-        let observation = IslandObservation(hardware: "iPad14,1", osVersion: "iPadOS 27.0", build: "unknown-build", simulator: true,
+        let observation = IslandObservation(hardware: "iPad16,2", osVersion: "iPadOS 27.0", build: "unknown-build", simulator: true,
                                             activity: .compact, orientation: .landscape, playing: true, outcome: .tall, notes: "test observation")
         try await w.recordIslandObservation(observation)
         let reopened = try Workspace(root: root)
@@ -111,7 +111,7 @@ final class IslandWorkspaceTests: XCTestCase, @unchecked Sendable {
         let w = try Workspace(root: root)
         let imported = try await w.importDocument(data: PlistValue.dictionary([:]).encoded(), name: "A.plist")
         _ = try await w.commit(.dictionary(["x": .integer(1)]), expected: imported)
-        let observation = IslandObservation(hardware: "iPad14,1", osVersion: "iPadOS 27.0", build: "unknown", simulator: false,
+        let observation = IslandObservation(hardware: "iPad16,2", osVersion: "iPadOS 27.0", build: "unknown", simulator: false,
                                             activity: .multiple, orientation: .landscape, playing: true, outcome: .other, notes: "",
                                             documentID: imported.record.id, documentRevision: imported.revision)
         do { try await w.recordIslandObservation(observation); XCTFail("Stale document evidence accepted") }
@@ -139,7 +139,7 @@ final class IslandWorkspaceTests: XCTestCase, @unchecked Sendable {
         let w = try Workspace(root: root)
         for activity in [IslandActivity.idle, .recording, .timer, .call, .navigation, .other] {
             XCTAssertFalse(activity.canIncludeMedia)
-            let observation = IslandObservation(hardware: "iPad14,1", osVersion: "iPadOS 27.0", build: "unknown", simulator: false,
+            let observation = IslandObservation(hardware: "iPad16,2", osVersion: "iPadOS 27.0", build: "unknown", simulator: false,
                                                 activity: activity, orientation: .portrait, playing: nil, outcome: .corners, notes: "User observation only")
             try await w.recordIslandObservation(observation)
         }
@@ -155,7 +155,7 @@ final class IslandWorkspaceTests: XCTestCase, @unchecked Sendable {
     }
     func testVersionTwoObservationsRetainLegacyPlaybackAndMigrateToVersionThree() async throws {
         let w = try Workspace(root: root)
-        let observation = IslandObservation(hardware: "iPad14,1", osVersion: "Version 26.2", build: "23C54", simulator: true,
+        let observation = IslandObservation(hardware: "iPad16,2", osVersion: "Version 26.2", build: "23C54", simulator: true,
                                             activity: .compact, orientation: .landscape, playing: false, outcome: .tall, notes: "Legacy")
         try await w.recordIslandObservation(observation)
         let state = await w.listing()
