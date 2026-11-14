@@ -5,7 +5,7 @@ Minimum deployment target: iOS/iPadOS 17. The universal target uses the same fea
 | Layer | iOS/iPadOS 26 | iOS/iPadOS 27 |
 | --- | --- | --- |
 | Build | Xcode 26.3 / SDK 26.2 pipeline | No SDK 27 build verification |
-| UI runtime | 26.2 simulator matrix; exact candidate results in TEST_REPORT | Unverified |
+| UI runtime | 26.2 (23C54), iPhone SE 3 and iPad mini A17 Pro: four UI scenarios each passed | Unverified |
 | Local data tools | Linux/macOS core tests; selected simulator UI flows | Device runtime unverified |
 | System configuration | No access backend | No access backend |
 | System Dynamic Island geometry | No verified modification | No verified modification |

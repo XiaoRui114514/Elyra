@@ -17,3 +17,5 @@ Navigation uses NavigationStack and NavigationSplitView. SceneStorage retains se
 | VoiceOver | Native labels and controls present; listening review pending |
 
 Actual run identities, simulator models and screenshots belong in TEST_REPORT. Policy sweeps and rotation do not constitute continuous-window-resize testing. Scroll/disclosure persistence and search-focus behavior across all transitions remain open work.
+
+Build 10 passed the simulator scenarios above in run 43593518290. Original screenshots were reviewed for the language screen, Chinese accessibility text and iPad sidebar/detail. They are preserved in [screenshots](screenshots/README.md), with exact source and hashes. Continuous Stage Manager drag-resize and physical display/window acceptance remain pending.

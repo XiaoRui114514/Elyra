@@ -1,0 +1,46 @@
+[
+  {
+    "file": "iphone-language.png",
+    "originalAttachment": "34B898EE-22A0-4E5A-BCE5-FDA261A2EC83.png",
+    "sha256": "2a980ee7fe8b654daf6df0747d47064a9950af9717fc1cb08781b95f9d668f0d",
+    "sourceCommit": "38a362f817be8b13a4c96d7d9380f9320c428c7d",
+    "run": 43593518290,
+    "simulator": "iPhone SE (3rd generation)",
+    "runtime": "26.2 (23C54)",
+    "processed": false,
+    "systemEffectEvidence": false
+  },
+  {
+    "file": "iphone-dynamic-type.png",
+    "originalAttachment": "C667CF8B-CFCF-4C8B-90CA-982AA75A7CE0.png",
+    "sha256": "f9d318e65665a993215836e911dc018a1896b42c29fe771ad7a43a1ec74a36b7",
+    "sourceCommit": "38a362f817be8b13a4c96d7d9380f9320c428c7d",
+    "run": 43593518290,
+    "simulator": "iPhone SE (3rd generation)",
+    "runtime": "26.2 (23C54)",
+    "processed": false,
+    "systemEffectEvidence": false
+  },
+  {
+    "file": "ipad-language.png",
+    "originalAttachment": "D7A1EBDC-A89C-42BC-95A8-1BFEB0B21238.png",
+    "sha256": "4682d674b0444b6d3279365107a899ebaa02d70961a21eb34594a66a36631ed9",
+    "sourceCommit": "38a362f817be8b13a4c96d7d9380f9320c428c7d",
+    "run": 43593518290,
+    "simulator": "iPad mini (A17 Pro)",
+    "runtime": "26.2 (23C54)",
+    "processed": false,
+    "systemEffectEvidence": false
+  },
+  {
+    "file": "ipad-dynamic-island.png",
+    "originalAttachment": "781A8902-2513-43EE-B4B7-90BC7463BB84.png",
+    "sha256": "aa522cb7b27b3b468cbf7941158c65f5a00b646e41eb76715c705a742cbf0e7f",
+    "sourceCommit": "38a362f817be8b13a4c96d7d9380f9320c428c7d",
+    "run": 43593518290,
+    "simulator": "iPad mini (A17 Pro)",
+    "runtime": "26.2 (23C54)",
+    "processed": false,
+    "systemEffectEvidence": false
+  }
+]

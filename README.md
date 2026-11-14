@@ -6,6 +6,8 @@ A SwiftUI configuration and file toolkit for iPhone and iPad. Navigation adapts 
 
 Elyra 0.2 is a development release with local plist editing, verified backups, managed files and archive inspection. On-device system configuration access is not implemented. Imported files remain in the app's workspace.
 
+[Download unsigned build 10](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290/artifacts/14112913746) · [Passed CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290). Legitimate signing is required; physical installation is untested.
+
 - Browse and edit eight plist types, search nested fields, stage changes and review differences before saving.
 - Create verified backups, restore original bytes and detect stale edits across windows.
 - Inspect Dynamic Island capability and artwork fields; restore recorded fields in local copies.

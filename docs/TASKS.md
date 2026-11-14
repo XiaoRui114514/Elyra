@@ -9,11 +9,11 @@
 - Persistent English/Simplified Chinese/Follow System selection with shared localization state.
 - GitHub Actions analysis, core/UI tests, device archive, IPA validation and guarded draft release.
 
-Latest source qualification and artifacts are recorded in TEST_REPORT.md. This is a local-tool development release; system integration remains incomplete.
+Source `38a362f817be8b13a4c96d7d9380f9320c428c7d` passed [run 43593518290](https://github.com/XiaoRui114514/Elyra/actions/runs/43593518290): 63 core tests, 8 Python checks, four UI scenarios per simulator, analysis and unsigned build 10. Full evidence is in TEST_REPORT.md. The guarded release workflow succeeded; v0.2.0-dev is retained as a development draft with the unsigned IPA. This is a local-tool development release; system integration remains incomplete.
 
 ## Remaining work
 
-1. Complete the current Apple CI run and keep source/artifact hashes bound to that run.
+1. Keep artifact qualification bound to the exact successful source above. Document-only updates do not certify changed app code.
 2. Add UI coverage for import, text editing, archive export and backup restoration.
 3. Validate continuous Stage Manager resizing, external display, VoiceOver and simultaneous multiwindow language changes.
 4. Add user-selected directory browsing, retained text drafts, scroll/focus persistence and backup retention.

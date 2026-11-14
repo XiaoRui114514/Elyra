@@ -1,0 +1,13 @@
+2026-11-14T12:10:57.8956180Z Xcode 26.3
+2026-11-14T12:11:00.9268750Z Build version 17C529
+2026-11-14T12:11:00.9276450Z 26.2
+2026-11-14T12:11:05.8558630Z Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+2026-11-14T12:11:06.3388030Z Static repository checks passed; 430 matching localization keys. Apple build/runtime remain unverified.
+2026-11-14T12:11:06.4713280Z 430 localization keys; 0 Chinese entries fall back to English (documented)
+2026-11-14T12:11:06.7740850Z Ran 8 tests in 0.009s
+2026-11-14T12:11:50.7090390Z 	 Executed 63 tests, with 0 failures (0 unexpected) in 0.417 (0.434) seconds
+2026-11-14T12:11:50.7091240Z 	 Executed 63 tests, with 0 failures (0 unexpected) in 0.417 (0.436) seconds
+2026-11-14T12:14:11.6903950Z ** ANALYZE SUCCEEDED **
+2026-11-14T12:14:12.4749710Z Xcode 26.3
+2026-11-14T12:14:12.4784540Z Build version 17C529
+2026-11-14T12:15:10.5487600Z ** ARCHIVE SUCCEEDED **

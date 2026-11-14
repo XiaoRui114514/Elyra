@@ -11,6 +11,9 @@
     "xcode": "26.3",
     "build": "17C529",
     "sdk": "26.2",
-    "candidate_qualification": "pending"
+    "swift": "6.2.4",
+    "candidate_qualification": "success",
+    "sourceCommit": "38a362f817be8b13a4c96d7d9380f9320c428c7d",
+    "run": 43593518290
   }
 }

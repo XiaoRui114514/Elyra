@@ -21,3 +21,6 @@
 
 - Added persistent English/Simplified Chinese/Follow System settings and standardized feature terminology.
 - Added optional media state and roundness/proportion/position observations, with workspace schema 3 migration.
+
+- Validated build 10 with 63 core tests, 8 IPA negative tests and four UI scenarios on each iPhone/iPad simulator.
+- Completed 430 bilingual resource entries, operation/backup labels and immediate native title refresh during language changes.
