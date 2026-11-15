@@ -47,7 +47,7 @@ struct ConfigurationPlansView: View {
             Button { importing = true } label: { Label("Import plan", systemImage: "square.and.arrow.down") }
             Button { editing = PlanEditSession(plan: ConfigurationPlan(name: "", steps: []), baseline: nil) } label: { Label("New plan", systemImage: "plus") }.accessibilityIdentifier("plans.new")
         }
-        .sheet(item: $editing) { session in ConfigurationPlanEditor(plan: session.plan) { saved in app.run { try await $0.saveConfigurationPlan(saved, replacing: session.baseline) }; editing = nil } }
+        .sheet(item: $editing) { session in ConfigurationPlanEditor(plan: session.plan) { saved in app.run { workspace in try await workspace.saveConfigurationPlan(saved, replacing: session.baseline); editing = nil } } }
         .sheet(item: $proposal) { planned in
             NavigationStack {
                 List {
@@ -86,6 +86,7 @@ struct ConfigurationPlansView: View {
     }
 }
 private struct ConfigurationPlanEditor: View {
+    @EnvironmentObject private var app: AppEnvironment
     @EnvironmentObject private var localization: LocalizationStore
     @Environment(\.dismiss) private var dismiss
     let plan: ConfigurationPlan
@@ -116,9 +117,10 @@ private struct ConfigurationPlanEditor: View {
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                     ToolbarItem(placement: .confirmationAction) { Button("Save") {
+                        guard app.busy == 0 else { return }
                         let saved = ConfigurationPlan(name: name, steps: actions.sorted { $0.key < $1.key }.map { .init(capabilityID: $0.key, action: $0.value) }, id: plan.id)
                         do { try saved.validate(); save(saved) } catch { self.error = error.localizedDescription }
-                    }.accessibilityIdentifier("plan.save") }
+                    }.disabled(app.busy > 0).accessibilityIdentifier("plan.save") }
                 }
         }
     }
