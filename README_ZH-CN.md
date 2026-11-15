@@ -1,5 +1,7 @@
 # Elyra
 
+[参与开发与问题反馈](CONTRIBUTING.md) · [English](README.md)
+
 面向 iPhone 和 iPad 的 SwiftUI 配置与文件工具箱，根据当前窗口尺寸调整导航和内容布局。
 
 [功能矩阵](docs/FEATURE_MATRIX.md) · [测试报告](docs/TEST_REPORT.md) · [构建说明](docs/BUILDING.md) · [已知问题](docs/KNOWN_ISSUES.md)

@@ -2,7 +2,7 @@
 
 A SwiftUI configuration and file toolkit for iPhone and iPad. Navigation and content adapt to the current window size.
 
-[简体中文](README_ZH-CN.md) · [Features](docs/FEATURE_MATRIX.md) · [Tests](docs/TEST_REPORT.md) · [Building](docs/BUILDING.md) · [Known issues](docs/KNOWN_ISSUES.md)
+[简体中文](README_ZH-CN.md) · [Contributing](CONTRIBUTING.md) · [Features](docs/FEATURE_MATRIX.md) · [Tests](docs/TEST_REPORT.md) · [Building](docs/BUILDING.md) · [Known issues](docs/KNOWN_ISSUES.md)
 
 [Download 0.4.2 re-signable IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.2-dev/Elyra-resignable.ipa) · [Development release](https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.2-dev)
 
