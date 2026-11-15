@@ -5,7 +5,7 @@
 - [x] Rechecked pinned upstream region presets; added independent bounded RegionCode selection/restoration without changing sales suffixes or Siri types.
 - [x] Shortened intelligence detail title; retained complete category entry label.
 - [x] Qualified source `8bcdb02cc1b5b4f56969e354405ac9a471aa6866`, run 43707797116: 105 core, 14 Python, 11 UI scenarios per simulator; all three jobs passed first attempt, with analysis/archive and independently verified build-29 IPAs.
-- [ ] Publish verified development IPA assets and check anonymous downloads.
+- [x] Guarded release run 43709385665 passed; v0.4.2-dev is public. Both anonymous IPA downloads returned HTTP 200 and matched qualified hashes/byte counts.
 - [ ] Physical keyboard/input, Settings rendering and per-build system-effect acceptance; continuous Stage Manager resize remains pending.
 
 Research and bounded follow-up candidates: [RESEARCH_0.4.2.md](RESEARCH_0.4.2.md). Historical records follow.

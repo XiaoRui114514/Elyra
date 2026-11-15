@@ -119,5 +119,8 @@
     "swift": "6.2.4",
     "sdk": "26.2",
     "runtime": "26.2 (23C54)"
-  }
+  },
+  "releaseRun": 43709385665,
+  "releaseURL": "https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.2-dev",
+  "anonymousDownloadsVerified": true
 }

@@ -1,0 +1,26 @@
+{
+  "checkedAtUTC": "2026-11-15T11:33:15.796929+00:00",
+  "release": "v0.4.2-dev",
+  "releaseRun": 43709385665,
+  "qualifiedCodeCommit": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+  "downloads": [
+    {
+      "url": "https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.2-dev/Elyra-resignable.ipa",
+      "httpStatus": 200,
+      "authenticationUsed": false,
+      "cookiesUsed": false,
+      "bytes": 1038249,
+      "sha256": "0172da1c4691db711a98e08ecad844d11fc0e92e583594ae4ecd8013b8c70a19",
+      "matchesQualifiedArtifact": true
+    },
+    {
+      "url": "https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.2-dev/Elyra-unsigned.ipa",
+      "httpStatus": 200,
+      "authenticationUsed": false,
+      "cookiesUsed": false,
+      "bytes": 1018693,
+      "sha256": "ac6308f81a51d198830ee066ee79f120ce5a54a7736fc43b4f2e43126e8e1ce4",
+      "matchesQualifiedArtifact": true
+    }
+  ]
+}

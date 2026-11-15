@@ -29,7 +29,7 @@ Core additions exercise all seven bounded region codes, rejection of malformed/u
 
 [Run/artifact manifest](audit/ci-0.4.2.json), [re-signable report](audit/ci-0.4.2-resignable-ipa-report.json), [unsigned report](audit/ci-0.4.2-ipa-report.json), [macOS core log](audit/swift-test-macos-0.4.2.log), [Linux core log](audit/swift-test-linux-0.4.2.log), [iPhone summary](audit/ci-0.4.2-iphone-ui-summary.json), [iPad summary](audit/ci-0.4.2-ipad-ui-summary.json), [original screenshots](screenshots/README.md).
 
-Public release/download qualification is recorded separately after publication.
+The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43709385665) passed. The [public development release](https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.2-dev) supplies [Elyra-resignable.ipa](https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.2-dev/Elyra-resignable.ipa). Both IPA assets were actually downloaded without authorization headers or cookies: HTTP 200, qualified SHA-256 and exact byte counts matched. [Anonymous download evidence](audit/public-download-0.4.2.json).
 
 ## Limits
 
