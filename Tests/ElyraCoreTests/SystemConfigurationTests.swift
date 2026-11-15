@@ -209,4 +209,50 @@ final class SystemConfigurationTests: XCTestCase, @unchecked Sendable {
         XCTAssertEqual(disk.writes,0);let backups=await store.listing();XCTAssertEqual(backups.count,1)
     }
 
+
+    func testIntelligencePreferenceIsOneTransactionAndCapturedRestore() async throws {
+        let (store,disk)=try make();let before=try await store.connect()
+        let plan=try await store.preferencePlan(.intelligenceMainland,expected:before)
+        let saved=try await store.commitPreference(plan);XCTAssertEqual(disk.writes,1)
+        let backups=await store.listing();XCTAssertEqual(backups.count,2)
+        let restore=try await store.preferencePlan(.restoreIntelligence,expected:saved)
+        let reverted=try await store.commitPreference(restore);XCTAssertEqual(reverted.value,before.value)
+        do { _=try await store.commitPreference(plan);XCTFail() } catch { XCTAssertEqual(error as? ElyraError,.conflict) }
+    }
+    func testLegacyBackupGenerationCanRestoreAfterDisplayNameChange() async throws {
+        let (store,disk)=try make()
+        var source=original();try source.set(.string("CH"),at:["CacheExtra",DevicePreferences.regionCode]);try source.set(.string("Original display"),at:["CacheExtra",DevicePreferences.modelNameKeys[0]])
+        try source.encoded().write(to:disk.url)
+        XCTAssertNotEqual(try SystemEditPolicy.generation(source,version:1),try SystemEditPolicy.generation(source))
+        let before=try await store.connect();let records=await store.listing()
+        let index=root.appendingPathComponent("backups/backups.json")
+        var json=try JSONSerialization.jsonObject(with:Data(contentsOf:index)) as! [[String:Any]]
+        json[0].removeValue(forKey:"generationVersion");json[0]["generation"]=try SystemEditPolicy.generation(before.value,version:1)
+        try JSONSerialization.data(withJSONObject:json).write(to:index)
+        let reopened=try SystemConfigurationStore(root:root.appendingPathComponent("backups"),binding:"synthetic-installation",access:disk.access)
+        let connected=try await reopened.connect();let existing=await reopened.listing();XCTAssertEqual(existing.count,1)
+        let plan=try await reopened.preferencePlan(.modelName("Example"),expected:connected)
+        let saved=try await reopened.commitPreference(plan)
+        let restored=try await reopened.restore(records[0].id,expected:saved);XCTAssertEqual(restored.data,before.data)
+    }
+    func testPreferencePartialWriteRollsBackAndDoesNotMintNewBaseline() async throws {
+        let (store,disk)=try make();let before=try await store.connect();disk.failFirst=true
+        let plan=try await store.preferencePlan(.modelName("Example"),expected:before)
+        do { _=try await store.commitPreference(plan);XCTFail() } catch {}
+        XCTAssertEqual(try disk.read(),before.data)
+        let pending=await store.recoveryPending();XCTAssertFalse(pending)
+    }
+
+    func testDisableIslandRestoresCapturedTabletSubtypeAndKeepsDisplayName() async throws {
+        let (store,disk)=try make();var source=original()
+        try source.set(.dictionary(["ArtworkDeviceSubType":.integer(2062)]),at:["CacheExtra",DynamicIslandEngine.artworkKey]);try source.encoded().write(to:disk.url)
+        let before=try await store.connect();var changed=before.value
+        try changed.set(.dictionary(["ArtworkDeviceSubType":.integer(2556),"ArtworkDeviceProductDescription":.string("Example")]),at:["CacheExtra",DynamicIslandEngine.artworkKey]);try changed.set(.integer(1),at:["CacheExtra",flag])
+        let enabled=try await store.apply(changed,expected:before)
+        let plan=try await store.capabilityPlan("dynamicIsland",restoring:false,disabling:true,expected:enabled)
+        let disabled=try await store.commitCapability(plan)
+        XCTAssertEqual(disabled.value.value(at:["CacheExtra",DynamicIslandEngine.artworkKey,"ArtworkDeviceSubType"]),.integer(2062))
+        XCTAssertEqual(DevicePreferences.modelName(in:disabled.value),"Example")
+        XCTAssertEqual(Capability.all.first{$0.id=="dynamicIsland"}!.state(in:disabled.value),.disabled)
+    }
 }

@@ -38,7 +38,7 @@ struct RootView: View {
                                 }
                                 .buttonStyle(.plain)
                                 .foregroundStyle(area == item.rawValue ? Color.accentColor : Color.primary)
-                                .listRowBackground(area == item.rawValue ? Color.accentColor.opacity(0.12) : Color.clear)
+                                .listRowBackground(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(area == item.rawValue ? Color.accentColor.opacity(0.12) : Color.clear))
                                 .accessibilityIdentifier("area." + item.rawValue.lowercased())
                                 .accessibilityAddTraits(area == item.rawValue ? .isSelected : [])
                             }
@@ -94,6 +94,8 @@ struct RootView: View {
         case .deviceBackup(let id): DeviceBackupDetail(id: id)
         case .plans: ConfigurationPlansView()
         case .displayDiagnostics: DisplayDiagnosticsView()
+        case .intelligenceSetup: DevicePreferencesView(mode: .intelligence)
+        case .modelName: DevicePreferencesView(mode: .modelName)
         }
     }
 }

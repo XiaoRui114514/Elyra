@@ -32,9 +32,14 @@ struct SystemTile: View {
     let title: String
     let detail: String
     let symbol: String
+    var enabled = false
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Image(systemName: symbol).font(.title2).foregroundStyle(.tint).accessibilityHidden(true)
+            HStack(alignment: .top) {
+                Image(systemName: symbol).font(.title2).foregroundStyle(.tint).accessibilityHidden(true)
+                Spacer(minLength: 0)
+                if enabled { Image(systemName: "checkmark.circle.fill").font(.title3).foregroundStyle(.green).accessibilityHidden(true) }
+            }
             Text(title).font(.headline).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
             Text(detail).font(.subheadline).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
         }.frame(maxWidth: .infinity, minHeight: 100, alignment: .leading).padding(20)
@@ -109,12 +114,5 @@ extension Capability {
         default: SystemCategory.find(category).symbol
         }
     }
-    func currentLabel(in value: PlistValue?) -> String {
-        guard let value else { return "Not read yet" }
-        let current = keys.map { value.value(at: ["CacheExtra", $0]) }
-        if current.allSatisfy({ $0 == nil }) { return "Not set" }
-        var preset = value
-        if (try? stage(in: &preset)) != nil, keys.allSatisfy({ value.value(at: ["CacheExtra", $0]) == preset.value(at: ["CacheExtra", $0]) }) { return "Matches preset" }
-        return "Custom value"
-    }
+    func currentLabel(in value: PlistValue?) -> String { state(in: value).rawValue }
 }

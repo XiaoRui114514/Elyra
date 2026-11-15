@@ -54,6 +54,7 @@
 "Appearance preview" = "Appearance preview";
 "Appearance, configuration and compatibility" = "Appearance, configuration and compatibility";
 "Apple Intelligence Capability" = "Apple Intelligence Capability";
+"Apple Intelligence for China Mainland" = "Apple Intelligence for China Mainland";
 "Apple Internal Features" = "Apple Internal Features";
 "Apple Pencil" = "Apple Pencil";
 "Apply preset" = "Apply preset";
@@ -84,6 +85,7 @@
 "Before " = "Before ";
 "Before capability restore" = "Before capability restore";
 "Before configuration plan" = "Before configuration plan";
+"Before device preference change" = "Before device preference change";
 "Before operation: %@" = "Before operation: %@";
 "Before saving" = "Before saving";
 "Before system restore" = "Before system restore";
@@ -102,6 +104,7 @@
 "Capability editing and system capsule geometry are different controls. No verified radius parameter is available." = "Capability editing and system capsule geometry are different controls. No verified radius parameter is available.";
 "Capability flags are not hardware" = "Capability flags are not hardware";
 "Capability values must be Boolean or a supported nonnegative integer." = "Capability values must be Boolean or a supported nonnegative integer.";
+"Change Model Name" = "Change Model Name";
 "Change the SRD capability flag. This does not turn the device into an Apple SRD." = "Change the SRD capability flag. This does not turn the device into an Apple SRD.";
 "Changes the system-wide InternalBuild flag, not just storage information. System services may behave differently. Revert restores the recorded original value." = "Changes the system-wide InternalBuild flag, not just storage information. System services may behave differently. Revert restores the recorded original value.";
 "Charge Limit" = "Charge Limit";
@@ -132,6 +135,7 @@
 "Configuration tools" = "Configuration tools";
 "Configurations" = "Configurations";
 "Configure on device" = "Configure on device";
+"Configures device flags. Apple service availability is checked by the system." = "Configures device flags. Apple service availability is checked by the system.";
 "Confirm & apply" = "Confirm & apply";
 "Confirm & save local copy" = "Confirm & save local copy";
 "Confirm & write to device" = "Confirm & write to device";
@@ -177,7 +181,9 @@
 "Diagnostics use local public device and process information. No pairing credentials, serial numbers or device identifiers are uploaded." = "Diagnostics use local public device and process information. No pairing credentials, serial numbers or device identifiers are uploaded.";
 "Dialer themes" = "Dialer themes";
 "Dictionary" = "Dictionary";
+"Disable" = "Disable";
 "Disable Wallpaper Parallax" = "Disable Wallpaper Parallax";
+"Disabled" = "Disabled";
 "Disabled flag" = "Disabled flag";
 "Discard draft & reload" = "Discard draft & reload";
 "Discard draft & reload?" = "Discard draft & reload?";
@@ -206,15 +212,18 @@
 "Elyra 0.3.0 • Development build" = "Elyra 0.3.0 • Development build";
 "Elyra 0.4.0 • Development build" = "Elyra 0.4.0 • Development build";
 "Embedded App Groups" = "Embedded App Groups";
+"Enable" = "Enable";
 "Enable AOD flipbook widgets on the Lock Screen." = "Enable AOD flipbook widgets on the Lock Screen.";
 "Enable capability in local copy" = "Enable capability in local copy";
 "Enable spatial audio playback for FaceTime." = "Enable spatial audio playback for FaceTime.";
 "Enable the alternate Dynamic Island capability." = "Enable the alternate Dynamic Island capability.";
 "Enable the audio mix capability for supported media." = "Enable the audio mix capability for supported media.";
 "Enable true HDR rendering for photos." = "Enable true HDR rendering for photos.";
+"Enabled" = "Enabled";
 "Enabled flag" = "Enabled flag";
 "Enter a device display name under 256 bytes." = "Enter a device display name under 256 bytes.";
 "Enter a key name." = "Enter a key name.";
+"Enter a model name of 1–256 bytes without control characters." = "Enter a model name of 1–256 bytes without control characters.";
 "Enter a plan name and select at least one feature." = "Enter a plan name and select at least one feature.";
 "Entries" = "Entries";
 "Entries are checked for safe paths, links, encryption, CRC and expansion limits. This does not install a wallpaper or theme into the system." = "Entries are checked for safe paths, links, encryption, CRC and expansion limits. This does not install a wallpaper or theme into the system.";
@@ -315,6 +324,7 @@
 "Matches preset" = "Matches preset";
 "Maximum frame rate" = "Maximum frame rate";
 "Media playback" = "Media playback";
+"Model name" = "Model name";
 "Modify" = "Modify";
 "Modify configuration" = "Modify configuration";
 "Move asset to Trash" = "Move asset to Trash";
@@ -355,6 +365,7 @@
 "Offline archive inspection" = "Offline archive inspection";
 "On-Device Siri" = "On-Device Siri";
 "On-Device Siri has a device-specific type. Restore a recorded original instead of guessing." = "On-Device Siri has a device-specific type. Restore a recorded original instead of guessing.";
+"One-tap enable" = "One-tap enable";
 "Only supported capability and artwork fields can be written. Device identity and binary cache changes are protected." = "Only supported capability and artwork fields can be written. Device identity and binary cache changes are protected.";
 "Open System to connect to the device and review access. Imported configuration files remain separate from live device sessions." = "Open System to connect to the device and review access. Imported configuration files remain separate from live device sessions.";
 "Open a configuration document" = "Open a configuration document";
@@ -373,6 +384,7 @@
 "Pairing & device connection" = "Pairing & device connection";
 "Parent key does not exist." = "Parent key does not exist.";
 "Partial support" = "Partial support";
+"Partially enabled" = "Partially enabled";
 "Paused" = "Paused";
 "Personal Translator" = "Personal Translator";
 "Photos Clean Up" = "Photos Clean Up";
@@ -385,6 +397,7 @@
 "Portrait" = "Portrait";
 "Posts and updates" = "Posts and updates";
 "Potential EDR headroom" = "Potential EDR headroom";
+"Preserve device-specific value" = "Preserve device-specific value";
 "Preview & share" = "Preview & share";
 "Preview only. System appearance is unchanged." = "Preview only. System appearance is unchanged.";
 "Privacy" = "Privacy";
@@ -411,7 +424,9 @@
 "Recovery uses the verified pre-write backup and checks the file identity. Replaced caches or another device installation are rejected." = "Recovery uses the verified pre-write backup and checks the file identity. Replaced caches or another device installation are rejected.";
 "Refresh device working copy" = "Refresh device working copy";
 "Refresh workspace" = "Refresh workspace";
+"Region code" = "Region code";
 "Region code & sales region" = "Region code & sales region";
+"Region configuration" = "Region configuration";
 "Related local configuration" = "Related local configuration";
 "Remove field" = "Remove field";
 "Remove field?" = "Remove field?";
@@ -440,6 +455,7 @@
 "Risk" = "Risk";
 "SHA-256: " = "SHA-256: ";
 "Safe area" = "Safe area";
+"Sales region, device identity and Siri data type are preserved." = "Sales region, device identity and Siri data type are preserved.";
 "Save" = "Save";
 "Save DI fields (local)" = "Save DI fields (local)";
 "Save failed; previous bytes restored" = "Save failed; previous bytes restored";
@@ -568,12 +584,14 @@
 "Unknown configuration feature." = "Unknown configuration feature.";
 "Unsaved text" = "Unsaved text";
 "Unsupported artwork changes." = "Unsupported artwork changes.";
+"Unsupported device display preference." = "Unsupported device display preference.";
 "Unsupported hardware" = "Unsupported hardware";
 "Unsupported plist value." = "Unsupported plist value.";
 "Unsupported system" = "Unsupported system";
 "Unsupported system field change." = "Unsupported system field change.";
 "Unsupported, encrypted, ZIP64 or damaged archive." = "Unsupported, encrypted, ZIP64 or damaged archive.";
 "Unverified" = "Unverified";
+"Unverified value" = "Unverified value";
 "Use the low-performance rendering capability on iOS 26 and later." = "Use the low-performance rendering capability on iOS 26 and later.";
 "User-recorded physical-device observation" = "User-recorded physical-device observation";
 "Videos and updates" = "Videos and updates";

@@ -12,3 +12,6 @@ Read docs/TASKS.md, KNOWN_ISSUES.md, FEATURE_MATRIX.md and TEST_REPORT.md before
 - Core changes: swift test. Python changes: unittest discovery. Always run scripts/check_repository.py; regenerate project/resources only as needed.
 - Apple compile/analyze/UI/archive run on macOS Actions. Bind release qualification to the exact successful code SHA. Unsigned artifacts are not installation-tested.
 - Keep terminology and language resources consistent. Language switches must retain scene/draft state and synchronize all windows.
+
+- Release numbering: increment only the patch component by default (0.4.1 → 0.4.2). VERSION is the source of truth; regenerate the project. Change major/minor only when explicitly requested.
+- Authorized display preferences include the three source-confirmed model-name fields and RegionCode. Retain sales-region suffixes and device-specific Siri values in the combined intelligence recipe. Hardware identifiers, serial numbers and binary cache fields remain protected.

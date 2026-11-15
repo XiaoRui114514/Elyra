@@ -27,12 +27,14 @@ public struct SystemBackup: Codable, Identifiable, Sendable {
     public let generation: String
     public let binding: String
     public let reason: String
+    public var generationVersion: Int? = nil
     public var filename: String { id.uuidString + ".plist" }
 }
 public struct SystemCapabilityPlan: Identifiable, Sendable {
     public let id: UUID
     public let capabilityID: String
     public let restoring: Bool
+    public let disabling: Bool
     public let snapshot: SystemSnapshot
     public let target: PlistValue
     public var changes: [PlistChange] { PlistChange.between(snapshot.value, target) }
@@ -45,11 +47,13 @@ private struct SystemJournal: Codable {
 }
 public enum SystemEditPolicy {
     private static var keys: Set<String> { Set(Capability.all.flatMap(\.keys)) }
-    public static func generation(_ value: PlistValue) throws -> String {
+    public static func generation(_ value: PlistValue, version: Int = 2) throws -> String {
+        guard [1, 2].contains(version) else { throw ElyraError.integrity }
         guard case .dictionary = value, case .dictionary(var extra)? = value.value(at: ["CacheExtra"]) else {
             throw ElyraError.invalid("The device cache has an unsupported structure.")
         }
         for key in keys { extra.removeValue(forKey: key) }
+        if version == 2 { for key in DevicePreferences.mutableKeys { extra.removeValue(forKey: key) } }
         if case .dictionary(var artwork)? = extra[DynamicIslandEngine.artworkKey] {
             artwork.removeValue(forKey: DynamicIslandEngine.subtypeKey)
             artwork.removeValue(forKey: "ArtworkDeviceProductDescription")
@@ -82,10 +86,16 @@ public enum SystemEditPolicy {
                     throw ElyraError.invalid("Unsupported artwork changes.")
                 }; continue
             }
+            if change.path.count == 2, DevicePreferences.mutableKeys.contains(change.path[1]) {
+                guard case .string(let text) = after, !text.isEmpty, text.utf8.count <= 256,
+                      !text.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }),
+                      change.path[1] != DevicePreferences.regionCode || text == "LL" else { throw ElyraError.invalid("Unsupported device display preference.") }
+                continue
+            }
             guard change.path.count == 2, keys.contains(change.path[1]) else { throw ElyraError.invalid("Unsupported system field change.") }
             let matching = Capability.all.filter { $0.keys.contains(change.path[1]) }
             guard !matching.contains(where: { $0.id == "siriOnDevice" }) else { throw ElyraError.invalid("On-Device Siri has a device-specific type. Restore a recorded original instead of guessing.") }
-            if matching.contains(where: { $0.id == "ipadApps" }), after == .array([.integer(1), .integer(2)]) { continue }
+            if matching.contains(where: { $0.id == "ipadApps" }), [PlistValue.array([.integer(1), .integer(2)]), .array([.integer(1)])].contains(after) { continue }
             let integers = Set(matching.map(\.value) + [0,1])
             switch after {
             case .boolean: break
@@ -117,7 +127,7 @@ public actor SystemConfigurationStore {
         let value = try PlistValue.decode(data); _ = try SystemEditPolicy.generation(value); return value
     }
     private func capture(_ data: Data, reason: String) throws -> SystemBackup {
-        let backup = SystemBackup(id: UUID(), date: Date(), digest: Digest.sha256(data), generation: try SystemEditPolicy.generation(decoded(data)), binding: binding, reason: reason)
+        let backup = SystemBackup(id: UUID(), date: Date(), digest: Digest.sha256(data), generation: try SystemEditPolicy.generation(decoded(data)), binding: binding, reason: reason, generationVersion: 2)
         let file = root.appendingPathComponent(backup.filename)
         try data.write(to: file, options: .atomic)
         guard try Data(contentsOf: file) == data else { throw ElyraError.integrity }
@@ -130,7 +140,7 @@ public actor SystemConfigurationStore {
         guard backup.binding == binding else { throw ElyraError.invalid("This backup belongs to a different device installation.") }
         let data = try Data(contentsOf: root.appendingPathComponent(backup.filename))
         guard Digest.sha256(data) == backup.digest else { throw ElyraError.integrity }
-        guard try SystemEditPolicy.generation(decoded(data)) == backup.generation else { throw ElyraError.integrity }
+        guard try SystemEditPolicy.generation(decoded(data), version: backup.generationVersion ?? 1) == backup.generation else { throw ElyraError.integrity }
         return data
     }
     public func inspectedBackup(_ id: UUID) throws -> SystemBackupInspection {
@@ -170,11 +180,34 @@ public actor SystemConfigurationStore {
         var writable = false; var error: String?
         do { let probe = try access.open(true); defer { probe.close() }; guard try probe.read() == data else { throw ElyraError.conflict }; writable = true }
         catch let failure { error = failure.localizedDescription }
-        if !backups.contains(where: { $0.binding == binding && $0.generation == (try? SystemEditPolicy.generation(value)) }) {
+        if try initialCapture(for: value) == nil {
             _ = try capture(data, reason: "Initial device capture")
         }
         let snapshot = SystemSnapshot(id: UUID(), fileIdentity: file.identity, data: data, value: value, writable: writable, accessError: error)
         current = snapshot; return snapshot
+    }
+    private func initialCapture(for value: PlistValue) throws -> SystemBackup? {
+        let generation = try SystemEditPolicy.generation(value)
+        for record in backups.filter({ $0.binding == binding && $0.reason == "Initial device capture" }).sorted(by: { $0.date < $1.date }) {
+            if try SystemEditPolicy.generation(decoded(backupData(record))) == generation { return record }
+        }
+        return nil
+    }
+    public func preferencePlan(_ recipe: DevicePreferenceRecipe, expected: SystemSnapshot) throws -> DevicePreferencePlan {
+        guard current?.id == expected.id, !recoveryPending() else { throw ElyraError.conflict }
+        var baseline: PlistValue?
+        if recipe == .restoreIntelligence || recipe == .restoreModelName {
+            guard let original = try initialCapture(for: expected.value) else { throw ElyraError.invalid("No verified initial device capture is available for this cache generation.") }
+            baseline = try decoded(backupData(original))
+        }
+        let target = try DevicePreferences.applying(recipe, to: expected.value, original: baseline)
+        try SystemEditPolicy.validate(target, from: expected.value, restoring: baseline != nil)
+        return DevicePreferencePlan(id: UUID(), recipe: recipe, snapshot: expected, target: target)
+    }
+    public func commitPreference(_ proposal: DevicePreferencePlan) throws -> SystemSnapshot {
+        let verified = try preferencePlan(proposal.recipe, expected: proposal.snapshot)
+        guard verified.target == proposal.target else { throw ElyraError.conflict }
+        return try commit(encodedTarget(verified.target, expected: proposal.snapshot), expected: proposal.snapshot, reason: "Before device preference change")
     }
     public func manualBackup(expected: SystemSnapshot) throws {
         guard current?.id == expected.id, !recoveryPending() else { throw ElyraError.conflict }
@@ -193,31 +226,38 @@ public actor SystemConfigurationStore {
         try SystemEditPolicy.validate(edited, from: expected.value)
         return try commit(encodedTarget(edited, expected: expected), expected: expected, reason: "Before system write")
     }
-    public func capabilityPlan(_ id: String, restoring: Bool, expected: SystemSnapshot) throws -> SystemCapabilityPlan {
+    public func capabilityPlan(_ id: String, restoring: Bool, disabling: Bool = false, expected: SystemSnapshot) throws -> SystemCapabilityPlan {
         guard current?.id == expected.id, !recoveryPending(), let capability = Capability.all.first(where: { $0.id == id }) else { throw ElyraError.conflict }
         var target = expected.value
         if restoring {
-            let generation = try SystemEditPolicy.generation(expected.value)
-            guard let original = backups.filter({ $0.binding == binding && $0.generation == generation && $0.reason == "Initial device capture" }).min(by: { $0.date < $1.date }) else {
+            guard let original = try initialCapture(for: expected.value) else {
                 throw ElyraError.invalid("No verified initial device capture is available for this cache generation.")
             }
             let baseline = try decoded(backupData(original))
             if id == "dynamicIsland" { target = try DynamicIslandEngine.restoringRecordedFields(in: target, baseline: baseline) }
             else { for key in capability.keys { try target.set(baseline.value(at: ["CacheExtra", key]), at: ["CacheExtra", key]) } }
-        } else { try capability.stage(in: &target) }
-        try SystemEditPolicy.validate(target, from: expected.value, restoring: restoring)
-        return SystemCapabilityPlan(id: UUID(), capabilityID: id, restoring: restoring, snapshot: expected, target: target)
+        } else if disabling {
+            if id == "dynamicIsland" {
+                guard let original = try initialCapture(for: expected.value) else { throw ElyraError.integrity }
+                target = try DynamicIslandEngine.restoringRecordedFields(in: target, baseline: decoded(backupData(original)))
+            }
+            try capability.stageDisabled(in: &target)
+        }
+        else { try capability.stage(in: &target) }
+        try SystemEditPolicy.validate(target, from: expected.value, restoring: restoring || (id == "dynamicIsland" && disabling))
+        return SystemCapabilityPlan(id: UUID(), capabilityID: id, restoring: restoring, disabling: disabling, snapshot: expected, target: target)
     }
     public func commitCapability(_ plan: SystemCapabilityPlan) throws -> SystemSnapshot {
         // Recompute restoration from a verified device capture; the UI cannot supply original values.
-        let verified = try capabilityPlan(plan.capabilityID, restoring: plan.restoring, expected: plan.snapshot)
+        let verified = try capabilityPlan(plan.capabilityID, restoring: plan.restoring, disabling: plan.disabling, expected: plan.snapshot)
         guard verified.target == plan.target else { throw ElyraError.conflict }
-        if !plan.restoring { return try apply(verified.target, expected: plan.snapshot) }
+        if !plan.restoring && !(plan.disabling && plan.capabilityID == "dynamicIsland") { return try apply(verified.target, expected: plan.snapshot) }
         return try commit(encodedTarget(verified.target, expected: plan.snapshot), expected: plan.snapshot, reason: "Before capability restore")
     }
     public func restore(_ id: UUID, expected: SystemSnapshot) throws -> SystemSnapshot {
-        guard let backup = backups.first(where: { $0.id == id }), backup.generation == (try? SystemEditPolicy.generation(expected.value)) else { throw ElyraError.invalid("The backup does not match the current device cache generation.") }
+        guard let backup = backups.first(where: { $0.id == id }) else { throw ElyraError.integrity }
         let data = try backupData(backup)
+        guard try SystemEditPolicy.generation(decoded(data)) == SystemEditPolicy.generation(expected.value) else { throw ElyraError.invalid("The backup does not match the current device cache generation.") }
         try SystemEditPolicy.validate(decoded(data), from: expected.value, restoring: true)
         return try commit(data, expected: expected, reason: "Before system restore")
     }

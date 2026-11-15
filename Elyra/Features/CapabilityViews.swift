@@ -11,10 +11,20 @@ struct SystemCategoryView: View {
     }
     var body: some View {
         SystemPage(identifier: "system.category.page") {
+            if category == "intelligence" {
+                NavigationLink(value: Screen.intelligenceSetup) {
+                    SystemTile(title: localization.text("Apple Intelligence for China Mainland"), detail: localization.text("One-tap enable"), symbol: "apple.intelligence")
+                }.buttonStyle(.plain).accessibilityIdentifier("system.intelligence.setup")
+            }
+            if category == "device" {
+                NavigationLink(value: Screen.modelName) {
+                    SystemTile(title: localization.text("Change Model Name"), detail: app.deviceSnapshot.flatMap { DevicePreferences.modelName(in: $0.value) } ?? localization.text("Not read yet"), symbol: "character.cursor.ibeam")
+                }.buttonStyle(.plain).accessibilityIdentifier("system.modelName")
+            }
             LazyVGrid(columns: typeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.adaptive(minimum: 220), spacing: 16)], alignment: .leading, spacing: 16) {
                 ForEach(features) { feature in
                     NavigationLink(value: Screen.capability(feature.id)) {
-                        SystemTile(title: localization.text(feature.title), detail: localization.text(feature.currentLabel(in: app.deviceSnapshot?.value)), symbol: feature.systemSymbol)
+                        SystemTile(title: localization.text(feature.title), detail: localization.text(feature.currentLabel(in: app.deviceSnapshot?.value)), symbol: feature.systemSymbol, enabled: feature.state(in: app.deviceSnapshot?.value) == .enabled)
                     }.buttonStyle(.plain).accessibilityIdentifier("system.feature." + feature.id)
                 }
             }
@@ -66,7 +76,10 @@ struct CapabilityView: View {
             .navigationTitle(localization.text(capability.title))
             .task { await app.ensureDeviceConnection() }
             .confirmationDialog(localization.text("Modify configuration"), isPresented: $modification, titleVisibility: .visible) {
-                if id != "siriOnDevice" { Button("Apply preset") { prepare(restoring: false) } }
+                if id != "siriOnDevice" {
+                    Button("Enable") { prepare(restoring: false) }
+                    Button("Disable") { prepare(restoring: false, disabling: true) }
+                }
                 Button("Restore captured value") { prepare(restoring: true) }
                 Button("Cancel", role: .cancel) {}
             }
@@ -98,8 +111,8 @@ struct CapabilityView: View {
             }
         } else { ContentUnavailableView("Feature not found", systemImage: "questionmark.circle") }
     }
-    private func prepare(restoring: Bool) {
+    private func prepare(restoring: Bool, disabling: Bool = false) {
         guard let snapshot = app.deviceSnapshot else { return }
-        app.performDevice(invalidateOnFailure: false) { store in plan = try await store.capabilityPlan(id, restoring: restoring, expected: snapshot) }
+        app.performDevice(invalidateOnFailure: false) { store in plan = try await store.capabilityPlan(id, restoring: restoring, disabling: disabling, expected: snapshot) }
     }
 }

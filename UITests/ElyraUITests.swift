@@ -213,6 +213,22 @@ final class ElyraUITests: XCTestCase {
         XCTAssertTrue(measurement.label.contains("Start measurement"))
         attach("Window and display diagnostics")
     }
+    @MainActor func testIntelligenceSetupAndModelNameEntries() {
+        let app=makeApp();app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout:10))
+        selectArea(app,identifier:"system",title:"System")
+        let device=app.buttons["system.category.device"];reveal(device,app:app);device.tap()
+        let model=app.buttons["system.modelName"];reveal(model,app:app);model.tap()
+        let input=app.textFields["device.modelName.input"];reveal(input,app:app);input.tap();input.typeText("Example tablet")
+        XCTAssertFalse(app.buttons["device.modelName.apply"].isEnabled)
+        attach("Model name editor")
+        app.navigationBars["Change Model Name"].buttons.firstMatch.tap()
+        app.navigationBars["Device"].buttons.firstMatch.tap()
+        let intelligence=app.buttons["system.category.intelligence"];reveal(intelligence,app:app);intelligence.tap()
+        let setup=app.buttons["system.intelligence.setup"];reveal(setup,app:app);setup.tap()
+        let enable=app.buttons["intelligence.enable"];reveal(enable,app:app);XCTAssertFalse(enable.isEnabled)
+        attach("Mainland Apple Intelligence configuration")
+    }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name; attachment.lifetime = .keepAlways

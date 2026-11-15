@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.1 — 2026-11-15 (candidate)
+
+- Added a combined mainland Apple Intelligence configuration with seven capability presets and independent RegionCode; retained sales-region suffixes and device-specific Siri values.
+- Added a model-name editor that synchronizes all three source-confirmed display fields, with targeted captured-value restoration.
+- Replaced preset-match labels with actual enabled/disabled/partial states and enabled-card checkmarks; added explicit enable/disable choices.
+- Preserved legacy device-backup generation verification when expanding the preference allowlist; disabling Dynamic Island restores its captured layout subtype.
+- Added VERSION as the app-version source and a patch-only default release policy.
+- Added simulator preboot to reduce first-launch timing failures; expanded core and UI regression coverage.
+
 ## 0.4.0 — 2026-11-15 (development)
 
 - Unified adaptive tiles across System, categories and feature pages; added direct Modify controls and moved Dynamic Island into Display. Primary areas retain separate navigation stacks.

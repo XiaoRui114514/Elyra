@@ -1,3 +1,17 @@
+# 0.4.1 candidate
+
+- [x] Re-fetched Erosion and GestaltX; researched public developer documentation, MobileGestalt key references and Apple service requirements. See RESEARCH_0.4.1.md.
+- [x] One-tap mainland Apple Intelligence configuration: seven supported capability presets plus RegionCode; preserve sales region and device-specific Siri.
+- [x] Model-name editor synchronizes three display fields with reviewed writes and captured-value restoration.
+- [x] Actual enabled/disabled/partial/unknown states, enabled-card checkmarks and explicit enable/disable actions.
+- [x] Backup policy versioning preserves verified 0.4 initial captures after the mutable-field list expands; Dynamic Island disable restores the captured subtype.
+- [x] 102 Linux core tests, 14 Python checks, localization/static checks. Apple qualification pending.
+- [x] VERSION = 0.4.1; future versions increment patch only by default.
+- [ ] Exact-source Xcode analysis, nine UI scenarios per simulator and dual-IPA archive; publish only after all checks pass.
+- [ ] Physical signing, system effects/restoration and General → About display acceptance.
+
+0.4 remains the published qualified release until this candidate passes. The record below is historical.
+
 # 0.4 delivery
 
 - [x] Independent source review and second implementation pass; decisions and API evidence in REVIEW_0.4.md.
