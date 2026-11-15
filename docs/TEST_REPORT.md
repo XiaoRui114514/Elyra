@@ -36,3 +36,5 @@ Candidate failures were inspected using full logs, UI hierarchies and recordings
 Physical installation, per-build native read/write/restore, Respring, iOS/iPadOS 27 runtime, continuous Stage Manager resize, external displays, VoiceOver and simultaneous multiple-window acceptance remain unverified. App callback measurements do not measure panel scan rate/PWM. No system Dynamic Island radius/layout repair is established. Native temporary-cache cleanup during abrupt termination remains outside the system-write journal.
 
 Historical qualification: [0.3](TEST_REPORT_0.3.md), [0.2](TEST_REPORT_0.2.md).
+
+The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43678344548) passed and `v0.4.0-dev` is published as a development prerelease. Both direct IPA downloads returned HTTP 200 without authorization or cookies and matched the qualified hashes; [public download evidence](audit/public-download-0.4.json).

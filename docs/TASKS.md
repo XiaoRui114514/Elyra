@@ -7,6 +7,7 @@
 - [x] Current-window/display diagnostics, draft rebase/reconnect, external recovery-conflict protection, working-copy reuse and cached field indexes.
 - [x] Concise primary controls and 607 matching bilingual entries.
 - [x] Exact code source `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`: [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713) passes 93 core tests, 14 Python checks, analysis/archive and eight UI scenarios per simulator. The iPad task was rerun after a Simulator launch-progress timeout; source was unchanged.
+- [x] Public `v0.4.0-dev` prerelease, guarded release workflow and anonymous download/hash verification.
 - [x] Build 26 re-signable and unsigned arm64 IPAs independently verified. Installation and physical system effects remain unverified.
 - [ ] Legitimate signing and physical read/write/restore/Respring acceptance; continuous Stage Manager resize, external display, VoiceOver and multiwindow UI acceptance.
 
