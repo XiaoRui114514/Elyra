@@ -41,7 +41,8 @@ struct IslandLab: View {
                             Text(observation.hardware + " • " + observation.build).font(.caption).foregroundStyle(.secondary)
                             Text(localization.text(observation.simulator ? "Simulator observation" : "User-recorded physical-device observation")).font(.caption2).foregroundStyle(.secondary)
                         }
-                    }
+                    }.accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("island.observation.entry." + observation.id.uuidString)
                 }
             }
             Section { DisclosureGroup("Source-confirmed controls") {

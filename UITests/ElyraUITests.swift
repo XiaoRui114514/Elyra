@@ -14,9 +14,13 @@ final class ElyraUITests: XCTestCase {
         return app
     }
     @MainActor private func reveal(_ element: XCUIElement, app: XCUIApplication) {
-        for _ in 0..<8 {
-            if element.exists && element.isHittable { return }
-            app.swipeUp()
+        // A returned page can retain an offset below the next control. Search
+        // both directions; never tap a hidden element or skip reachability.
+        for direction in [true, false] {
+            for _ in 0..<(direction ? 8 : 16) {
+                if element.exists && element.isHittable { return }
+                if direction { app.swipeUp() } else { app.swipeDown() }
+            }
         }
         XCTAssertTrue(element.isHittable, "Expected control must remain reachable by scrolling")
     }
@@ -59,14 +63,17 @@ final class ElyraUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5))
         attach("Recorded simulator observation")
         app.terminate(); app.launch()
-        if !app.navigationBars["Dynamic Island"].waitForExistence(timeout: 5) { openLab(app) }
-        let entry = app.staticTexts["Simulator observation"].firstMatch
+        if !app.buttons["island.record"].waitForExistence(timeout: 5) { openLab(app) }
+        let entry = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH %@", "island.observation.entry.")).firstMatch
         reveal(entry, app: app)
-        XCTAssertTrue(entry.exists)
+        XCTAssertTrue(entry.label.contains("Simulator observation"))
+        entry.tap()
+        XCTAssertTrue(app.staticTexts["UI observation; simulator only."].waitForExistence(timeout: 5))
     }
     @MainActor func testChineseAccessibilityTextKeepsNavigationReachable() {
         let app = makeApp(chineseAccessibility: true); app.launch()
-        XCTAssertTrue(app.staticTexts["工作区已就绪"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.navigationBars["Elyra"].waitForExistence(timeout: 10))
+        reveal(app.staticTexts["工作区已就绪"], app: app)
         attach("Chinese accessibility launch")
         openLab(app)
         let record = app.buttons["island.record"]
@@ -177,7 +184,9 @@ final class ElyraUITests: XCTestCase {
         let plans=app.buttons["system.plans"];reveal(plans,app:app);plans.tap()
         app.buttons["plans.new"].tap()
         let name=app.textFields["plan.name"];XCTAssertTrue(name.waitForExistence(timeout:5));name.tap();name.typeText("Display plan")
-        let feature=app.switches["plan.feature.dynamicIsland"];reveal(feature,app:app);feature.tap()
+        let feature=app.switches["plan.feature.dynamicIsland"];reveal(feature,app:app)
+        feature.coordinate(withNormalizedOffset: CGVector(dx:0.9,dy:0.5)).tap()
+        XCTAssertEqual(feature.value as? String, "1")
         app.buttons["plan.save"].tap()
         XCTAssertTrue(app.staticTexts["Display plan"].waitForExistence(timeout:10))
         XCTAssertFalse(app.buttons["Modify"].firstMatch.isEnabled)

@@ -94,10 +94,12 @@ private struct ConfigurationPlanEditor: View {
     @State private var name = ""
     @State private var actions: [String: ConfigurationStep.Action] = [:]
     @State private var error: String?
+    @FocusState private var editingName: Bool
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Plan name", text: $name).accessibilityIdentifier("plan.name")
+                TextField("Plan name", text: $name).accessibilityIdentifier("plan.name").focused($editingName).onSubmit { editingName = false }
+                if let error { Text(localization.text(error)).foregroundStyle(.red) }
                 ForEach(SystemCategory.all) { category in
                     Section(localization.text(category.title)) {
                         ForEach(Capability.all.filter { $0.category == category.id }) { feature in
@@ -111,8 +113,8 @@ private struct ConfigurationPlanEditor: View {
                         }
                     }
                 }
-                if let error { Text(localization.text(error)).foregroundStyle(.red) }
-            }.navigationTitle(localization.text("Configuration plan"))
+            }.scrollDismissesKeyboard(.interactively).navigationTitle(localization.text("Configuration plan"))
+                .onChange(of: actions) { _, _ in editingName = false; error = nil }
                 .onAppear { name = plan.name; actions = Dictionary(uniqueKeysWithValues: plan.steps.map { ($0.capabilityID, $0.action) }) }
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
@@ -120,7 +122,7 @@ private struct ConfigurationPlanEditor: View {
                         guard app.busy == 0 else { return }
                         let saved = ConfigurationPlan(name: name, steps: actions.sorted { $0.key < $1.key }.map { .init(capabilityID: $0.key, action: $0.value) }, id: plan.id)
                         do { try saved.validate(); save(saved) } catch { self.error = error.localizedDescription }
-                    }.disabled(app.busy > 0).accessibilityIdentifier("plan.save") }
+                    }.disabled(app.busy > 0 || name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || actions.isEmpty).accessibilityIdentifier("plan.save") }
                 }
         }
     }
