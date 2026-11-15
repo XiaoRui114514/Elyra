@@ -116,6 +116,7 @@
 "Choose a feature to review its configuration, dependencies and compatibility." = "选择功能以查看配置、依赖条件和兼容性。";
 "Choose a nonempty asset smaller than 64 MB." = "请选择非空且小于 64 MB 的素材。";
 "Choose a plist smaller than 16 MB." = "请选择小于 16 MB 的 plist。";
+"Choose a supported region code." = "请选择受支持的区域代码。";
 "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified." = "选择导入文件以预览预设。在文档编辑器中检查并确认，不会修改系统文件。";
 "Collision SOS" = "碰撞检测 SOS";
 "Compact music" = "紧凑音乐";

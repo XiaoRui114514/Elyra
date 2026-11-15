@@ -116,6 +116,7 @@
 "Choose a feature to review its configuration, dependencies and compatibility." = "Choose a feature to review its configuration, dependencies and compatibility.";
 "Choose a nonempty asset smaller than 64 MB." = "Choose a nonempty asset smaller than 64 MB.";
 "Choose a plist smaller than 16 MB." = "Choose a plist smaller than 16 MB.";
+"Choose a supported region code." = "Choose a supported region code.";
 "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified." = "Choose an imported file to preview this preset. Review and confirmation happen in the document editor. No system file is modified.";
 "Collision SOS" = "Collision SOS";
 "Compact music" = "Compact music";

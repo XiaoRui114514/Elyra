@@ -43,4 +43,32 @@ final class DevicePreferencesTests: XCTestCase {
         }
         var after=fixture();try after.set(.string("UNSUPPORTED"),at:["CacheExtra",DevicePreferences.regionCode]);XCTAssertThrowsError(try SystemEditPolicy.validate(after,from:fixture()))
     }
+    func testRegionCodeChangesOnlyCodeAndRestoresRecordedUnknownValue() throws {
+        var before = fixture()
+        try before.set(.string("RECORDED"), at: ["CacheExtra", DevicePreferences.regionCode])
+        for code in DevicePreferences.regionCodes {
+            let after = try DevicePreferences.applying(.regionCode(code), to: before)
+            XCTAssertEqual(PlistChange.between(before, after).map(\.path), [["CacheExtra", DevicePreferences.regionCode]])
+            XCTAssertEqual(DevicePreferences.currentRegionCode(in: after), code)
+            XCTAssertNoThrow(try SystemEditPolicy.validate(after, from: before))
+            let restored = try DevicePreferences.applying(.restoreRegionCode, to: after, original: before)
+            XCTAssertEqual(restored, before)
+            XCTAssertNoThrow(try SystemEditPolicy.validate(restored, from: after, restoring: true))
+        }
+        for code in ["", "UNSUPPORTED", "ll", "LL/A", "CH\n"] {
+            XCTAssertThrowsError(try DevicePreferences.applying(.regionCode(code), to: before))
+        }
+        XCTAssertThrowsError(try DevicePreferences.applying(.restoreRegionCode, to: before))
+    }
+    func testRegionRestorePreservesUnrelatedIntelligenceAndNameChanges() throws {
+        let before = fixture()
+        var absent = before
+        try absent.set(nil, at: ["CacheExtra", DevicePreferences.regionCode])
+        let configured = try DevicePreferences.applying(.modelName("Example"), to: DevicePreferences.applying(.intelligenceMainland, to: absent))
+        let restored = try DevicePreferences.applying(.restoreRegionCode, to: configured, original: absent)
+        XCTAssertNil(DevicePreferences.currentRegionCode(in: restored))
+        XCTAssertEqual(DevicePreferences.modelName(in: restored), "Example")
+        for feature in DevicePreferences.intelligence { XCTAssertEqual(feature.state(in: restored), .enabled) }
+        XCTAssertEqual(try SystemEditPolicy.generation(configured), try SystemEditPolicy.generation(restored))
+    }
 }

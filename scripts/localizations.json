@@ -623,5 +623,6 @@
   "Sales region, device identity and Siri data type are preserved.": "保留销售地区、设备身份及 Siri 数据类型。",
   "Enter a model name of 1–256 bytes without control characters.": "请输入 1–256 字节的型号名称，不含控制字符。",
   "Unsupported device display preference.": "不支持此设备显示配置。",
-  "Before device preference change": "设备偏好修改前"
+  "Before device preference change": "设备偏好修改前",
+  "Choose a supported region code.": "请选择受支持的区域代码。"
 }

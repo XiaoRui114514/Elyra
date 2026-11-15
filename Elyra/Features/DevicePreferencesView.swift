@@ -2,28 +2,55 @@
 import SwiftUI
 
 struct DevicePreferencesView: View {
-    enum Mode { case intelligence, modelName }
+    enum Mode { case intelligence, modelName, regionCode }
     let mode: Mode
     @EnvironmentObject private var app: AppEnvironment
     @EnvironmentObject private var localization: LocalizationStore
-    @State private var name = ""
-    @State private var editedName = false
+    @SceneStorage("device.modelName.draft") private var name = ""
+    @SceneStorage("device.modelName.edited") private var editedName = false
+    @SceneStorage("device.regionCode.draft") private var region = "LL"
+    @FocusState private var nameFocused: Bool
     @State private var proposal: DevicePreferencePlan?
     private var writable: Bool { app.deviceSnapshot?.writable == true && app.busy == 0 && !app.systemRecoveryPending }
+    private var title: String {
+        switch mode {
+        case .intelligence: "Apple Intelligence"
+        case .modelName: "Change Model Name"
+        case .regionCode: "Region code"
+        }
+    }
+    private var restoration: DevicePreferenceRecipe {
+        switch mode {
+        case .intelligence: .restoreIntelligence
+        case .modelName: .restoreModelName
+        case .regionCode: .restoreRegionCode
+        }
+    }
     var body: some View {
         SystemPage(identifier: "device.preferences") {
             SystemPanel {
-                if mode == .intelligence {
+                switch mode {
+                case .intelligence:
                     Button("One-tap enable", systemImage: "apple.intelligence") { prepare(.intelligenceMainland) }
                         .buttonStyle(.borderedProminent).controlSize(.large).disabled(!writable).accessibilityIdentifier("intelligence.enable")
                     Text("Configures device flags. Apple service availability is checked by the system.").font(.caption).foregroundStyle(.secondary)
-                } else {
+                case .modelName:
                     TextField("Model name", text: Binding(get: { name }, set: { name = $0; editedName = true }))
-                        .textFieldStyle(.roundedBorder).accessibilityIdentifier("device.modelName.input")
+                        .textFieldStyle(.roundedBorder)
+                        .textInputAutocapitalization(.never).autocorrectionDisabled()
+                        .focused($nameFocused).submitLabel(.done).onSubmit { nameFocused = false }
+                        .accessibilityIdentifier("device.modelName.input")
                     Button("Modify", systemImage: "checkmark") { prepare(.modelName(name)) }
                         .buttonStyle(.borderedProminent).disabled(!writable || name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty).accessibilityIdentifier("device.modelName.apply")
+                case .regionCode:
+                    LabeledContent("Current configuration", value: DevicePreferences.currentRegionCode(in: app.deviceSnapshot?.value) ?? localization.text("Not read yet"))
+                    Picker("Region code", selection: $region) {
+                        ForEach(DevicePreferences.regionCodes, id: \.self) { code in Text(verbatim: code).tag(code) }
+                    }.accessibilityIdentifier("device.regionCode.picker")
+                    Button("Modify", systemImage: "checkmark") { prepare(.regionCode(region)) }
+                        .buttonStyle(.borderedProminent).disabled(!writable).accessibilityIdentifier("device.regionCode.apply")
                 }
-                Button("Restore captured value", systemImage: "arrow.counterclockwise") { prepare(mode == .intelligence ? .restoreIntelligence : .restoreModelName) }.disabled(!writable)
+                Button("Restore captured value", systemImage: "arrow.counterclockwise") { prepare(restoration) }.disabled(!writable)
             }
             DeviceAccessCard()
             if mode == .intelligence {
@@ -39,8 +66,23 @@ struct DevicePreferencesView: View {
                 }
             }
         }
-        .navigationTitle(localization.text(mode == .intelligence ? "Apple Intelligence for China Mainland" : "Change Model Name"))
-        .task { await app.ensureDeviceConnection(); updateName() }
+        .navigationTitle(localization.text(title))
+        .toolbar {
+            if mode == .modelName {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Edit", systemImage: "pencil") { nameFocused = true }.accessibilityIdentifier("device.modelName.edit")
+                }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") { nameFocused = false }.accessibilityIdentifier("device.modelName.done")
+                }
+            }
+        }
+        .task {
+            if mode == .modelName { nameFocused = true }
+            await app.ensureDeviceConnection()
+            updateName()
+        }
         .onChange(of: app.deviceSnapshot?.id) { _, _ in updateName() }
         .sheet(item: $proposal) { plan in
             NavigationStack {
@@ -51,7 +93,11 @@ struct DevicePreferencesView: View {
                 }.navigationTitle(localization.text("Review device changes"))
                     .safeAreaInset(edge: .bottom) {
                         Button("Confirm & apply", systemImage: "checkmark") {
-                            app.performDevice { store in app.deviceSnapshot = try await store.commitPreference(plan); app.deviceLinks.removeAll() }
+                            app.performDevice { store in
+                                app.deviceSnapshot = try await store.commitPreference(plan)
+                                app.deviceLinks.removeAll()
+                                if mode == .modelName { editedName = false; updateName() }
+                            }
                             proposal = nil
                         }.buttonStyle(.borderedProminent).controlSize(.large).padding().disabled(!writable || plan.changes.isEmpty)
                     }
@@ -64,6 +110,7 @@ struct DevicePreferencesView: View {
         name = app.deviceSnapshot.flatMap { DevicePreferences.modelName(in: $0.value) } ?? ""
     }
     private func prepare(_ recipe: DevicePreferenceRecipe) {
+        nameFocused = false
         guard let snapshot = app.deviceSnapshot else { return }
         app.performDevice(invalidateOnFailure: false) { store in proposal = try await store.preferencePlan(recipe, expected: snapshot) }
     }

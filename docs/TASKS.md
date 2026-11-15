@@ -1,3 +1,15 @@
+# 0.4.2 qualification
+
+- [x] Separate scene-window navigation geometry from keyboard avoidance; share the window probe with diagnostics.
+- [x] Model-name Edit/Done, scene draft retention, verified-value refresh and shared sorted device grid.
+- [x] Rechecked pinned upstream region presets; added independent bounded RegionCode selection/restoration without changing sales suffixes or Siri types.
+- [x] Shortened intelligence detail title; retained complete category entry label.
+- [ ] Qualify exact source with core/static checks, both simulator UI suites, analysis and device archive.
+- [ ] Publish verified development IPA assets and check anonymous downloads.
+- [ ] Physical keyboard/input, Settings rendering and per-build system-effect acceptance; continuous Stage Manager resize remains pending.
+
+Research and bounded follow-up candidates: [RESEARCH_0.4.2.md](RESEARCH_0.4.2.md). Historical records follow.
+
 # 0.4.1 delivery
 
 - [x] Rechecked upstream sources, developer/community X posts and key references; RESEARCH_0.4.1.md records evidence and limits.

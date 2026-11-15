@@ -6,26 +6,41 @@ struct SystemCategoryView: View {
     @EnvironmentObject private var app: AppEnvironment
     @Environment(\.dynamicTypeSize) private var typeSize
     let category: String
-    private var features: [Capability] {
-        Capability.all.filter { $0.category == category }.sorted { localization.text($0.title).localizedStandardCompare(localization.text($1.title)) == .orderedAscending }
+    private struct Entry: Identifiable {
+        let id: String
+        let title: String
+        let detail: String
+        let symbol: String
+        let screen: Screen
+        var enabled = false
+    }
+    private var entries: [Entry] {
+        var result = Capability.all.filter { $0.category == category }.map { feature in
+            Entry(id: "system.feature." + feature.id, title: localization.text(feature.title),
+                  detail: localization.text(feature.currentLabel(in: app.deviceSnapshot?.value)), symbol: feature.systemSymbol,
+                  screen: .capability(feature.id), enabled: feature.state(in: app.deviceSnapshot?.value) == .enabled)
+        }
+        if category == "intelligence" {
+            result.append(Entry(id: "system.intelligence.setup", title: localization.text("Apple Intelligence for China Mainland"),
+                                detail: localization.text("One-tap enable"), symbol: "apple.intelligence", screen: .intelligenceSetup))
+            result.append(Entry(id: "system.regionCode", title: localization.text("Region code"),
+                                detail: DevicePreferences.currentRegionCode(in: app.deviceSnapshot?.value) ?? localization.text("Not read yet"),
+                                symbol: "globe", screen: .regionCode))
+        }
+        if category == "device" {
+            result.append(Entry(id: "system.modelName", title: localization.text("Change Model Name"),
+                                detail: app.deviceSnapshot.flatMap { DevicePreferences.modelName(in: $0.value) } ?? localization.text("Not read yet"),
+                                symbol: "character.cursor.ibeam", screen: .modelName))
+        }
+        return result.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
     }
     var body: some View {
         SystemPage(identifier: "system.category.page") {
-            if category == "intelligence" {
-                NavigationLink(value: Screen.intelligenceSetup) {
-                    SystemTile(title: localization.text("Apple Intelligence for China Mainland"), detail: localization.text("One-tap enable"), symbol: "apple.intelligence")
-                }.buttonStyle(.plain).accessibilityIdentifier("system.intelligence.setup")
-            }
-            if category == "device" {
-                NavigationLink(value: Screen.modelName) {
-                    SystemTile(title: localization.text("Change Model Name"), detail: app.deviceSnapshot.flatMap { DevicePreferences.modelName(in: $0.value) } ?? localization.text("Not read yet"), symbol: "character.cursor.ibeam")
-                }.buttonStyle(.plain).accessibilityIdentifier("system.modelName")
-            }
             LazyVGrid(columns: typeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.adaptive(minimum: 220), spacing: 16)], alignment: .leading, spacing: 16) {
-                ForEach(features) { feature in
-                    NavigationLink(value: Screen.capability(feature.id)) {
-                        SystemTile(title: localization.text(feature.title), detail: localization.text(feature.currentLabel(in: app.deviceSnapshot?.value)), symbol: feature.systemSymbol, enabled: feature.state(in: app.deviceSnapshot?.value) == .enabled)
-                    }.buttonStyle(.plain).accessibilityIdentifier("system.feature." + feature.id)
+                ForEach(entries) { entry in
+                    NavigationLink(value: entry.screen) {
+                        SystemTile(title: entry.title, detail: entry.detail, symbol: entry.symbol, enabled: entry.enabled)
+                    }.buttonStyle(.plain).accessibilityIdentifier(entry.id)
                 }
             }
         }
@@ -33,6 +48,7 @@ struct SystemCategoryView: View {
         .task { await app.ensureDeviceConnection() }
     }
 }
+
 struct CapabilityView: View {
     @EnvironmentObject private var localization: LocalizationStore
     @EnvironmentObject private var app: AppEnvironment

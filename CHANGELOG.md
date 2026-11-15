@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.2 — 2026-11-15 (development)
+
+- Kept keyboard avoidance separate from scene-window navigation breakpoints to prevent editor reconstruction when the software keyboard appears.
+- Added explicit model-name focus, Edit/Done controls, per-scene draft retention and verified-value refresh after apply/restore.
+- Moved model naming into the same sorted adaptive grid as other device features; shortened the intelligence detail title.
+- Added independent source-confirmed RegionCode selection and targeted captured-value restoration, preserving sales-region suffixes and unrelated intelligence/model edits.
+- Added portrait/landscape software-keyboard and grid-return UI regression coverage.
+
 ## 0.4.1 — 2026-11-15 (development)
 
 - Added a combined mainland Apple Intelligence configuration with seven capability presets and independent RegionCode; retained sales-region suffixes and device-specific Siri values.

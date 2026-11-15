@@ -3,7 +3,13 @@ import Foundation
 
 /// Display preferences and a bounded recipe. Hardware identity is unchanged.
 public enum DevicePreferenceRecipe: Equatable, Sendable {
-    case intelligenceMainland, restoreIntelligence, modelName(String), restoreModelName
+    case intelligenceMainland, restoreIntelligence, modelName(String), restoreModelName, regionCode(String), restoreRegionCode
+    var restoresCapturedValues: Bool {
+        switch self {
+        case .restoreIntelligence, .restoreModelName, .restoreRegionCode: true
+        default: false
+        }
+    }
 }
 public struct DevicePreferencePlan: Identifiable, Sendable {
     public let id: UUID
@@ -14,6 +20,13 @@ public struct DevicePreferencePlan: Identifiable, Sendable {
 }
 public enum DevicePreferences {
     public static let regionCode = "h63QSdBCiT/z0WU6rdQv6Q"
+    /// Raw codes from the pinned upstream RegionPreset catalog. Sales suffixes
+    /// are separate fields; these codes do not establish service eligibility.
+    public static let regionCodes = ["LL", "ZA", "J", "CH", "TA", "B", "C"]
+    public static func currentRegionCode(in value: PlistValue?) -> String? {
+        if case .string(let code)? = value?.value(at: ["CacheExtra", regionCode]) { return code }
+        return nil
+    }
     public static let modelNameKeys = ["Z/dqyWS6OZTRy10UcmUAhw", "bbtR9jQx50Fv5Af/affNtA"]
     public static let namePath = ["CacheExtra", DynamicIslandEngine.artworkKey, "ArtworkDeviceProductDescription"]
     public static let mutableKeys = Set(modelNameKeys + [regionCode])
@@ -37,9 +50,12 @@ public enum DevicePreferences {
             guard !name.isEmpty, name.utf8.count <= 256, !name.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }) else { throw ElyraError.invalid("Enter a model name of 1–256 bytes without control characters.") }
             if target.value(at: ["CacheExtra", DynamicIslandEngine.artworkKey]) == nil { try target.set(.dictionary([:]), at: ["CacheExtra", DynamicIslandEngine.artworkKey]) }
             for path in modelNamePaths { try target.set(.string(name), at: path) }
-        case .restoreIntelligence, .restoreModelName:
+        case .regionCode(let code):
+            guard regionCodes.contains(code) else { throw ElyraError.invalid("Choose a supported region code.") }
+            try target.set(.string(code), at: ["CacheExtra", regionCode])
+        case .restoreIntelligence, .restoreModelName, .restoreRegionCode:
             guard let original else { throw ElyraError.invalid("No verified initial device capture is available for this cache generation.") }
-            let paths = recipe == .restoreIntelligence ? intelligencePaths : modelNamePaths
+            let paths = recipe == .restoreIntelligence ? intelligencePaths : recipe == .restoreModelName ? modelNamePaths : [["CacheExtra", regionCode]]
             for path in paths {
                 let recorded = original.value(at: path)
                 if path == namePath, target.value(at: ["CacheExtra", DynamicIslandEngine.artworkKey]) == nil {

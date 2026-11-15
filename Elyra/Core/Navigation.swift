@@ -2,7 +2,7 @@
 import Foundation
 
 public enum Screen: Hashable, Codable, Sendable {
-    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses, language, device, systemEditor(UUID), openSource, deviceBackup(UUID), plans, displayDiagnostics, intelligenceSetup, modelName
+    case document(UUID), field(UUID, [String]), islandDocument(UUID), textAsset(UUID), archive(UUID), capability(String), island, category(String), files, backups, diagnostics, history, licenses, language, device, systemEditor(UUID), openSource, deviceBackup(UUID), plans, displayDiagnostics, intelligenceSetup, modelName, regionCode
 }
 public enum Area: String, CaseIterable, Codable, Sendable {
     case home = "Home", appearance = "Appearance", system = "System", tools = "Tools", settings = "Settings"

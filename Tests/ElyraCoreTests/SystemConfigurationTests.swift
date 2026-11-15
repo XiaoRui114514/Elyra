@@ -219,6 +219,19 @@ final class SystemConfigurationTests: XCTestCase, @unchecked Sendable {
         let reverted=try await store.commitPreference(restore);XCTAssertEqual(reverted.value,before.value)
         do { _=try await store.commitPreference(plan);XCTFail() } catch { XCTAssertEqual(error as? ElyraError,.conflict) }
     }
+    func testIndependentRegionPlanUsesCapturedRestoreAndRejectsStaleApply() async throws {
+        let (store, disk) = try make()
+        let before = try await store.connect()
+        let plan = try await store.preferencePlan(.regionCode("J"), expected: before)
+        let saved = try await store.commitPreference(plan)
+        XCTAssertEqual(disk.writes, 1)
+        XCTAssertEqual(DevicePreferences.currentRegionCode(in: saved.value), "J")
+        let restore = try await store.preferencePlan(.restoreRegionCode, expected: saved)
+        let restored = try await store.commitPreference(restore)
+        XCTAssertEqual(restored.value, before.value)
+        do { _ = try await store.commitPreference(plan); XCTFail("Stale region plan must fail") }
+        catch { XCTAssertEqual(error as? ElyraError, .conflict) }
+    }
     func testLegacyBackupGenerationCanRestoreAfterDisplayNameChange() async throws {
         let (store,disk)=try make()
         var source=original();try source.set(.string("CH"),at:["CacheExtra",DevicePreferences.regionCode]);try source.set(.string("Original display"),at:["CacheExtra",DevicePreferences.modelNameKeys[0]])

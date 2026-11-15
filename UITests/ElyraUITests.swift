@@ -229,6 +229,55 @@ final class ElyraUITests: XCTestCase {
         let enable=app.buttons["intelligence.enable"];reveal(enable,app:app);XCTAssertFalse(enable.isEnabled)
         attach("Mainland Apple Intelligence configuration")
     }
+    @MainActor func testModelNameKeyboardAcrossOrientationAndGridReturn() {
+        let app = makeApp(); app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
+        selectArea(app, identifier: "system", title: "System")
+        let device = app.buttons["system.category.device"]; reveal(device, app: app); device.tap()
+        let model = app.buttons["system.modelName"]; reveal(model, app: app)
+        let peer = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "system.feature.")).allElementsBoundByIndex.first { $0.isHittable }
+        XCTAssertNotNil(peer)
+        if let peer { XCTAssertEqual(model.frame.width, peer.frame.width, accuracy: 2, "Model name must share the category grid") }
+        attach("Device grid with model name tile")
+        model.tap()
+        let input = app.textFields["device.modelName.input"]
+        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        app.buttons["device.modelName.edit"].tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 8), "Software keyboard must open in portrait")
+        input.tap(); input.typeText("Keyboard draft")
+        let draft = input.value as? String
+        XCTAssertTrue(draft?.hasSuffix("Keyboard draft") == true)
+        app.buttons["device.modelName.done"].tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForNonExistence(timeout: 5))
+        XCUIDevice.shared.orientation = .landscapeLeft
+        XCTAssertTrue(app.navigationBars["Change Model Name"].waitForExistence(timeout: 5))
+        app.buttons["device.modelName.edit"].tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 8), "Software keyboard must stay available in landscape")
+        input.tap(); input.typeText(" landscape")
+        XCTAssertEqual(input.value as? String, (draft ?? "") + " landscape")
+        XCTAssertTrue(app.navigationBars["Change Model Name"].exists)
+        attach("Landscape model name keyboard")
+        app.buttons["device.modelName.done"].tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForNonExistence(timeout: 5))
+        app.navigationBars["Change Model Name"].buttons.firstMatch.tap()
+        reveal(model, app: app); model.tap()
+        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        XCTAssertEqual(input.value as? String, (draft ?? "") + " landscape", "Returning must retain the scene draft")
+        XCUIDevice.shared.orientation = .portrait
+    }
+    @MainActor func testIndependentRegionCodeEntry() {
+        let app = makeApp(); app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout: 10))
+        selectArea(app, identifier: "system", title: "System")
+        let category = app.buttons["system.category.intelligence"]; reveal(category, app: app); category.tap()
+        let region = app.buttons["system.regionCode"]; reveal(region, app: app); region.tap()
+        XCTAssertTrue(app.navigationBars["Region code"].waitForExistence(timeout: 5))
+        let picker = app.buttons["device.regionCode.picker"]; reveal(picker, app: app); picker.tap()
+        let code = app.buttons["J"]; XCTAssertTrue(code.waitForExistence(timeout: 5)); code.tap()
+        XCTAssertTrue(picker.label.contains("J"))
+        XCTAssertFalse(app.buttons["device.regionCode.apply"].isEnabled)
+        attach("Independent region code selector")
+    }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name; attachment.lifetime = .keepAlways

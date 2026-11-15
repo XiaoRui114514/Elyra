@@ -11,9 +11,11 @@ struct RootView: View {
     @SceneStorage("navigationByArea") private var savedNavigation = ""
     @State private var navigation = SceneNavigation()
     @State private var restored = false
+    @State private var windowContentSize: CGSize?
     var body: some View {
         GeometryReader { geometry in
-            let layout = WindowLayout.resolve(width: geometry.size.width, height: geometry.size.height, accessibilityText: typeSize.isAccessibilitySize)
+            let size = windowContentSize ?? geometry.size
+            let layout = WindowLayout.resolve(width: size.width, height: size.height, accessibilityText: typeSize.isAccessibilitySize)
             Group {
                 if layout == .compact {
                     TabView(selection: $area) {
@@ -60,6 +62,12 @@ struct RootView: View {
                 if app.busy > 0 { ProgressView().padding(12).background(.regularMaterial, in: Capsule()).accessibilityLabel("Working") }
             }
         }
+        .background {
+            SceneWindowProbe { window, _ in
+                let size = window.bounds.inset(by: window.safeAreaInsets).size
+                if size != windowContentSize { windowContentSize = size }
+            }.allowsHitTesting(false)
+        }
         .onAppear {
             guard !restored else { return }; restored = true
             navigation = SceneNavigation.restored(savedNavigation.data(using: .utf8), legacy: savedPath.data(using: .utf8), area: Area(rawValue: area) ?? .home)
@@ -96,6 +104,7 @@ struct RootView: View {
         case .displayDiagnostics: DisplayDiagnosticsView()
         case .intelligenceSetup: DevicePreferencesView(mode: .intelligence)
         case .modelName: DevicePreferencesView(mode: .modelName)
+        case .regionCode: DevicePreferencesView(mode: .regionCode)
         }
     }
 }

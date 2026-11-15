@@ -45,20 +45,6 @@ private struct WindowDisplaySnapshot: Equatable {
     weak var owner: DisplayDiagnosticsModel?
     @objc func tick(_ link: CADisplayLink) { owner?.tick(link) }
 }
-private struct WindowDisplayProbe: UIViewRepresentable {
-    var changed: @MainActor (UIWindow, CGSize) -> Void
-    func makeUIView(context: Context) -> Probe { let view = Probe(); view.changed = changed; view.isUserInteractionEnabled = false; return view }
-    func updateUIView(_ view: Probe, context: Context) { view.changed = changed; view.report() }
-    final class Probe: UIView {
-        var changed: (@MainActor (UIWindow, CGSize) -> Void)?
-        override func didMoveToWindow() { super.didMoveToWindow(); report() }
-        override func layoutSubviews() { super.layoutSubviews(); report() }
-        func report() {
-            guard let window else { return }; let content = bounds.size
-            DispatchQueue.main.async { [weak self, weak window] in if let window { self?.changed?(window, content) } }
-        }
-    }
-}
 struct DisplayDiagnosticsView: View {
     @EnvironmentObject private var localization: LocalizationStore
     @Environment(\.scenePhase) private var phase
@@ -83,7 +69,7 @@ struct DisplayDiagnosticsView: View {
                 Button(model.measuring ? localization.text("Stop measurement") : localization.text("Start measurement")) { if model.measuring { model.stop() } else { model.begin() } }.accessibilityIdentifier("display.measure")
             }
         }.navigationTitle(localization.text("Window & display"))
-            .background { WindowDisplayProbe { window, content in model.update(window: window, content: content) } }
+            .background { SceneWindowProbe { window, content in model.update(window: window, content: content) } }
             .onDisappear { model.stop() }
             .onChange(of: phase) { _, value in if value != .active { model.stop() } }
     }

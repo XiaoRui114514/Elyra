@@ -1,6 +1,6 @@
 # Responsive interface
 
-WindowLayout uses actual window width and height together with Dynamic Type. Compact navigation applies below 720 points, below 360 points in height or at accessibility text sizes. Medium windows use a sidebar; widths at least 1100 points enable parallel document/difference content. The same routes and feature catalog serve every window.
+WindowLayout uses the current scene window’s safe-area-adjusted bounds together with Dynamic Type. A shared UIKit observer updates on window/safe-area layout changes; it does not use main-screen bounds. SwiftUI still applies normal keyboard avoidance inside pages. Keyboard-reduced content height no longer changes the root navigation branch. Compact navigation applies below 720 points, below 360 points in height or at accessibility text sizes. Medium windows use a sidebar; widths at least 1100 points enable parallel document/difference content. The same routes and feature catalog serve every window.
 
 Navigation uses NavigationStack and NavigationSplitView. SceneStorage retains selected area, independent paths for each area, search and draft identifiers. Shared Workspace and SystemConfigurationStore actors protect local and device writes. System overview and category pages share adaptive tiles without disclosure chevrons, and use one column at accessibility text sizes. Feature detail shares the same panels and places Modify near the current-state controls. About shows its three account rows directly, without an intermediate sheet. Language changes update locale and bundled text lookups without resetting the root view or drafts.
 
@@ -25,3 +25,5 @@ The 0.4 regression suite adds repeated enter/back navigation through all five Sy
 0.4.0 (26) passed eight UI scenarios per simulator in [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713), including all five System category round trips, plan persistence and display controls. [Original 0.4 screenshots](screenshots/README.md) retain source identities and hashes. This does not extend coverage to continuous Stage Manager resize.
 
 0.4.1 source `94942ddebc8ae60474be8bb10620e8f503420ebb` passes nine scenarios per simulator, adding model-name editing and the guarded mainland intelligence entry. Selected-row backgrounds retain rounded corners. This does not qualify continuous hardware window resizing or private SpringBoard appearance.
+
+0.4.2 adds explicit model-name focus and keyboard Done, per-scene input drafts, and one sorted grid for capabilities and display preferences. A dedicated regression opens the software keyboard in portrait and landscape, types real text, dismisses/reopens it and checks the draft after returning through the category. Qualification results are recorded in TEST_REPORT.

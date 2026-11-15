@@ -96,7 +96,9 @@ jobs:
           python3 scripts/select_simulators.py build/simulators.json "$FAMILY" >> "$GITHUB_ENV"
       - name: Boot selected simulator
         timeout-minutes: 5
-        run: xcrun simctl bootstatus "$SIMULATOR_ID" -b
+        run: |
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool NO
+          xcrun simctl bootstatus "$SIMULATOR_ID" -b
       - name: Build and run UI tests
         run: |
           set -o pipefail

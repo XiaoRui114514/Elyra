@@ -89,7 +89,7 @@ public enum SystemEditPolicy {
             if change.path.count == 2, DevicePreferences.mutableKeys.contains(change.path[1]) {
                 guard case .string(let text) = after, !text.isEmpty, text.utf8.count <= 256,
                       !text.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }),
-                      change.path[1] != DevicePreferences.regionCode || text == "LL" else { throw ElyraError.invalid("Unsupported device display preference.") }
+                      change.path[1] != DevicePreferences.regionCode || DevicePreferences.regionCodes.contains(text) else { throw ElyraError.invalid("Unsupported device display preference.") }
                 continue
             }
             guard change.path.count == 2, keys.contains(change.path[1]) else { throw ElyraError.invalid("Unsupported system field change.") }
@@ -196,7 +196,7 @@ public actor SystemConfigurationStore {
     public func preferencePlan(_ recipe: DevicePreferenceRecipe, expected: SystemSnapshot) throws -> DevicePreferencePlan {
         guard current?.id == expected.id, !recoveryPending() else { throw ElyraError.conflict }
         var baseline: PlistValue?
-        if recipe == .restoreIntelligence || recipe == .restoreModelName {
+        if recipe.restoresCapturedValues {
             guard let original = try initialCapture(for: expected.value) else { throw ElyraError.invalid("No verified initial device capture is available for this cache generation.") }
             baseline = try decoded(backupData(original))
         }
