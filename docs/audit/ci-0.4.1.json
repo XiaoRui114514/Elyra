@@ -95,5 +95,11 @@
         "head_sha": "94942ddebc8ae60474be8bb10620e8f503420ebb"
       }
     }
-  ]
+  ],
+  "releaseWorkflow": {
+    "run": 43682485307,
+    "conclusion": "success",
+    "published": true,
+    "url": "https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.1-dev"
+  }
 }

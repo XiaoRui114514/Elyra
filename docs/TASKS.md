@@ -5,6 +5,7 @@
 - [x] Three-field model-name editor and captured-value restore.
 - [x] Actual on/off/partial/unknown states, enabled-card checks and explicit enable/disable actions.
 - [x] Frozen legacy backup policy; older captures remain usable; disabling Dynamic Island restores its captured subtype.
+- [x] Public v0.4.1-dev release; guarded workflow and both anonymous IPA download/hash checks passed.
 - [x] VERSION = 0.4.1; patch-only future numbering. 625 localization keys and 104 matrix rows.
 - [x] Qualified source `94942ddebc8ae60474be8bb10620e8f503420ebb`, [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089): 102 core, 14 Python, nine UI scenarios on each simulator, Xcode analysis/archive and independently verified build-28 IPAs. No UI retry was required.
 - [x] Expanded screen-radius research: separate aperture metrics identified, older scoped/global hook evidence recorded, no unverified geometry write added.

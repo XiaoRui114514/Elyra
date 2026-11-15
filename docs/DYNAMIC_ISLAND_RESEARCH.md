@@ -51,7 +51,7 @@ Community reports and older private-rendering experiments do not establish curre
 
 ## Screen-corner hypothesis — 2026-11-15
 
-A screen-corner metric is a concrete research lead, but there is no established one-to-one identity between physical screen rounding and every Dynamic Island presentation. Distinguish the display metric, the activity container's layout radius and its rendering/mask. No individual device details are included here.
+A screen-corner metric is a concrete research lead, but there is no established one-to-one identity between physical screen rounding and every Dynamic Island presentation. Distinguish the display metric, the activity container's layout radius and its rendering/mask.
 
 | Evidence | What it establishes | Limit |
 | --- | --- | --- |

@@ -36,3 +36,5 @@ A capability flag's on/off label refers to the captured cache value, not indepen
 Signing/installation, per-build native effects, iOS/iPadOS 27 runtime, continuous Stage Manager resize, external displays, VoiceOver and simultaneous multiwindow UI acceptance remain pending. System Dynamic Island geometry has no verified repair. Native cache-link cleanup under abrupt termination remains separate from the system-write journal.
 
 Historical reports: [0.4](TEST_REPORT_0.4.md), [0.3](TEST_REPORT_0.3.md), [0.2](TEST_REPORT_0.2.md).
+
+The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43682485307) passed. Both public IPA downloads returned HTTP 200 without authorization/cookies and matched the qualified hashes; [download evidence](audit/public-download-0.4.1.json).
