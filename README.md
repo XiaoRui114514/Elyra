@@ -1,25 +1,23 @@
 # Elyra
 
-A SwiftUI configuration and file toolkit for iPhone and iPad. Navigation adapts to the current window size, including compact windows and larger sidebar layouts.
+A SwiftUI configuration and file toolkit for iPhone and iPad. Navigation and content adapt to the current window size.
 
-[简体中文](README_ZH-CN.md) · [Features](docs/FEATURE_MATRIX.md) · [Build and tests](docs/TEST_REPORT.md) · [Building](docs/BUILDING.md) · [Known issues](docs/KNOWN_ISSUES.md)
+[简体中文](README_ZH-CN.md) · [Features](docs/FEATURE_MATRIX.md) · [Tests](docs/TEST_REPORT.md) · [Building](docs/BUILDING.md) · [Known issues](docs/KNOWN_ISSUES.md)
 
-Elyra 0.3 adds a native MobileGestalt connection and capability writer using the pinned upstream access modules. A usable signed App Group is required when direct access is unavailable. Exact build permissions are probed on the device; iOS/iPadOS 26 and 27 are not blanket guarantees. Imported files remain separate local documents. Build, signing and physical-test status are recorded separately in the test report.
+[Download 0.4.0 re-signable IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.0-dev/Elyra-resignable.ipa) · [Development release](https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.0-dev)
 
-[Download unsigned 0.3.0 (18)](https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa) · [Passed CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024). The development IPA requires signing; physical installation and system effects are untested.
+Both re-signable and unsigned IPAs require legitimate signing/provisioning. The re-signable package embeds an ad-hoc App Group template for signing-tool discovery. Installation and physical system effects have not been tested; exact source, checksums and simulator results are in [the test report](docs/TEST_REPORT.md).
 
-- Browse and edit eight plist types, search nested fields, stage changes and review differences before saving.
-- Create verified backups, restore original bytes and detect stale edits across windows.
-- Read the live device cache, stage supported capability/artwork changes, confirm writes, verify readback and restore device-bound backups. Protected identity and binary fields are excluded.
-- Inspect Dynamic Island configuration without claiming control over system capsule radius.
-- Record appearance across idle, recording, timer, call, media and multiple-activity states.
-- Preview and export files; edit UTF-8 text with version backups and recovery.
-- Inspect ZIP and `.tendies` archives with bounded expansion, path and CRC checks.
-- Choose English, Simplified Chinese or Follow System in Settings → Language.
-- Redesigned System overview, manual experimental Respring and direct account cards in About, with official publisher icons.
+- **System:** automatic live MobileGestalt access checks, adaptive feature tiles, direct Modify actions, reviewed differences, verified device backups/readback and recorded-value restoration. Actual access depends on the final signature/container and file permission probe; no blanket OS-version guarantee.
+- **Configuration plans:** save, import and export feature selections, resolve conflicts and review one combined device transaction.
+- **Documents and files:** edit eight plist types, search nested fields, retain drafts, preview/export assets, edit UTF-8 text with version backups and inspect ZIP/`.tendies` archives with bounded path/CRC validation.
+- **Backups:** inspect and export verified device backups offline; compare a backup with the current capture before a separately confirmed restoration. Imported files never establish device trust.
+- **Diagnostics:** current-window dimensions, safe areas, display scale, pixel bounds, refresh capability and EDR headroom; optional application callback sampling.
+- **Dynamic Island:** configuration inspection and recorded-field restoration under Display, plus appearance observations and a clearly labeled app preview. No verified system corner-radius/layout repair is claimed.
+- **Interface:** independent navigation per area, native controls, English/Simplified Chinese/Follow System, manual experimental Respring and direct account cards in About.
 
-Feature names follow Apple terminology and the upstream implementations. See [terminology and localization](docs/NAMING_AND_LOCALIZATION.md) and [Dynamic Island research](docs/DYNAMIC_ISLAND_RESEARCH.md).
+System capabilities share one engine across iPhone and iPad. Hardware and Apple-service availability are distinct from capability flags. Appearance installation, full directory browsing and pairing remain incomplete; the [feature matrix](docs/FEATURE_MATRIX.md) records migration status.
 
-[GitHub Actions](https://github.com/XiaoRui114514/Elyra/actions/workflows/build.yml) runs core tests, Xcode analysis and iPhone/iPad UI tests, then archives an arm64 device app and validates the IPA. Artifacts are unsigned and require legitimate signing/provisioning. Installation status and exact qualified source are listed in [the test report](docs/TEST_REPORT.md).
+[GitHub Actions](https://github.com/XiaoRui114514/Elyra/actions/workflows/build.yml) runs core/Python checks, Xcode analysis and eight UI scenarios on each iPhone/iPad simulator, then validates both arm64 IPA packages. Continuous Stage Manager resize, external displays, VoiceOver and iOS/iPadOS 27 runtime acceptance remain pending.
 
-Open `Elyra.xcodeproj` for app development; run `swift test` for the portable core. GPL-3.0-only. Copyright and dependency notices are retained in [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Open `Elyra.xcodeproj` for app development; run `swift test` for the portable core. GPL-3.0-only. Required copyright and dependency notices remain in [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). [Source review](docs/REVIEW_0.4.md) · [Dynamic Island research](docs/DYNAMIC_ISLAND_RESEARCH.md)

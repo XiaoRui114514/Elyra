@@ -1,0 +1,90 @@
+[
+  {
+    "file": "iphone-about.png",
+    "originalAttachment": "18B6F3EC-9F84-4B58-8888-728B90BBA47E.png",
+    "label": "About account cards",
+    "testIdentifier": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sha256": "e822f6bbcfbcff5cad979b2718134e189f14f31e78631cfc5380def9ed5cf670",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-system.png",
+    "originalAttachment": "188A92C1-7078-4E8C-84C2-2BCDCF707120.png",
+    "label": "System overview",
+    "testIdentifier": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sha256": "9b7c7097337618566be2571496180aa879ec645e1d47307f7acafbd3a256a6af",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-home.png",
+    "originalAttachment": "A31079B5-6C78-440A-B549-E8263AAD5D67.png",
+    "label": "Home device actions",
+    "testIdentifier": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sha256": "8c0a2c07849352d79c6356f8e30ccd2628d3f8ed387ba212f2afdefabde07397",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-large-text.png",
+    "originalAttachment": "98D408BE-3908-4877-878D-2A9F45FD04A3.png",
+    "label": "Chinese accessibility launch",
+    "testIdentifier": "ElyraUITests/testChineseAccessibilityTextKeepsNavigationReachable()",
+    "sha256": "71ebcf0f8e3f081c4981483a8ad852f3b293dd50b2ba0badb1e8034f37207792",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-plans.png",
+    "originalAttachment": "1120F908-AC6A-4933-B02C-1ABC5105C62C.png",
+    "label": "Saved configuration plan",
+    "testIdentifier": "ElyraUITests/testConfigurationPlanSavesAndPersistsWithoutSystemWrite()",
+    "sha256": "f947c84e84674fe74675808273403b2589666ea483ce8220142e8e5cd6a2b8a9",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-language.png",
+    "originalAttachment": "ECFCCBAF-C45B-4A8E-A1C7-A47CD74C015A.png",
+    "label": "Chinese language selection",
+    "testIdentifier": "ElyraUITests/testLanguageSwitchUpdatesCustomLabelsAndPersists()",
+    "sha256": "4824dbd93d810308db722a984247cd18ba4e4ad06f7249d3b60dd6fa80571220",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-round-trips.png",
+    "originalAttachment": "FEE71E3D-4FE5-47EB-BEAA-068BBA2DFA3E.png",
+    "label": "System tiles after feature round trips",
+    "testIdentifier": "ElyraUITests/testSystemFeatureRoundTripKeepsTileNavigationAndVisibleModify()",
+    "sha256": "377e8ed759e79d47d41bfd241ddd3a0d6c439946e5d71bd09b5261745d23f74c",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "iphone-display.png",
+    "originalAttachment": "6CB1197B-FDD6-4EAF-B0BE-0CF425AB0A17.png",
+    "label": "Window and display diagnostics",
+    "testIdentifier": "ElyraUITests/testWindowDisplayMeasurementControls()",
+    "sha256": "2192de6be3129a0a39d7d137aff2eca88c8aa1f4f6e4b245469e585e744c15ae",
+    "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+    "run": 43676397713,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  }
+]

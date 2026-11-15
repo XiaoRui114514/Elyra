@@ -1,0 +1,117 @@
+{
+  "run": 43676397713,
+  "url": "https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713",
+  "sourceCommit": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+  "tag": "v0.4.0-dev",
+  "conclusion": "success",
+  "version": "0.4.0",
+  "build": "26",
+  "resignableSHA256": "c17151636c33c1fe931c319ec39440236067555deaa303cf36da6af5a57a2234",
+  "unsignedSHA256": "cd9aa85f2776f636cb01fd25a20c469d676ec159f9344d15ca863f6b72f086f4",
+  "coreTestsMacOS": 93,
+  "coreTestsLinux": 93,
+  "pythonTests": 14,
+  "uiTestsPerSimulator": 8,
+  "localizationKeys": 607,
+  "physicalInstallationTested": false,
+  "systemEffectsTested": false,
+  "continuousResizeTested": false,
+  "jobs": {
+    "package": {
+      "attempt": 1,
+      "jobID": 132697383408
+    },
+    "iPhone": {
+      "attempt": 1,
+      "jobID": 132697383338
+    },
+    "iPad": {
+      "attempt": 2,
+      "jobID": 132701283252
+    }
+  },
+  "retry": {
+    "family": "iPad",
+    "reason": "XCTest Simulator launch-progress timeout before first app flow",
+    "sourceChanged": false,
+    "firstAttemptSummary": "ci-0.4-ipad-attempt1-launch-timeout.json"
+  },
+  "artifacts": [
+    {
+      "id": 14147645431,
+      "name": "Elyra-UI-iPad-b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+      "size_in_bytes": 7826585,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14147645431",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14147645431/zip",
+      "expired": false,
+      "created_at": "2026-11-15T04:46:14Z",
+      "expires_at": "2027-02-13T04:38:53Z",
+      "updated_at": "2026-11-15T04:46:14Z",
+      "digest": "sha256:8b892c2d1be7e072e2e41913b5ed9681d9a22550cf6b8409939ef7a6894a1247",
+      "workflow_run": {
+        "id": 43676397713,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7"
+      }
+    },
+    {
+      "id": 14146797653,
+      "name": "Elyra-UI-iPhone-b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+      "size_in_bytes": 6965868,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14146797653",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14146797653/zip",
+      "expired": false,
+      "created_at": "2026-11-15T04:38:06Z",
+      "expires_at": "2027-02-13T04:21:21Z",
+      "updated_at": "2026-11-15T04:38:06Z",
+      "digest": "sha256:4f90557d1b8f5300ab8c4e008f71af57ffeae52dc53564a52e53c89b6999d067",
+      "workflow_run": {
+        "id": 43676397713,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7"
+      }
+    },
+    {
+      "id": 14146284157,
+      "name": "Elyra-package-b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+      "size_in_bytes": 1905756,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14146284157",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14146284157/zip",
+      "expired": false,
+      "created_at": "2026-11-15T04:24:29Z",
+      "expires_at": "2027-02-13T04:21:21Z",
+      "updated_at": "2026-11-15T04:24:29Z",
+      "digest": "sha256:a24f2f59db6f48ac72ab5f34b02ff13add724a540642235d36ce946390c71c95",
+      "workflow_run": {
+        "id": 43676397713,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7"
+      }
+    },
+    {
+      "id": 14146074640,
+      "name": "Elyra-validation-b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7",
+      "size_in_bytes": 45549,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14146074640",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14146074640/zip",
+      "expired": false,
+      "created_at": "2026-11-15T04:24:27Z",
+      "expires_at": "2027-02-13T04:21:21Z",
+      "updated_at": "2026-11-15T04:24:27Z",
+      "digest": "sha256:8285266708bdf7cea997a0f751d751f4af345ed6b0f342df3ecb1d806ed9b585",
+      "workflow_run": {
+        "id": 43676397713,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7"
+      }
+    }
+  ]
+}

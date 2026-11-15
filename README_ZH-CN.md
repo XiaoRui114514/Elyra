@@ -2,24 +2,22 @@
 
 面向 iPhone 和 iPad 的 SwiftUI 配置与文件工具箱，根据当前窗口尺寸调整导航和内容布局。
 
-[功能矩阵](docs/FEATURE_MATRIX.md) · [构建与测试](docs/TEST_REPORT.md) · [构建说明](docs/BUILDING.md) · [已知问题](docs/KNOWN_ISSUES.md)
+[功能矩阵](docs/FEATURE_MATRIX.md) · [测试报告](docs/TEST_REPORT.md) · [构建说明](docs/BUILDING.md) · [已知问题](docs/KNOWN_ISSUES.md)
 
-0.3 新增设备端 MobileGestalt 访问及能力字段写入，接入已固定版本的上游原生模块。直接访问不可用时，需要签名配置提供有效 App Group；26、27 系统均以实际读写权限检测为准，不承诺每个构建都可用。外部导入文件仍是独立本地文档。编译、签名与真机测试状态分别记录在测试报告中。
+[下载 0.4.0 重签版 IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.0-dev/Elyra-resignable.ipa) · [开发版发布页](https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.0-dev)
 
-[下载 0.3.0（18）未签名 IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.3.0-dev/Elyra-unsigned.ipa) · [已通过的 CI](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024)。开发版 IPA 需要签名，尚未完成真机安装与系统效果测试。
+重签版和未签名版均需合法签名与描述文件。重签版以 ad-hoc 签名嵌入 App Group 配置，方便签名工具识别所需配置；这本身不授予系统权限。尚未完成真机安装与系统效果测试，准确提交、校验值和模拟器结果见[测试报告](docs/TEST_REPORT.md)。
 
-- 浏览和编辑 8 类 plist 数据，搜索嵌套字段，暂存修改并预览差异。
-- 保存前校验备份，按原始字节恢复，检测多窗口版本冲突。
-- 读取设备缓存，暂存能力与外观字段，确认写入、回读验证，并恢复设备绑定备份。身份及二进制缓存字段受保护。
-- 检查灵动岛配置；系统胶囊圆角仍无经过验证的调整参数。
-- 分别记录空闲、录屏、计时、通话、媒体及多活动状态下的形状与圆角。
-- 预览和导出文件；编辑 UTF-8 文本，保留文件版本备份。
-- 检查 ZIP 与 `.tendies` 归档，验证路径、CRC 和解压大小限制。
-- 在“设置 → 语言”选择简体中文、English 或跟随系统。
-- 重新设计系统概览，提供手动实验性注销按钮；关于页直接显示三个账号卡片，使用官方应用图标及品牌配色。
+- **系统配置**：自动检测 MobileGestalt 访问权限；分类和功能使用自适应卡片，提供明确的“修改”按钮、变更预览、设备备份、回读校验和记录值恢复。是否可写以最终签名、可用容器及实际权限检测为准。
+- **配置方案**：保存、导入和导出功能选择，检测冲突，一次预览并确认多个功能的变更。
+- **文档与文件**：编辑 8 类 plist 数据，搜索嵌套字段，暂存草稿；预览和导出素材，编辑带版本备份的 UTF-8 文本，检查 ZIP 与 `.tendies` 的路径、CRC 和大小限制。
+- **备份中心**：离线查看和导出经过校验的设备备份，比较当前配置，单独确认恢复操作。外部导入文件不会被当作可信设备原值。
+- **窗口与显示**：查看当前窗口尺寸、安全区域、显示缩放、像素尺寸、刷新能力及 EDR 余量；可测量应用回调频率。
+- **灵动岛**：归入“显示”，提供配置检查、记录字段恢复、外观观察与明确标注的应用内预览。尚无经过验证的系统圆角或布局修复。
+- **界面**：各分区独立保留导航，使用原生控件；支持简体中文、English 和跟随系统，首页提供手动实验性注销按钮，关于页直接展示账号卡片。
 
-功能名称沿用 Apple 官方用语及参考项目的通用叫法。参见[命名与本地化](docs/NAMING_AND_LOCALIZATION.md)、[灵动岛研究](docs/DYNAMIC_ISLAND_RESEARCH.md)。
+iPhone 和 iPad 使用同一套功能与配置引擎。能力标记和硬件、Apple 服务是否可用分别处理。系统素材安装、完整目录浏览和配对仍在迁移，进度见[功能矩阵](docs/FEATURE_MATRIX.md)。
 
-[GitHub Actions](https://github.com/XiaoRui114514/Elyra/actions/workflows/build.yml) 执行核心测试、Xcode 分析及 iPhone/iPad 界面测试，归档真实 arm64 设备应用并校验 IPA。产物未签名，需要合法签名与描述文件；准确测试提交、下载入口和安装状态见[测试报告](docs/TEST_REPORT.md)。
+[GitHub Actions](https://github.com/XiaoRui114514/Elyra/actions/workflows/build.yml) 执行核心与 Python 检查、Xcode 分析及每类设备 8 项界面测试，生成并校验两种真实 arm64 IPA。Stage Manager 连续缩放、外接显示器、VoiceOver 和 iOS/iPadOS 27 运行验证仍待完成。
 
-开发时打开 `Elyra.xcodeproj`，核心模块可通过 `swift test` 测试。采用 GPL-3.0-only，版权和依赖声明见 [LICENSE](LICENSE) 与 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+开发时打开 `Elyra.xcodeproj`，核心模块可通过 `swift test` 测试。采用 GPL-3.0-only，必要的版权与依赖声明保留在 [LICENSE](LICENSE) 和 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。[源码审查](docs/REVIEW_0.4.md) · [灵动岛研究](docs/DYNAMIC_ISLAND_RESEARCH.md)

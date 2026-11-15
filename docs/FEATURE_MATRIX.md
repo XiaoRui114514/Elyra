@@ -2,7 +2,7 @@
 
 审计快照：2026-11-14 UTC。A = Erosion `12c0a2d00c444c9b09112608b47d4d6c10e0df14`；B = GestaltX `d1d5473734440e8f2e797494ac373427c02fd674`。
 
-这是实际进度表，不是完成声明。0.3 已接入固定版本的原生 MobileGestalt 访问模块及受限设备写入；只针对实时捕获的设备配置，实际权限探测通过后才能写入。iOS 26/27 的**系统行为均无本次真机验证**；上游支持声明不继承为 Elyra 结论。iPhone/iPad 使用相同目录、编辑器及事务层；Apple CI 结果见 TEST_REPORT。UI 最低目标 iOS 17；已运行 26.2 模拟器，27 SDK/真机仍待验证。外观资源安装等其他模块的未迁移状态分别列明，不能从 MobileGestalt 后端推定可用。
+这是实际进度表，不是完成声明。目前已接入固定版本的原生 MobileGestalt 访问模块及受限设备写入；只针对实时捕获的设备配置，实际权限探测通过后才能写入。iOS 26/27 的**系统行为均无本次真机验证**；上游支持声明不继承为 Elyra 结论。iPhone/iPad 使用相同目录、编辑器及事务层；Apple CI 结果见 TEST_REPORT。UI 最低目标 iOS 17；已运行 26.2 模拟器，27 SDK/真机仍待验证。外观资源安装等其他模块的未迁移状态分别列明，不能从 MobileGestalt 后端推定可用。
 
 位置中 B 的无目录 Swift 文件位于 `GestaltX/`；A 的短目录位于 `Erosion/`。精确路径、散列和声明参见 [source-inventory.json](audit/source-inventory.json)。完整风险与审查边界见 [SOURCE_AUDIT.md](SOURCE_AUDIT.md)。预设目录来自实际源码而非 README。按并集列出，重叠统一成 Capability/Workspace 引擎，不拼接原 UI。
 

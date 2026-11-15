@@ -1,3 +1,21 @@
+# Simulator UI evidence — 0.4
+
+Original PNG attachments from [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713), code source `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`. Runtime 26.2 (23C54). iPhone evidence is from attempt 1; iPad evidence is from attempt 2 after a Simulator startup timeout. These show Elyra's interface, not physical-device system changes.
+
+| Page | iPhone | iPad |
+| --- | --- | --- |
+| System overview | [Screenshot](v0.4/iphone-system.png) | [Screenshot](v0.4/ipad-system.png) |
+| Repeated feature enter/back | [Screenshot](v0.4/iphone-round-trips.png) | [Screenshot](v0.4/ipad-round-trips.png) |
+| Saved configuration plans | [Screenshot](v0.4/iphone-plans.png) | [Screenshot](v0.4/ipad-plans.png) |
+| Window/display diagnostics | [Screenshot](v0.4/iphone-display.png) | [Screenshot](v0.4/ipad-display.png) |
+| Direct account cards | [Screenshot](v0.4/iphone-about.png) | [Screenshot](v0.4/ipad-about.png) |
+| Maximum Chinese accessibility text | [Screenshot](v0.4/iphone-large-text.png) | [Screenshot](v0.4/ipad-large-text.png) |
+| Language settings | [Screenshot](v0.4/iphone-language.png) | [Screenshot](v0.4/ipad-language.png) |
+
+Original names, test identities and SHA-256 values: [iPhone manifest](v0.4/iphone-manifest.json), [iPad manifest](v0.4/ipad-manifest.json). Publisher artwork provenance remains in [brand-assets.json](../audit/brand-assets.json). Continuous Stage Manager resize, physical window/display acceptance and system Dynamic Island geometry remain unverified.
+
+---
+
 # Simulator UI evidence — 0.3
 
 Original PNG attachments from successful [run 43617128024](https://github.com/XiaoRui114514/Elyra/actions/runs/43617128024), source `b0f2232d3ff989cfae673dce94241dc4eebd563e`. Runtime 26.2 (23C54). These are app-interface captures on simulators, not physical-device system-change evidence. Original attachment names and SHA-256 values: [0.3 manifest](v0.3/manifest.json).

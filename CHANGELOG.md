@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 — 2026-11-15 (development candidate)
+## 0.4.0 — 2026-11-15 (development)
 
 - Unified adaptive tiles across System, categories and feature pages; added direct Modify controls and moved Dynamic Island into Display. Primary areas retain separate navigation stacks.
 - Added automatic device access checks, distinct connection states and actionable signing diagnostics.

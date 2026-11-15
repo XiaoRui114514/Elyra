@@ -1,14 +1,18 @@
-# 0.4 candidate — second implementation pass
+# 0.4 delivery
 
-Independent source review is complete: REVIEW_0.4.md records the chosen work and API evidence. Earlier candidate runs 43622633201 and 43623138805 were canceled before this pass, as requested. The review did not run tests or edit source.
+- [x] Independent source review and second implementation pass; decisions and API evidence in REVIEW_0.4.md.
+- [x] Adaptive System tiles throughout dashboard/categories/features; direct Modify actions; separate navigation per area; explicit sidebar actions after relaunch.
+- [x] Automatic real access checks and embedded App Group template in the re-signable IPA.
+- [x] Recorded Dynamic Island flag/subtype restoration, Boolean preservation, offline backup inspection/export and reusable configuration plans.
+- [x] Current-window/display diagnostics, draft rebase/reconnect, external recovery-conflict protection, working-copy reuse and cached field indexes.
+- [x] Concise primary controls and 607 matching bilingual entries.
+- [x] Exact code source `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`: [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713) passes 93 core tests, 14 Python checks, analysis/archive and eight UI scenarios per simulator. The iPad task was rerun after a Simulator launch-progress timeout; source was unchanged.
+- [x] Build 26 re-signable and unsigned arm64 IPAs independently verified. Installation and physical system effects remain unverified.
+- [ ] Legitimate signing and physical read/write/restore/Respring acceptance; continuous Stage Manager resize, external display, VoiceOver and multiwindow UI acceptance.
 
-Implemented: cohesive adaptive system tiles and independent area navigation; direct Modify actions; automatic access probing; recorded DI flag/subtype restoration; Boolean preservation; offline device backup inspection/comparison/export; saved/imported/exported multi-feature configuration plans; current-window/display/EDR diagnostics and optional application callback sampling; recovery-conflict protection; draft rebase/reconnect; working-copy reuse and cached field indexes. Generic explanations and the language footers are removed or folded into details.
+Source, package hashes and per-attempt evidence: TEST_REPORT.md. Next implementation: selected-directory access, local audio/image processing, PosterBoard installation, pairing and device operation-history integration. No verified system Dynamic Island geometry repair is available.
 
-Packaging supplies both unsigned and re-signable ad-hoc IPAs; actual signature entitlements, team absence and package structure are checked. Physical permissions and system effects are not established by ad-hoc signing.
-
-Second-pass validation started only after review and implementation: 93 Linux Swift tests passed. Apple analysis and dual-IPA packaging pass on the candidate; final iPhone/iPad UI qualification is in progress. Candidate source: `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`, [qualification run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713). Prior run 43675452309 produced valid packages but failed one UI scenario per simulator; it is not release-qualified. Explicit sidebar actions and scrolling to saved notes are now under full regression. Do not release until all three jobs pass. Keep the public 0.3 release until the new exact source qualifies. Follow-up migration: selected directories, audio/image processing, PosterBoard installation and Rust pairing.
-
-The 0.3 record below remains historical and does not qualify changed 0.4 code.
+The 0.3 record below is historical.
 
 # Development status
 
