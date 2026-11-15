@@ -63,20 +63,20 @@ struct DisplayDiagnosticsView: View {
     @EnvironmentObject private var localization: LocalizationStore
     @Environment(\.scenePhase) private var phase
     @StateObject private var model = DisplayDiagnosticsModel()
-    private func size(_ value: CGSize) -> String { value.width.formatted(.number.precision(.fractionLength(0))) + " × " + value.height.formatted(.number.precision(.fractionLength(0))) }
+    private func size(_ value: CGSize) -> String { Double(value.width).formatted(.number.precision(.fractionLength(0))) + " × " + Double(value.height).formatted(.number.precision(.fractionLength(0))) }
     var body: some View {
         List {
             Section("Window") {
                 LabeledContent("Window size", value: size(model.snapshot.window))
                 LabeledContent("Content size", value: size(model.snapshot.content))
-                LabeledContent("Display scale", value: model.snapshot.scale.formatted())
-                LabeledContent("Safe area", value: [model.snapshot.safeArea.top, model.snapshot.safeArea.left, model.snapshot.safeArea.bottom, model.snapshot.safeArea.right].map { $0.formatted(.number.precision(.fractionLength(0))) }.joined(separator: " / "))
+                LabeledContent("Display scale", value: Double(model.snapshot.scale).formatted())
+                LabeledContent("Safe area", value: [model.snapshot.safeArea.top, model.snapshot.safeArea.left, model.snapshot.safeArea.bottom, model.snapshot.safeArea.right].map { Double($0).formatted(.number.precision(.fractionLength(0))) }.joined(separator: " / "))
             }
             Section("Display") {
                 LabeledContent("Pixel dimensions", value: size(model.snapshot.pixels))
                 LabeledContent("Maximum frame rate", value: String(model.snapshot.maximumFPS) + " Hz")
-                LabeledContent("Current EDR headroom", value: model.snapshot.currentEDR.formatted(.number.precision(.fractionLength(2))) + "×")
-                LabeledContent("Potential EDR headroom", value: model.snapshot.potentialEDR.formatted(.number.precision(.fractionLength(2))) + "×")
+                LabeledContent("Current EDR headroom", value: Double(model.snapshot.currentEDR).formatted(.number.precision(.fractionLength(2))) + "×")
+                LabeledContent("Potential EDR headroom", value: Double(model.snapshot.potentialEDR).formatted(.number.precision(.fractionLength(2))) + "×")
             }
             Section("App callback rate") {
                 LabeledContent("Callbacks per second", value: model.callbacks.map { $0.formatted(.number.precision(.fractionLength(1))) } ?? "—")
