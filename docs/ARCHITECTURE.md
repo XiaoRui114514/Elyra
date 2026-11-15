@@ -47,3 +47,11 @@ ConfigurationPlan is a bounded versioned JSON document containing known capabili
 Device backup inspection/export verifies installation binding, generation and bytes without opening the system target. Restoring to the device remains a separate confirmed transaction. Recovery refuses an unexpected valid cache instead of overwriting external edits; partial corrupt bytes are retained before explicit verified restoration. Expired editor sessions reconnect with a three-way draft merge and reject overlapping changes.
 
 Window & display uses the actual UIWindowScene.screen and the current window's bounds/safe area. CADisplayLink sampling is optional and stops when leaving the view or becoming inactive. The reported callback rate is application scheduling, not panel refresh or PWM. EDR headroom is not measured peak brightness.
+
+## 0.4.1 preferences and compatibility
+
+DevicePreferences holds bounded typed recipes for model-name display fields and combined intelligence configuration. Preference plans are recomputed from the same live snapshot before a shared actor commits one reviewed transaction. RegionCode is separate from sales-region suffixes; On-Device Siri retains its device-specific type. Model naming updates its three source-confirmed aliases without changing product/board/CPU/serial identity.
+
+SystemBackup generationVersion distinguishes the original 0.4 policy from the expanded display-preference policy. Historic capability keys are frozen in LegacySystemPolicy. Older bytes validate against their original digest/policy before a normalized generation comparison; valid initial captures remain originals rather than being replaced on upgrade.
+
+CapabilityState uses captured values rather than exact preset equality. Missing fields are disabled, missing captures are unread, mixed multi-field states are partial and unsupported types remain unknown. Enabled checks decorate the corresponding actual state. VERSION drives generated marketing version; the default release increment is the patch component.

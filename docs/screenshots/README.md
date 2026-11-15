@@ -1,3 +1,18 @@
+# Simulator UI evidence — 0.4.1
+
+Original attachments from [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089), source `94942ddebc8ae60474be8bb10620e8f503420ebb`. Nine tests passed on each 26.2 simulator, without retry. These are app-interface captures, not physical system-effect evidence.
+
+| Page | iPhone | iPad |
+| --- | --- | --- |
+| Intelligence recipe | [Screenshot](v0.4.1/iphone-intelligence.png) | [Screenshot](v0.4.1/ipad-intelligence.png) |
+| Model-name editor | [Screenshot](v0.4.1/iphone-model-name.png) | [Screenshot](v0.4.1/ipad-model-name.png) |
+| System | [Screenshot](v0.4.1/iphone-system.png) | [Screenshot](v0.4.1/ipad-system.png) |
+| Maximum Chinese text | [Screenshot](v0.4.1/iphone-large-text.png) | [Screenshot](v0.4.1/ipad-large-text.png) |
+
+Original names, source IDs and hashes: [iPhone manifest](v0.4.1/iphone-manifest.json), [iPad manifest](v0.4.1/ipad-manifest.json). Simulator write controls are intentionally disabled. The synthetic editor text contains no individual device details. Long native English navigation titles can ellipsize; their full entry label and accessibility text remain available.
+
+---
+
 # Simulator UI evidence — 0.4
 
 Original PNG attachments from [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713), code source `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`. Runtime 26.2 (23C54). iPhone evidence is from attempt 1; iPad evidence is from attempt 2 after a Simulator startup timeout. These show Elyra's interface, not physical-device system changes.

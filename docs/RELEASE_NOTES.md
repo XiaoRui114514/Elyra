@@ -1,14 +1,16 @@
-Elyra 0.4.0 development release — build 26
+Elyra 0.4.1 development release — build 28
 
-System now uses adaptive tiles throughout the overview, categories and feature details. Each feature has a direct Modify action and actual access status; entering System automatically checks the device connection. Dynamic Island is part of Display. Primary areas retain independent navigation paths. Introductory text and the language footer have been reduced.
+Adds System → Intelligence → Apple Intelligence for China Mainland. One action prepares seven supported capability presets and RegionCode LL in one reviewed transaction, preserving sales-region suffixes, hardware identity and device-specific On-Device Siri values. Apple service eligibility remains a separate system decision. Restart the device after applying, then check Apple Intelligence & Siri in Settings.
 
-Adds reusable configuration plans with import/export and a combined change preview; verified offline device backup inspection/export; and current-window/display diagnostics with optional application callback measurement. Restoring Dynamic Island now includes its recorded subtype, Boolean presets preserve their type, recovery protects unexpected external edits, and reconnecting an editor can retain a nonconflicting draft.
+Adds System → Device → Change Model Name. The editor synchronizes the three source-confirmed display fields and can restore captured values without reverting unrelated artwork/layout changes. A restart may be needed for Settings to refresh its display.
 
-Two arm64 IPA packages are included. Elyra-resignable.ipa embeds an ad-hoc App Group template so capable signing tools can discover it; Elyra-unsigned.ipa has no signature. Both require legitimate re-signing/provisioning and are not installation-tested. Actual system access still depends on the final signature, available container and file permission probe.
+Feature cards now show Enabled, Disabled or Partially enabled from actual cache values, with a checkmark on enabled cards. Unread and unrecognized values remain distinct. Modify offers explicit enable/disable choices; disabling Dynamic Island also restores its captured layout subtype.
 
-Qualification and checksums: [test report](https://github.com/XiaoRui114514/Elyra/blob/main/docs/TEST_REPORT.md). Physical system effects, iOS/iPadOS 27 runtime acceptance and a system Dynamic Island geometry repair are not established. See [feature matrix](https://github.com/XiaoRui114514/Elyra/blob/main/docs/FEATURE_MATRIX.md) for remaining migration work.
+Older device backups keep their original hash/policy verification and remain usable after the mutable-field list expands. VERSION is the version source; future releases increment patch by default. Public author/community X posts and pinned implementation evidence are recorded in RESEARCH_0.4.1.md, including the distinction between retail Model Number and A-number regulatory identity.
 
-Qualified code: `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`. [Run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713) passed 93 core tests, 14 Python checks, Xcode analysis/archive and eight UI scenarios per simulator. The iPad task passed on retry after a Simulator launch-progress timeout; app code was unchanged. Xcode 26.3, SDK/runtime 26.2.
+Qualified code: 94942ddebc8ae60474be8bb10620e8f503420ebb. CI run 43680976089: 102 core tests, 14 Python checks, Xcode analysis/archive and nine UI scenarios per simulator. Xcode 26.3, SDK/runtime 26.2. Both arm64 packages were independently verified.
 
-Re-signable SHA-256: `c17151636c33c1fe931c319ec39440236067555deaa303cf36da6af5a57a2234`
-Unsigned SHA-256: `cd9aa85f2776f636cb01fd25a20c469d676ec159f9344d15ca863f6b72f086f4`
+Elyra-resignable.ipa embeds an ad-hoc App Group template; Elyra-unsigned.ipa has no signature. Both require legitimate signing/provisioning. Physical installation, Apple-service activation, Settings About rendering and system effects are not tested. General About fields without a verified current implementation remain documented research, rather than placeholder modification controls.
+
+Re-signable SHA-256: 52fa3a0937ead308edd2d89cd62d07ea24d8383cb747281769486940c7b96fba
+Unsigned SHA-256: 361ff9926d145aa387995d3d2ae264449afe846b6e204d371f55d0dc037424ce

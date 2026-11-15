@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.1 — 2026-11-15 (candidate)
+## 0.4.1 — 2026-11-15 (development)
 
 - Added a combined mainland Apple Intelligence configuration with seven capability presets and independent RegionCode; retained sales-region suffixes and device-specific Siri values.
 - Added a model-name editor that synchronizes all three source-confirmed display fields, with targeted captured-value restoration.

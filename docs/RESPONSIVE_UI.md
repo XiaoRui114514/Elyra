@@ -23,3 +23,5 @@ Build 18 passed five UI scenarios per simulator in [run 43617128024](https://git
 The 0.4 regression suite adds repeated enter/back navigation through all five System categories, visible Modify checks, configuration-plan save/relaunch and window/display controls. Final candidate results belong in TEST_REPORT; test helpers scroll both directions to respect retained offsets and confirm that controls are actually reachable.
 
 0.4.0 (26) passed eight UI scenarios per simulator in [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713), including all five System category round trips, plan persistence and display controls. [Original 0.4 screenshots](screenshots/README.md) retain source identities and hashes. This does not extend coverage to continuous Stage Manager resize.
+
+0.4.1 source `94942ddebc8ae60474be8bb10620e8f503420ebb` passes nine scenarios per simulator, adding model-name editing and the guarded mainland intelligence entry. Selected-row backgrounds retain rounded corners. This does not qualify continuous hardware window resizing or private SpringBoard appearance.

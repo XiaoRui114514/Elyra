@@ -1,0 +1,99 @@
+{
+  "run": 43680976089,
+  "url": "https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089",
+  "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+  "tag": "v0.4.1-dev",
+  "conclusion": "success",
+  "version": "0.4.1",
+  "build": "28",
+  "resignableSHA256": "52fa3a0937ead308edd2d89cd62d07ea24d8383cb747281769486940c7b96fba",
+  "unsignedSHA256": "361ff9926d145aa387995d3d2ae264449afe846b6e204d371f55d0dc037424ce",
+  "coreTestsLinux": 102,
+  "coreTestsMacOS": 102,
+  "pythonTests": 14,
+  "uiTestsPerSimulator": 9,
+  "localizationKeys": 625,
+  "matrixRows": 104,
+  "runAttempt": 1,
+  "physicalInstallationTested": false,
+  "systemEffectsTested": false,
+  "privateApertureRadiusControlVerified": false,
+  "artifacts": [
+    {
+      "id": 14148751241,
+      "name": "Elyra-UI-iPhone-94942ddebc8ae60474be8bb10620e8f503420ebb",
+      "size_in_bytes": 7673070,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148751241",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148751241/zip",
+      "expired": false,
+      "created_at": "2026-11-15T05:38:31Z",
+      "expires_at": "2027-02-13T05:24:50Z",
+      "updated_at": "2026-11-15T05:38:31Z",
+      "digest": "sha256:edcbd6bdef0562818061f8f1ccaaa2c5a03bbd53d3ebc3f1d8d5bbd4aabde338",
+      "workflow_run": {
+        "id": 43680976089,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "94942ddebc8ae60474be8bb10620e8f503420ebb"
+      }
+    },
+    {
+      "id": 14148522209,
+      "name": "Elyra-validation-94942ddebc8ae60474be8bb10620e8f503420ebb",
+      "size_in_bytes": 46142,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148522209",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148522209/zip",
+      "expired": false,
+      "created_at": "2026-11-15T05:28:05Z",
+      "expires_at": "2027-02-13T05:24:50Z",
+      "updated_at": "2026-11-15T05:28:05Z",
+      "digest": "sha256:d61ed564d9321445aba032e9325b4476577938d38ddec449261c7bea05f04dfa",
+      "workflow_run": {
+        "id": 43680976089,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "94942ddebc8ae60474be8bb10620e8f503420ebb"
+      }
+    },
+    {
+      "id": 14148354507,
+      "name": "Elyra-UI-iPad-94942ddebc8ae60474be8bb10620e8f503420ebb",
+      "size_in_bytes": 9058205,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148354507",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148354507/zip",
+      "expired": false,
+      "created_at": "2026-11-15T05:39:30Z",
+      "expires_at": "2027-02-13T05:24:50Z",
+      "updated_at": "2026-11-15T05:39:30Z",
+      "digest": "sha256:22ff5cb0b8e2278c14016a220df32c3e445974f9acf05f3df35135a61b26d3a9",
+      "workflow_run": {
+        "id": 43680976089,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "94942ddebc8ae60474be8bb10620e8f503420ebb"
+      }
+    },
+    {
+      "id": 14148218200,
+      "name": "Elyra-package-94942ddebc8ae60474be8bb10620e8f503420ebb",
+      "size_in_bytes": 1975571,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148218200",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14148218200/zip",
+      "expired": false,
+      "created_at": "2026-11-15T05:28:07Z",
+      "expires_at": "2027-02-13T05:24:50Z",
+      "updated_at": "2026-11-15T05:28:07Z",
+      "digest": "sha256:375f3e6b6b272fc6a73f54cece33d073ee42038fcddb069fbf6b5aff6b0f019e",
+      "workflow_run": {
+        "id": 43680976089,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "94942ddebc8ae60474be8bb10620e8f503420ebb"
+      }
+    }
+  ]
+}

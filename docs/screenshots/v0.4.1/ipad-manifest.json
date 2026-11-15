@@ -1,0 +1,90 @@
+[
+  {
+    "file": "ipad-about.png",
+    "originalAttachment": "5E5ECA5D-BA5D-4015-868F-3D5AC8327445.png",
+    "label": "About account cards",
+    "testIdentifier": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sha256": "4d23573d6fc0a26fed2a2d835245c3c35f8bcaad6b1f36f5a4fab968035556c4",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-system.png",
+    "originalAttachment": "A0066A56-1A0E-4961-8C0F-584B1F175F51.png",
+    "label": "System overview",
+    "testIdentifier": "ElyraUITests/testAboutProfilesAndHomeActions()",
+    "sha256": "b61ee06494aba8d3fd273b2ac8a509cb4b28e144446b769ecbbc2b9b65059a42",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-large-text.png",
+    "originalAttachment": "EB4FA2DA-5636-43AD-A58B-11834178F30D.png",
+    "label": "Chinese accessibility launch",
+    "testIdentifier": "ElyraUITests/testChineseAccessibilityTextKeepsNavigationReachable()",
+    "sha256": "eb18baa322d0143d178cde96034026e1e1442388fce406871b7a651043fb41c5",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-plans.png",
+    "originalAttachment": "EAF19BCA-1C17-4224-AB55-55CC5EC51C89.png",
+    "label": "Saved configuration plan",
+    "testIdentifier": "ElyraUITests/testConfigurationPlanSavesAndPersistsWithoutSystemWrite()",
+    "sha256": "5dde802e3fd7f7171b19f545144450732dff967e573b7824eb0683681d6a422a",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-intelligence.png",
+    "originalAttachment": "D8C3B39C-945F-4688-9D78-B82FE57D3158.png",
+    "label": "Mainland Apple Intelligence configuration",
+    "testIdentifier": "ElyraUITests/testIntelligenceSetupAndModelNameEntries()",
+    "sha256": "39df5182d9642b451b9d2aa93041febfe810c3bce12bf6e6deb17353b8a4fe34",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-model-name.png",
+    "originalAttachment": "8F5518C8-0A9D-4A43-A0AF-93E6E373299E.png",
+    "label": "Model name editor",
+    "testIdentifier": "ElyraUITests/testIntelligenceSetupAndModelNameEntries()",
+    "sha256": "1aa3086fae1672633eb9f41fcf010cbec10f6cb8629cab1615bf9e63f3e3881f",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-round-trips.png",
+    "originalAttachment": "1A77D9CB-22FD-42C8-B9A2-F1B23D2583BA.png",
+    "label": "System tiles after feature round trips",
+    "testIdentifier": "ElyraUITests/testSystemFeatureRoundTripKeepsTileNavigationAndVisibleModify()",
+    "sha256": "661c8d7133de1d61ddb7fad8d815e61ad0808210c48ad278cfb9c2f41dc42b4f",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  },
+  {
+    "file": "ipad-display.png",
+    "originalAttachment": "194506B8-8233-43D8-9BA4-40785FE55F4F.png",
+    "label": "Window and display diagnostics",
+    "testIdentifier": "ElyraUITests/testWindowDisplayMeasurementControls()",
+    "sha256": "d90b6c22d329db9f7f2cb1bf6a287324c4ae4ca0e4bef1f6b1f9b4e4a89802e2",
+    "sourceCommit": "94942ddebc8ae60474be8bb10620e8f503420ebb",
+    "run": 43680976089,
+    "runAttempt": 1,
+    "simulatorOnly": true
+  }
+]

@@ -48,3 +48,31 @@ The device writer creates verified, installation-bound backups and can restore c
 - [misakaX #53](https://github.com/straight-tamago/misakaX/issues/53), [#285](https://github.com/straight-tamago/misakaX/issues/285), [Nugget #834](https://github.com/leminlimez/Nugget/issues/834): historical iPad shape/orientation reports, without a verified current universal fix.
 
 Community reports and older private-rendering experiments do not establish current OS behavior. No guessed radius, identity patch or internal rendering layer is applied by Elyra.
+
+## Screen-corner hypothesis — 2026-11-15
+
+A screen-corner metric is a concrete research lead, but there is no established one-to-one identity between physical screen rounding and every Dynamic Island presentation. Distinguish the display metric, the activity container's layout radius and its rendering/mask. No individual device details are included here.
+
+| Evidence | What it establishes | Limit |
+| --- | --- | --- |
+| [Current Apple Live Activities guidance](https://developer.apple.com/design/human-interface-guidelines/live-activities.md) | Compact, minimal and expanded presentations are distinct; content should use the container's relative shape | No system-wide screen-radius override is provided; older mirrored numeric design guidance is not a runtime setting |
+| [iOS 26 community disassembly, fixed commit](https://github.com/samhenrigold/SpringBoard_Disassembly-26.0_23A343/blob/560125cff6c218f04b790a9067c6469d67a3be2c/SBSAPlatformMetricsContext.m) | The System Aperture metrics context contains `displayCornerRadius` and separate square/oval/tall-rectangle corner fields | Decompiled names/types and aliases are incomplete; they do not establish exact consumers or defaults on iPadOS 27 |
+| [Metrics mutator](https://github.com/samhenrigold/SpringBoard_Disassembly-26.0_23A343/blob/560125cff6c218f04b790a9067c6469d67a3be2c/SBSAPlatformMetricsContextMutator.m), [settings](https://github.com/samhenrigold/SpringBoard_Disassembly-26.0_23A343/blob/560125cff6c218f04b790a9067c6469d67a3be2c/SBSystemApertureSettings.h) | Related symbols include `customLayoutTallRectCornerRadius`, `maximumCornerRadius` and `tallRectCornerRadius` | These are private runtime/settings symbols, not verified MobileGestalt keys or a documented writable preferences format |
+| [NotchSimulator, fixed source](https://github.com/SniperGER/NotchSimulator/blob/3a00cfcb6122c6abe32c06c636825e1a6b4ebf33/Tweak.xm) | An older injected tweak overrides `UIScreen._displayCornerRadius` and a trait radius separately from screen bounds | Predates Dynamic Island. It proves an old runtime-hook technique, not a working iPadOS 26/27 remedy |
+| [Community report](https://www.reddit.com/r/iOS27/comments/1vfobts/ios27bd4_bug_dynamic_island/) | A commenter associates forced islands on square-corner phones with square presentation | Anecdotal and not a controlled iPad experiment |
+| [Jinwoo Kim rendering study](https://pookjw.github.io/Develop/About_CAGainMapLayer/article.html) | Earlier island rendering involved private gain-map layers and device-dependent behavior | iOS 16-era findings; its black-screen/compatibility limitations make it unsuitable as an unvalidated fix |
+
+### Can another model's screen geometry be advertised without other changes?
+
+Overriding a radius getter need not change framebuffer resolution, but a global display/trait override can also change other system UI, clipping and safe-area-dependent behavior. Changing ProductType or ArtworkDeviceSubType selects broader identity/layout behavior and cannot guarantee an unchanged normal display. A more focused route would change only the aperture container's relevant radius/metrics; the separate fields above make this worth investigating, not proven operational.
+
+The current backend reads/writes a fixed MobileGestalt cache. It cannot by itself replace SpringBoard methods or establish a working setter/IPC path for these runtime objects. Known older examples use privileged process injection. No guessed `DeviceCornerRadius`, `displayCornerRadius` or `customLayoutTallRectCornerRadius` key is written into CacheExtra, and no model-substitution preset is labeled as an appearance repair.
+
+### Next validation
+
+1. On an authorized physical test device/build, read the effective screen radius and aperture metrics without changing identity, resolution, scale or safe areas.
+2. Trace the actual compact/minimal/expanded consumers, including the vertical tall-rectangle branch, and verify whether their radius derives from screen radius, an inset, a maximum or a state-specific override.
+3. Establish a scoped, reversible control path before trying any value. Verify window bounds, orientation, touch alignment, safe areas, display scale, notifications and app switching as well as all activity states.
+4. Preserve exact originals and readback. Simulator-only measurements, API names and in-app rendering cannot qualify a system repair.
+
+Status: additional technical leads found; screen-radius equality and a radius-only, normal-display-preserving system modification remain unverified. The 0.4.1 app does not include a claimed corner-radius repair.

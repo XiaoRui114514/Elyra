@@ -1,40 +1,38 @@
 # Test report
 
-**Elyra 0.4.0, build 26** passed all required jobs in [run 43676397713](https://github.com/XiaoRui114514/Elyra/actions/runs/43676397713). Qualified code source: `b1e85e16a8c3195919fc4bc0ec5d33d4689a21f7`, tag `v0.4.0-dev`. Later documentation-only commits do not change the app code.
+**Elyra 0.4.1, build 28** passed the required jobs in [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089). Qualified app/build source: `94942ddebc8ae60474be8bb10620e8f503420ebb`; tag `v0.4.1-dev`. Later documentation changes do not change the app code.
 
 | Check | Result |
 | --- | --- |
-| Swift core | 93 passed on macOS; Linux core checks also passed |
-| Python IPA tests | 14 passed |
-| Localization | 607 matching English/Simplified Chinese keys |
-| Project/resources/static checks | Passed |
-| Xcode analysis and Release archive | Passed; Xcode 26.3 (17C529), SDK 26.2 |
-| iPhone UI | 8 passed; zero failures/skips; iPhone SE (3rd generation), arm64 Simulator 26.2 (23C54) |
-| iPad UI | 8 passed; zero failures/skips; iPad mini (A17 Pro), arm64 Simulator 26.2 (23C54) |
-| Downloaded packages | Both arm64 IPAs independently verified; exact checksums and reports retained |
-| Re-signable signature | Ad-hoc; App Group template embedded; no developer team/profile |
-| Fully unsigned package | No signature directory or embedded group entitlement |
-| Installation and system effects | Not physically tested |
+| Swift core | 102 passed on Linux and macOS |
+| Python IPA checks | 14 passed |
+| Localization | 625 matching English/Simplified Chinese keys, no missing fixed translations |
+| Project/static checks | Reproducible generation, syntax, workflow and repository checks passed |
+| Xcode analysis / Release archive | Passed; Xcode 26.3 (17C529), SDK 26.2 |
+| iPhone UI | 9 passed; no failures/skips; iPhone SE (3rd generation), arm64 Simulator 26.2 (23C54) |
+| iPad UI | 9 passed; no failures/skips; iPad mini (A17 Pro), arm64 Simulator 26.2 (23C54) |
+| Downloaded IPAs | Both independently checked for structure, signature mode, embedded groups and SHA-256 |
+| Re-signable IPA | Ad-hoc App Group template, no developer team/profile; legitimate re-signing required |
+| Unsigned IPA | No embedded signature; legitimate signing required |
+| Physical installation / system effects | Not tested |
 
-[Download re-signable IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.0-dev/Elyra-resignable.ipa) · [Development release](https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.0-dev). Both packages require legitimate signing/provisioning. Ad-hoc packaging supplies a discoverable entitlement template; actual system access still requires a usable final signature/container and permission probe.
+[Download re-signable IPA](https://github.com/XiaoRui114514/Elyra/releases/download/v0.4.1-dev/Elyra-resignable.ipa) · [Release page](https://github.com/XiaoRui114514/Elyra/releases/tag/v0.4.1-dev)
 
-- Re-signable SHA-256: `c17151636c33c1fe931c319ec39440236067555deaa303cf36da6af5a57a2234`
-- Unsigned SHA-256: `cd9aa85f2776f636cb01fd25a20c469d676ec159f9344d15ca863f6b72f086f4`
+- Re-signable SHA-256: `52fa3a0937ead308edd2d89cd62d07ea24d8383cb747281769486940c7b96fba`
+- Unsigned SHA-256: `361ff9926d145aa387995d3d2ae264449afe846b6e204d371f55d0dc037424ce`
 
 ## Coverage
 
-Core tests exercise typed plist editing, conflict detection, verified backups/restoration, transaction failures/recovery, data-only configuration-plan import/export, optimistic plan saves, combined plan transactions, recorded Dynamic Island subtype restoration, Boolean preservation, offline backup verification and three-way draft rebasing. Navigation tests preserve independent paths per area and cover layout policy widths from 320 to 1600 points.
+The core suite adds seven-field intelligence/region merging, sales-region/identity/Siri-type preservation, synchronized display-name fields, absent/malformed artwork, invalid names, actual on/off/partial/unknown state mapping, explicit disable behavior, legacy backup-policy compatibility, one-transaction preference writes, rollback, stale proposals and captured tablet-subtype restoration. Existing plist, file, archive, backup and concurrency coverage remains enabled.
 
-Eight UI scenarios per simulator cover Home/About/connection controls; maximum Chinese accessibility text; saved configuration plans across relaunch; immediate language changes and persistence; portrait/landscape navigation; observation notes across relaunch; repeated entry/back through all five System categories with visible Modify; and window/display measurement controls. Controls must remain reachable by scrolling. Native device access and Respring remain disabled in the simulator.
+The ninth UI scenario enters the model-name editor, edits a synthetic name and confirms device writes stay disabled in Simulator, then enters the mainland intelligence recipe and checks its guarded apply control. Existing Home/About, language/relaunch, maximum Chinese accessibility text, rotation, observation persistence, all five System category round trips and window/display tests remain enabled. CI preboots the selected simulator before invoking XCTest. No native system access or Respring is run in Simulator tests.
 
-Candidate failures were inspected using full logs, UI hierarchies and recordings. Fixes include Apple CGFloat formatting, visible plan validation, accurate switch activation, explicit sidebar actions after relaunch and scroll-aware reachability. No feature or failing scenario was removed. The iPad first attempt had a Simulator launch-progress timeout before the first app flow; its other seven scenarios passed. The failed iPad task was rerun on the same commit, with all eight scenarios required. Package/core and iPhone results remain from the first attempt. This final set of required checks qualifies the code above. See the retained [first-attempt timeout summary](audit/ci-0.4-ipad-attempt1-launch-timeout.json).
+[Run/artifact manifest](audit/ci-0.4.1.json), [re-signable report](audit/ci-0.4.1-resignable-ipa-report.json), [unsigned report](audit/ci-0.4.1-ipa-report.json), [macOS core log](audit/swift-test-macos-0.4.1.log), [Linux core log](audit/swift-test-linux-0.4.1.log), [iPhone summary](audit/ci-0.4.1-iphone-ui-summary.json), [iPad summary](audit/ci-0.4.1-ipad-ui-summary.json), [simulator screenshots](screenshots/README.md).
 
-## Evidence and limits
+## Limits
 
-[Run/artifact manifest](audit/ci-0.4.json), [re-signable report](audit/ci-0.4-resignable-ipa-report.json), [unsigned report](audit/ci-0.4-ipa-report.json), [toolchain](audit/ci-0.4-toolchain.txt), [macOS core log](audit/swift-test-macos-0.4.log), [iPhone summary](audit/ci-0.4-iphone-ui-summary.json), [iPad summary](audit/ci-0.4-ipad-ui-summary.json), [original simulator screenshots](screenshots/README.md). Full logs and xcresult bundles remain in the run artifacts. Screenshots use the Debug host's build number; the Release package build is recorded above.
+A capability flag's on/off label refers to the captured cache value, not independent verification of hardware or Apple-service activation. The combined intelligence recipe preserves device-specific Siri; it does not promise service availability. Model-name writes target three display fields; actual Settings rendering and restoration remain unverified on physical devices. Model Number, Serial Number, OS Version and Capacity research is documented separately in [RESEARCH_0.4.1](RESEARCH_0.4.1.md); no unverified About override is presented as completed.
 
-Physical installation, per-build native read/write/restore, Respring, iOS/iPadOS 27 runtime, continuous Stage Manager resize, external displays, VoiceOver and simultaneous multiple-window acceptance remain unverified. App callback measurements do not measure panel scan rate/PWM. No system Dynamic Island radius/layout repair is established. Native temporary-cache cleanup during abrupt termination remains outside the system-write journal.
+Signing/installation, per-build native effects, iOS/iPadOS 27 runtime, continuous Stage Manager resize, external displays, VoiceOver and simultaneous multiwindow UI acceptance remain pending. System Dynamic Island geometry has no verified repair. Native cache-link cleanup under abrupt termination remains separate from the system-write journal.
 
-Historical qualification: [0.3](TEST_REPORT_0.3.md), [0.2](TEST_REPORT_0.2.md).
-
-The [guarded release workflow](https://github.com/XiaoRui114514/Elyra/actions/runs/43678344548) passed and `v0.4.0-dev` is published as a development prerelease. Both direct IPA downloads returned HTTP 200 without authorization or cookies and matched the qualified hashes; [public download evidence](audit/public-download-0.4.json).
+Historical reports: [0.4](TEST_REPORT_0.4.md), [0.3](TEST_REPORT_0.3.md), [0.2](TEST_REPORT_0.2.md).

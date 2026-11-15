@@ -16,3 +16,5 @@
 - Current Apple CI uses Xcode 26.3 and 26.2 simulators. iOS/iPadOS 27 runtime, physical installation, system effects, continuous Stage Manager resizing, external displays, VoiceOver and multiwindow UI acceptance remain unverified.
 
 Excluded operations include management-policy edits, guessed cache offsets or subtype defaults, hardware identity spoofing and destructive cache resets. Device backup inspection/export and single-preset restoration are implemented in 0.4. Physical restore acceptance and device operation-history integration remain incomplete.
+
+0.4.1 adds real display-name preferences and a combined intelligence/region recipe. Their system rendering and service activation still need physical validation. On-Device Siri is deliberately preserved. Retail/regulatory Model Number, Serial Number, OS Version and Capacity are not exposed as verified About overrides. Private aperture radius fields are research leads, not currently implemented controls. Long native English navigation titles can ellipsize; their complete label remains on the entry tile and in accessibility metadata.

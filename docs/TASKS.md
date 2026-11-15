@@ -1,18 +1,18 @@
-# 0.4.1 candidate
+# 0.4.1 delivery
 
-- [x] Re-fetched Erosion and GestaltX; researched public developer documentation, MobileGestalt key references and Apple service requirements. See RESEARCH_0.4.1.md.
-- [x] One-tap mainland Apple Intelligence configuration: seven supported capability presets plus RegionCode; preserve sales region and device-specific Siri.
-- [x] Model-name editor synchronizes three display fields with reviewed writes and captured-value restoration.
-- [x] Actual enabled/disabled/partial/unknown states, enabled-card checkmarks and explicit enable/disable actions.
-- [x] Backup policy versioning preserves verified 0.4 initial captures after the mutable-field list expands; Dynamic Island disable restores the captured subtype.
-- [x] 102 Linux core tests, 14 Python checks, localization/static checks. Apple qualification pending.
-- [x] VERSION = 0.4.1; future versions increment patch only by default.
-- [ ] Exact-source Xcode analysis, nine UI scenarios per simulator and dual-IPA archive; publish only after all checks pass.
-- [ ] Physical signing, system effects/restoration and General → About display acceptance.
+- [x] Rechecked upstream sources, developer/community X posts and key references; RESEARCH_0.4.1.md records evidence and limits.
+- [x] Mainland intelligence recipe: seven supported flags + RegionCode LL, reviewed single transaction, sales region and device-specific Siri preserved.
+- [x] Three-field model-name editor and captured-value restore.
+- [x] Actual on/off/partial/unknown states, enabled-card checks and explicit enable/disable actions.
+- [x] Frozen legacy backup policy; older captures remain usable; disabling Dynamic Island restores its captured subtype.
+- [x] VERSION = 0.4.1; patch-only future numbering. 625 localization keys and 104 matrix rows.
+- [x] Qualified source `94942ddebc8ae60474be8bb10620e8f503420ebb`, [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089): 102 core, 14 Python, nine UI scenarios on each simulator, Xcode analysis/archive and independently verified build-28 IPAs. No UI retry was required.
+- [x] Expanded screen-radius research: separate aperture metrics identified, older scoped/global hook evidence recorded, no unverified geometry write added.
+- [ ] Physical signing, About rendering, service activation, per-build system writes/restoration and radius-only SpringBoard control validation.
 
-Current code candidate: `94942ddebc8ae60474be8bb10620e8f503420ebb`, [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089). Build 28 packages, analysis, 102 macOS core tests and 14 Python checks have passed; nine-scenario UI suites are pending.
+Continuous window resize, external displays, VoiceOver, multiwindow UI and remaining appearance/file/pairing modules remain pending. Existing source and native modules retain their license notices. Long native navigation titles can ellipsize; shorten the intelligence detail title in a future patch while keeping the entry's full name.
 
-0.4 remains the published qualified release until this candidate passes. The record below is historical.
+Historical records follow.
 
 # 0.4 delivery
 
