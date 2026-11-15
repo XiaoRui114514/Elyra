@@ -29,6 +29,6 @@ A separately privileged Settings-process customization could affect displayed te
 
 The intelligence recipe uses one live snapshot and one confirmed transaction. Device-specific Siri and sales suffixes are unchanged; the reviewed difference list shows actual writes. Model names are trimmed and limited to 256 UTF-8 bytes, without control characters. Both recipes restore only their own fields from a verified initial capture, retaining other edits.
 
-Backup records now carry a generation policy version. Older records validate their original policy/hash first, then compare a normalized generation under the current allowlist; their bytes and initial-capture provenance are retained. Corrupt originals never become replacement baselines. Serial/UDID/board/CPU and binary CacheData remain protected.
+Backup records now carry a generation policy version. The original capability-field set is frozen in LegacySystemPolicy rather than derived from a growing catalog. Older records validate their original policy/hash first, then compare a normalized generation under the current allowlist; their bytes and initial-capture provenance are retained. Corrupt originals never become replacement baselines. Serial/UDID/board/CPU and binary CacheData remain protected.
 
 Neither iOS/iPadOS 26 nor 27 receives a blanket service/visual-effects guarantee. Actual permissions and physical rendering must be checked per build. See TEST_REPORT for app-level qualification.

@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Immutable 0.4.0 generation-policy snapshot. Do not derive historic keys from a growing catalog.
+import Foundation
+enum LegacySystemPolicy {
+    static let capabilityKeys: Set<String> = [
+        "/EVOCjM/Nmb2roP5ebtEFA",
+        "2OOJf1VhaM7NxfRok3HbWQ",
+        "37NVydb//GP/GrhuTN+exg",
+        "6IejgN+1Fmu5/QrZFOIeNw",
+        "7brdL5xrEUWnlF9C0kdg5A",
+        "9MZ5AdH43csAUajl/dU+IQ",
+        "A62OafQ85EJAiiqKn4agtg",
+        "CoWnN4xo783YGn4wLrUatA",
+        "CwvKxM2cEogD3p+HYgaW0Q",
+        "EqrsVvjcYDdxHBiQmGhAWw",
+        "HCzWusHQwZDea6nNhaKndw",
+        "K/R1GfGfCkXvEhaPS2Vrng",
+        "LBJfwOEzExRxzlAnSuI7eg",
+        "M1n2sAqf33NAOgZRGxQYBA",
+        "Oji6HRoPi7rH7HPdWVakuw",
+        "QHxt+hGLaBPbQJbXiUJX3w",
+        "SAGvsp6O6kAQ4fEfDJpC4Q",
+        "TusANsf9Lfe3P/9fIXXSrQ",
+        "UIParallaxCapability",
+        "XNCjqOupLM/S8fNyxRNQTA",
+        "XYlJKKkj2hztRP1NWWnhlw",
+        "YgYIIViDt1kgzyIsIV61vA",
+        "YlEtTtHlNesRBMal1CqRaA",
+        "a1r7npIrhXsZ7SmKRKC1eA",
+        "a3n5T9sFtlyQ74NEp9ESxg",
+        "aVL5GE3tx0LSCI/ErfrJGA",
+        "aoJSd/MXk7M40NgXTM6x+g",
+        "cT44WE1EohiwRzhsZ8xEsw",
+        "j8/Omm6s1lsmTDFsXjsBfA",
+        "oOV1jhJbdV3AddkcCg0AEA",
+        "qeaj75wk3HF4DwQ8qbIi7g",
+        "qqrspu7CpuPdZwSDxNY+Fg",
+        "rb2tKZxlj0Gm2tBmUQSLqQ",
+        "yZf3GTRMGTuwSV/lD7Cagw",
+        "yhHcB0iH0d1XzPO/CFd3ow",
+        "ykpu7qyhqFweVMKtxNylWA",
+    ]
+}

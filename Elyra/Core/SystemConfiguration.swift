@@ -52,7 +52,7 @@ public enum SystemEditPolicy {
         guard case .dictionary = value, case .dictionary(var extra)? = value.value(at: ["CacheExtra"]) else {
             throw ElyraError.invalid("The device cache has an unsupported structure.")
         }
-        for key in keys { extra.removeValue(forKey: key) }
+        for key in version == 1 ? LegacySystemPolicy.capabilityKeys : keys { extra.removeValue(forKey: key) }
         if version == 2 { for key in DevicePreferences.mutableKeys { extra.removeValue(forKey: key) } }
         if case .dictionary(var artwork)? = extra[DynamicIslandEngine.artworkKey] {
             artwork.removeValue(forKey: DynamicIslandEngine.subtypeKey)
