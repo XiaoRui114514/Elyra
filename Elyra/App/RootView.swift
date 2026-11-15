@@ -29,11 +29,18 @@ struct RootView: View {
                     }
                 } else {
                     NavigationSplitView {
-                        List(selection: Binding<String?>(get: { area }, set: { value in
-                            if let value { area = value }
-                        })) {
+                        List {
                             ForEach(Area.allCases, id: \.rawValue) { item in
-                                Label(localization.text(item.rawValue), systemImage: item.symbol).tag(item.rawValue).accessibilityIdentifier("area." + item.rawValue.lowercased())
+                                Button { area = item.rawValue } label: {
+                                    Label(localization.text(item.rawValue), systemImage: item.symbol)
+                                        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                                        .contentShape(Rectangle())
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(area == item.rawValue ? Color.accentColor : Color.primary)
+                                .listRowBackground(area == item.rawValue ? Color.accentColor.opacity(0.12) : Color.clear)
+                                .accessibilityIdentifier("area." + item.rawValue.lowercased())
+                                .accessibilityAddTraits(area == item.rawValue ? .isSelected : [])
                             }
                         }
                         .listStyle(.sidebar)

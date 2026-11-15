@@ -68,7 +68,9 @@ final class ElyraUITests: XCTestCase {
         reveal(entry, app: app)
         XCTAssertTrue(entry.label.contains("Simulator observation"))
         entry.tap()
-        XCTAssertTrue(app.staticTexts["UI observation; simulator only."].waitForExistence(timeout: 5))
+        let savedNotes = app.staticTexts["UI observation; simulator only."]
+        reveal(savedNotes, app: app)
+        XCTAssertTrue(savedNotes.exists)
     }
     @MainActor func testChineseAccessibilityTextKeepsNavigationReachable() {
         let app = makeApp(chineseAccessibility: true); app.launch()
@@ -84,8 +86,10 @@ final class ElyraUITests: XCTestCase {
         attach("Chinese accessibility lab")
     }
     @MainActor private func selectArea(_ app: XCUIApplication, identifier: String, title: String) {
+        let sidebarButton = app.buttons["area." + identifier]
         let tab = app.tabBars.buttons[title]
-        if tab.exists { tab.tap() }
+        if sidebarButton.exists && sidebarButton.isHittable { sidebarButton.tap() }
+        else if tab.exists { tab.tap() }
         else if app.buttons[title].firstMatch.exists && app.buttons[title].firstMatch.isHittable {
             // iPadOS can expose compact-mode top tabs as ordinary buttons.
             app.buttons[title].firstMatch.tap()
