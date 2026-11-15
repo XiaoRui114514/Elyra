@@ -5,7 +5,6 @@ struct DeviceConfigurationView: View {
     @EnvironmentObject private var app: AppEnvironment
     @EnvironmentObject private var localization: LocalizationStore
     @State private var editor: UUID?
-    @State private var restore: SystemBackup?
     @State private var recover = false
     var body: some View {
         List {
@@ -33,12 +32,12 @@ struct DeviceConfigurationView: View {
             if let error = app.systemError { Section("Connection details") { Text(localization.text(error)).textSelection(.enabled) } }
             Section("Device backups") {
                 ForEach(app.deviceBackups) { backup in
-                    Button { restore = backup } label: {
+                    NavigationLink(value: Screen.deviceBackup(backup.id)) {
                         VStack(alignment: .leading, spacing: 5) {
                             Text(backup.date, format: .dateTime).foregroundStyle(.primary)
                             Text(localization.text(backup.reason)).font(.caption).foregroundStyle(.secondary)
                         }
-                    }.disabled(app.deviceSnapshot?.writable != true || app.busy > 0)
+                    }
                 }
                 if app.deviceBackups.isEmpty { Text("No device backups yet") }
             }
@@ -47,14 +46,8 @@ struct DeviceConfigurationView: View {
             } }
         }
         .navigationTitle(localization.text("Device configuration"))
-        .task { await app.ensureDeviceConnection() }
+        .task { await app.ensureDeviceConnection(); app.loadDeviceBackups() }
         .navigationDestination(item: $editor) { id in DocumentEditor(id: id, systemMode: true) }
-        .confirmationDialog(localization.text("Restore device backup?"), isPresented: Binding(get: { restore != nil }, set: { if !$0 { restore = nil } }), titleVisibility: .visible) {
-            Button("Confirm system restore", role: .destructive) {
-                if let backup = restore, let expected = app.deviceSnapshot { app.performDevice { store in app.deviceSnapshot = try await store.restore(backup.id, expected: expected) } }
-                restore = nil
-            }
-        }
         .confirmationDialog(localization.text("Recover system configuration?"), isPresented: $recover, titleVisibility: .visible) {
             Button("Confirm recovery", role: .destructive) { app.performDevice { store in try await store.recoverInterruptedWrite(); app.deviceSnapshot = try await store.connect() } }
         }

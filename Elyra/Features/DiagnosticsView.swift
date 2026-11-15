@@ -16,6 +16,7 @@ struct DiagnosticsView: View {
                 LabeledContent("Processors", value: String(ProcessInfo.processInfo.processorCount))
                 LabeledContent("Physical memory", value: localization.bytes(Int64(ProcessInfo.processInfo.physicalMemory), memory: true))
             }
+            Section { NavigationLink("Window & display", value: Screen.displayDiagnostics) }
             Section("Compatibility") {
                 compatibility("App UI", report.ui)
                 compatibility("Local files", report.localFiles)

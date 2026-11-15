@@ -81,7 +81,7 @@ overrides={
  '设备写入回读及失败恢复': ('系统读写、inode/revision 检查、写前备份、精确回读、回滚和显式中断恢复已实现','14 项系统事务测试含部分写入、回滚失败、跨安装和并发；硬件系统效果待测'),
  '首次自动备份': ('本地导入基准与设备直接捕获分开；每个设备安装/缓存 generation 首次捕获','真实临时文件读回与重开测试；不将捕获值称为出厂值'),
  '每次写入前备份／手动备份': ('设备与本地均在写前保存校验备份；设备编辑器支持手动备份','备份、校验、回滚与恢复测试通过'),
- '备份列表、来源、日期、导出': ('本地备份列表/导出已实现；设备备份单列时间/来源/恢复；设备备份导出尚未迁移','本地导出测试、设备备份索引/完整性测试通过'),
+ '备份列表、来源、日期、导出': ('本地及设备备份均支持列表/来源/日期/导出；设备备份可离线查看、比对当前捕获，恢复另验写权限','本地导出、设备备份索引/完整性与只读检查测试；最新 Apple UI 覆盖见 TEST_REPORT'),
  '备份完整性／同文档恢复': ('本地按文档绑定；设备按本机专用 Keychain 安装密钥、generation 和 SHA-256 拒绝不匹配恢复','损坏、跨安装、跨缓存与原字节恢复测试通过'),
  'Respring／自动 Respring': ('首页提供手动、需确认的实验性注销设备；禁止写入/恢复期间执行；无自动注销','上游 WebKit 实现已编译；模拟器按钮禁用；未在真机触发'),
  '日志／调试导出': ('本地操作列表/搜索及 JSON 导出已实现；设备备份来源记录；原生 access token 不记日志；设备独立操作历史待完善','持久化/并发 Core 测试；不导出 Keychain 密钥或 sandbox token'),
@@ -95,6 +95,8 @@ row('灵动岛外观记录','Elyra/Features/IslandObservations.swift','记录运
 row('文本文件版本与中断恢复','Elyra/Core/TextAsset.swift, Workspace.swift','原始字节备份、原子保存、版本冲突保护及 asset journal 重启恢复','SHA-256 / actor / journal','本地无','中','统一新增','AssetBackups','已实现 UTF-8 文件及文件备份恢复','BOM/CRLF/no-op/空文本/损坏备份/跨文件/中断恢复测试通过',True)
 row('语言选择','Elyra/App/LocalizationStore.swift; Features/LanguageSettingsView.swift','简体中文、English、跟随系统；保存偏好并同步全部窗口','SwiftUI locale / bundled resources','应用偏好','低','统一新增','Settings / Localization','已实现语言设置；功能名称使用统一术语','语言策略 Core 测试通过；真实切换与重启保留 UI 结果见 TEST_REPORT',True)
 row('关于与账号卡片','Elyra/Features/AboutView.swift','关于页直接显示 GitHub、抖音、小红书卡片；独立开源许可页','SafariServices','打开指定公开主页','低','统一新增','Settings / About','已实现；主界面不展示源码审计叙述；保留法定版权与许可','模拟器覆盖三个卡片直接可达；不自动打开外部主页',True)
+row('配置方案','Elyra/Core/ConfigurationPlan.swift; Features/ConfigurationPlansView.swift','按功能 ID 与应用/恢复动作保存和分享；同一快照合并，一次差异确认、备份和事务写入；不携带设备原值','JSON / Workspace / SystemConfigurationStore','编辑导入导出无需系统权限；应用需实际写权限','中','统一新增','ConfigurationPlans','已实现方案管理与批量事务；无未经验证的原值导入','版本/大小/重复/未知 ID、原子存储、批量回滚及单次写入测试；Apple 验证见 TEST_REPORT',True)
+row('窗口与显示检测','Elyra/Features/DisplayDiagnosticsView.swift','读取当前 UIWindowScene 的窗口/安全区/显示缩放/像素/最高帧率/EDR 余量；可选测量本应用回调频率','UIKit / CADisplayLink；公开 API','无特殊权限，只读','低','统一新增','Tools / Diagnostics','已实现；回调频率不等同面板扫描率或 PWM','Apple 文档核验与模拟器界面验证；真机/外接显示器待验',True)
 headers=['功能名称','现有实现位置','功能说明','底层依赖','iOS 26 状态','iOS 27 状态','iPhone','iPad','特殊权限','风险','重复实现','Elyra 模块','实现进度','验证方法和结果']
 preamble='''# Elyra 功能并集与迁移矩阵
 

@@ -107,6 +107,13 @@ struct DocumentEditor: View {
         List {
             Section {
                 Label(localization.text(systemMode ? "Device configuration" : "Managed local copy"), systemImage: "doc.badge.gearshape").font(.headline)
+                if systemMode && app.deviceLinks[id] == nil {
+                    Button("Reconnect device", systemImage: "arrow.clockwise") {
+                        if let base = snapshot { app.reconnectEditor(base, draft: edited, window: UUID(uuidString: windowID)) { base, draft in
+                            snapshot = base; edited = draft; draftConflict = false
+                        } }
+                    }.disabled(app.busy > 0 || RuntimeDeviceContext.current.simulator)
+                }
                 if draftConflict { StatusNotice(title: "Draft conflict", detail: "This draft was created from an older document revision. Export it before discarding and reloading.", symbol: "exclamationmark.triangle") }
                 Text("\(changes.count) " + localization.text("pending changes")).font(.caption).foregroundStyle(.secondary)
             }

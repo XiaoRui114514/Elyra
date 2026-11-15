@@ -84,6 +84,9 @@ struct RootView: View {
         case .device: DeviceConfigurationView()
         case .systemEditor(let id): DocumentEditor(id: id, systemMode: true)
         case .openSource: OpenSourceLicensesView()
+        case .deviceBackup(let id): DeviceBackupDetail(id: id)
+        case .plans: ConfigurationPlansView()
+        case .displayDiagnostics: DisplayDiagnosticsView()
         }
     }
 }

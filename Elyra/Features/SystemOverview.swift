@@ -86,6 +86,9 @@ struct SystemOverview: View {
                     }.buttonStyle(.plain).accessibilityIdentifier("system.category." + category.id)
                 }
             }
+            NavigationLink(value: Screen.plans) {
+                SystemTile(title: localization.text("Configuration plans"), detail: String(app.configurationPlans.count), symbol: "slider.horizontal.3")
+            }.buttonStyle(.plain).accessibilityIdentifier("system.plans")
             NavigationLink(value: Screen.diagnostics) {
                 SystemTile(title: localization.text("Device diagnostics"), detail: localization.text("Access, signing and system information"), symbol: "stethoscope")
             }.buttonStyle(.plain)

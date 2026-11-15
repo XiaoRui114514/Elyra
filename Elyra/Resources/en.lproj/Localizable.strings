@@ -1,5 +1,6 @@
 "A capability flag cannot add hardware or guarantee Apple service access. Apply changes only after reviewing a device backup and restart requirements." = "A capability flag cannot add hardware or guarantee Apple service access. Apply changes only after reviewing a device backup and restart requirements.";
 "A capability flag cannot add hardware or guarantee Apple service access. System changes may require restart or respring; this build performs neither." = "A capability flag cannot add hardware or guarantee Apple service access. System changes may require restart or respring; this build performs neither.";
+"A configuration plan cannot contain the same feature twice." = "A configuration plan cannot contain the same feature twice.";
 "A field with this name already exists." = "A field with this name already exists.";
 "A phone subtype was found in the imported configuration. It can affect safe areas, display scaling and keyboard layout. This is a risk indicator, not proof of the appearance issue's cause." = "A phone subtype was found in the imported configuration. It can affect safe areas, display scaling and keyboard layout. This is a risk indicator, not proof of the appearance issue's cause.";
 "A universal iOS / iPadOS configuration workspace." = "A universal iOS / iPadOS configuration workspace.";
@@ -13,6 +14,7 @@
 "Access not checked" = "Access not checked";
 "Access, signing and system information" = "Access, signing and system information";
 "Accessible App Groups" = "Accessible App Groups";
+"Action" = "Action";
 "Action Button" = "Action Button";
 "Activity & appearance" = "Activity & appearance";
 "Activity not visible" = "Activity not visible";
@@ -43,6 +45,7 @@
 "An interrupted transaction requires workspace recovery. Reopen Elyra before saving." = "An interrupted transaction requires workspace recovery. Reopen Elyra before saving.";
 "App Groups are declared, but the signing profile did not grant an accessible container. Check the signing tool's App Group settings." = "App Groups are declared, but the signing profile did not grant an accessible container. Check the signing tool's App Group settings.";
 "App UI" = "App UI";
+"App callback rate" = "App callback rate";
 "App launch images" = "App launch images";
 "Appearance" = "Appearance";
 "Appearance & configuration" = "Appearance & configuration";
@@ -71,13 +74,16 @@
 "Audio Intelligence" = "Audio Intelligence";
 "Audio Mix" = "Audio Mix";
 "Backup" = "Backup";
+"Backup comparison" = "Backup comparison";
 "Backup integrity verification failed. No restore was started." = "Backup integrity verification failed. No restore was started.";
 "Backup not found." = "Backup not found.";
+"Backup unavailable" = "Backup unavailable";
 "Backups" = "Backups";
 "Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original." = "Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original.";
 "Before" = "Before";
 "Before " = "Before ";
 "Before capability restore" = "Before capability restore";
+"Before configuration plan" = "Before configuration plan";
 "Before operation: %@" = "Before operation: %@";
 "Before saving" = "Before saving";
 "Before system restore" = "Before system restore";
@@ -88,6 +94,7 @@
 "Browse imported files in Elyra’s sandbox. Drag files here or use Import. System directories and other app containers are not accessible." = "Browse imported files in Elyra’s sandbox. Drag files here or use Import. System directories and other app containers are not accessible.";
 "CacheData / WAPI / FaceTime Audio" = "CacheData / WAPI / FaceTime Audio";
 "Call" = "Call";
+"Callbacks per second" = "Callbacks per second";
 "Camera Control" = "Camera Control";
 "Cancel" = "Cancel";
 "Cannot remove the plist root." = "Cannot remove the plist root.";
@@ -111,6 +118,7 @@
 "Compact music" = "Compact music";
 "Compact, expanded and multiple-activity states have separate layout behavior. Improving one state does not establish the others." = "Compact, expanded and multiple-activity states have separate layout behavior. Improving one state does not establish the others.";
 "Compare & restore" = "Compare & restore";
+"Compare with device" = "Compare with device";
 "Compatibility" = "Compatibility";
 "Complete device details and keep observation notes under 16 KB." = "Complete device details and keep observation notes under 16 KB.";
 "Configuration document" = "Configuration document";
@@ -118,6 +126,9 @@
 "Configuration fields" = "Configuration fields";
 "Configuration inspection" = "Configuration inspection";
 "Configuration inspection and appearance observations" = "Configuration inspection and appearance observations";
+"Configuration plan" = "Configuration plan";
+"Configuration plan exceeds 64 KB." = "Configuration plan exceeds 64 KB.";
+"Configuration plans" = "Configuration plans";
 "Configuration tools" = "Configuration tools";
 "Configurations" = "Configurations";
 "Configure on device" = "Configure on device";
@@ -133,19 +144,24 @@
 "Connect to read the live cache and check write access. Support depends on the exact build and signing profile." = "Connect to read the live cache and check write access. Support depends on the exact build and signing profile.";
 "Connect, review and apply system changes" = "Connect, review and apply system changes";
 "Connection details" = "Connection details";
+"Content size" = "Content size";
 "Corners insufficiently rounded" = "Corners insufficiently rounded";
 "Create backup" = "Create backup";
 "Creator profiles" = "Creator profiles";
+"Current EDR headroom" = "Current EDR headroom";
 "Current configuration" = "Current configuration";
 "Custom value" = "Custom value";
 "Data" = "Data";
 "Date" = "Date";
+"Delete" = "Delete";
+"Delete plan?" = "Delete plan?";
 "Dependencies & risk" = "Dependencies & risk";
 "Device" = "Device";
 "Device & access" = "Device & access";
 "Device access" = "Device access";
 "Device access failed" = "Device access failed";
 "Device actions" = "Device actions";
+"Device backup" = "Device backup";
 "Device backup binding is unavailable." = "Device backup binding is unavailable.";
 "Device backups" = "Device backups";
 "Device backups are captured from this installation. They are not factory defaults and may already contain earlier modifications." = "Device backups are captured from this installation. They are not factory defaults and may already contain earlier modifications.";
@@ -167,6 +183,7 @@
 "Discard draft & reload?" = "Discard draft & reload?";
 "Display" = "Display";
 "Display behavior depends on the panel. May increase power use and burn-in risk." = "Display behavior depends on the panel. May increase power use and burn-in risk.";
+"Display scale" = "Display scale";
 "DisplayPort Output" = "DisplayPort Output";
 "Document actions" = "Document actions";
 "Document not found." = "Document not found.";
@@ -175,6 +192,7 @@
 "Draft conflict" = "Draft conflict";
 "Dynamic Island" = "Dynamic Island";
 "Dynamic Island capability" = "Dynamic Island capability";
+"Edit" = "Edit";
 "Edit a complete XML plist. String, Integer, Real, Boolean, Data, Date, Array and Dictionary are supported." = "Edit a complete XML plist. String, Integer, Real, Boolean, Data, Date, Array and Dictionary are supported.";
 "Edit container" = "Edit container";
 "Edit device configuration" = "Edit device configuration";
@@ -197,6 +215,7 @@
 "Enabled flag" = "Enabled flag";
 "Enter a device display name under 256 bytes." = "Enter a device display name under 256 bytes.";
 "Enter a key name." = "Enter a key name.";
+"Enter a plan name and select at least one feature." = "Enter a plan name and select at least one feature.";
 "Entries" = "Entries";
 "Entries are checked for safe paths, links, encryption, CRC and expansion limits. This does not install a wallpaper or theme into the system." = "Entries are checked for safe paths, links, encryption, CRC and expansion limits. This does not install a wallpaper or theme into the system.";
 "Exact typed values" = "Exact typed values";
@@ -251,6 +270,7 @@
 "Import asset" = "Import asset";
 "Import category" = "Import category";
 "Import file" = "Import file";
+"Import plan" = "Import plan";
 "Import plist" = "Import plist";
 "Import, preview and export your assets. Applying assets to other apps or system containers is unavailable; importing does not change system appearance." = "Import, preview and export your assets. Applying assets to other apps or system containers is unavailable; importing does not change system appearance.";
 "Imported baseline" = "Imported baseline";
@@ -263,6 +283,7 @@
 "Inspect flag, artwork identity and recorded local baseline" = "Inspect flag, artwork identity and recorded local baseline";
 "Integer" = "Integer";
 "Integer is outside the signed 64-bit range." = "Integer is outside the signed 64-bit range.";
+"Integrity verified" = "Integrity verified";
 "Intelligence" = "Intelligence";
 "Internal Build" = "Internal Build";
 "Internal Settings Bundle" = "Internal Settings Bundle";
@@ -292,6 +313,7 @@
 "Manual backup" = "Manual backup";
 "Manual device backup" = "Manual device backup";
 "Matches preset" = "Matches preset";
+"Maximum frame rate" = "Maximum frame rate";
 "Media playback" = "Media playback";
 "Modify" = "Modify";
 "Modify configuration" = "Modify configuration";
@@ -302,6 +324,7 @@
 "Music playback study" = "Music playback study";
 "Navigation" = "Navigation";
 "New key" = "New key";
+"New plan" = "New plan";
 "No authorized, verified system writer is installed. Elyra cannot change the system capsule geometry with public APIs." = "No authorized, verified system writer is installed. Elyra cannot change the system capsule geometry with public APIs.";
 "No authorized, verified system writer is installed. Imported plists remain local documents. OS build and hardware effects require separate real-device validation." = "No authorized, verified system writer is installed. Imported plists remain local documents. OS build and hardware effects require separate real-device validation.";
 "No backups yet" = "No backups yet";
@@ -312,6 +335,7 @@
 "No operations yet" = "No operations yet";
 "No pending changes" = "No pending changes";
 "No recorded imported baseline exists. Original values will not be guessed." = "No recorded imported baseline exists. Original values will not be guessed.";
+"No saved plans" = "No saved plans";
 "No supported public respring API is available. Upstream WebKit resource-exhaustion techniques are not included." = "No supported public respring API is available. Upstream WebKit resource-exhaustion techniques are not included.";
 "No verified field controls system Dynamic Island roundness, proportions or orientation. Enabling a capability flag does not establish correct iPad appearance in any activity." = "No verified field controls system Dynamic Island roundness, proportions or orientation. Enabling a capability flag does not establish correct iPad appearance in any activity.";
 "No verified initial device capture is available for this cache generation." = "No verified initial device capture is available for this cache generation.";
@@ -338,6 +362,7 @@
 "Open asset library" = "Open asset library";
 "Open device editor" = "Open device editor";
 "Open full editor" = "Open full editor";
+"Open local copy" = "Open local copy";
 "Open-source licenses" = "Open-source licenses";
 "Operation could not be completed" = "Operation could not be completed";
 "Operation history" = "Operation history";
@@ -352,10 +377,14 @@
 "Personal Translator" = "Personal Translator";
 "Photos Clean Up" = "Photos Clean Up";
 "Physical memory" = "Physical memory";
+"Pixel dimensions" = "Pixel dimensions";
+"Plan actions" = "Plan actions";
+"Plan name" = "Plan name";
 "Playing" = "Playing";
 "Plist nesting exceeds 64 levels." = "Plist nesting exceeds 64 levels.";
 "Portrait" = "Portrait";
 "Posts and updates" = "Posts and updates";
+"Potential EDR headroom" = "Potential EDR headroom";
 "Preview & share" = "Preview & share";
 "Preview only. System appearance is unchanged." = "Preview only. System appearance is unchanged.";
 "Privacy" = "Privacy";
@@ -371,6 +400,7 @@
 "Read-only access" = "Read-only access";
 "Real" = "Real";
 "Recent operations" = "Recent operations";
+"Reconnect device" = "Reconnect device";
 "Record DI observation" = "Record DI observation";
 "Record appearance observation" = "Record appearance observation";
 "Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers." = "Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers.";
@@ -379,6 +409,7 @@
 "Recover system configuration?" = "Recover system configuration?";
 "Recovery" = "Recovery";
 "Recovery uses the verified pre-write backup and checks the file identity. Replaced caches or another device installation are rejected." = "Recovery uses the verified pre-write backup and checks the file identity. Replaced caches or another device installation are rejected.";
+"Refresh device working copy" = "Refresh device working copy";
 "Refresh workspace" = "Refresh workspace";
 "Region code & sales region" = "Region code & sales region";
 "Related local configuration" = "Related local configuration";
@@ -408,6 +439,8 @@
 "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary." = "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary.";
 "Risk" = "Risk";
 "SHA-256: " = "SHA-256: ";
+"Safe area" = "Safe area";
+"Save" = "Save";
 "Save DI fields (local)" = "Save DI fields (local)";
 "Save failed; previous bytes restored" = "Save failed; previous bytes restored";
 "Save local document" = "Save local document";
@@ -435,6 +468,8 @@
 "Simulator records are not evidence of system modification." = "Simulator records are not evidence of system modification.";
 "Siri AI Mode" = "Siri AI Mode";
 "Siri uses a device-specific capability type. Changing it may affect the Apple Intelligence Siri interface. Keep the current value or restore the recorded original." = "Siri uses a device-specific capability type. Changing it may affect the Apple Intelligence Siri interface. Keep the current value or restore the recorded original.";
+"Size" = "Size";
+"Source" = "Source";
 "Source-confirmed controls" = "Source-confirmed controls";
 "Spatial FaceTime Audio" = "Spatial FaceTime Audio";
 "Stage Manager" = "Stage Manager";
@@ -442,6 +477,8 @@
 "Stage in a local document" = "Stage in a local document";
 "Stage local preset" = "Stage local preset";
 "Stage preset" = "Stage preset";
+"Start measurement" = "Start measurement";
+"Stop measurement" = "Stop measurement";
 "Stop the wallpaper from moving with device motion." = "Stop the wallpaper from moving with device motion.";
 "String" = "String";
 "Subtype is not a pixel size. Upstream presets differ; no subtype is validated as an iPad Dynamic Island appearance repair." = "Subtype is not a pixel size. Upstream presets differ; no subtype is validated as an iPad Dynamic Island appearance repair.";
@@ -474,6 +511,8 @@
 "The archive exceeds the safe entry or expansion limit." = "The archive exceeds the safe entry or expansion limit.";
 "The backup does not match the current device cache generation." = "The backup does not match the current device cache generation.";
 "The baseline uses a different cache generation." = "The baseline uses a different cache generation.";
+"The configuration plan contains conflicting changes." = "The configuration plan contains conflicting changes.";
+"The configuration plan limit is 100." = "The configuration plan limit is 100.";
 "The current file is backed up first. This restores the selected bytes, not a device system file." = "The current file is backed up first. This restores the selected bytes, not a device system file.";
 "The current local file is backed up first. The selected backup must match this document and pass size and SHA-256 checks. The device system is not modified." = "The current local file is backed up first. The selected backup must match this document and pass size and SHA-256 checks. The device system is not modified.";
 "The current system file is backed up before replacement. The selected backup must match this installation and cache generation." = "The current system file is backed up before replacement. The selected backup must match this installation and cache generation.";
@@ -491,6 +530,7 @@
 "The system cache was replaced. Read the device again." = "The system cache was replaced. Read the device again.";
 "The system configuration is busy in another process. Try again after it finishes." = "The system configuration is busy in another process. Try again after it finishes.";
 "The system denied write access. No device configuration was changed." = "The system denied write access. No device configuration was changed.";
+"The system file contains another valid change. Recovery was stopped to preserve it." = "The system file contains another valid change. Recovery was stopped to preserve it.";
 "The system file session is closed." = "The system file session is closed.";
 "The system target is not a regular file." = "The system target is not a regular file.";
 "The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes." = "The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes.";
@@ -501,12 +541,14 @@
 "This backup belongs to a different device installation." = "This backup belongs to a different device installation.";
 "This backup belongs to a different local document." = "This backup belongs to a different local document.";
 "This backup belongs to a different local file." = "This backup belongs to a different local file.";
+"This configuration plan uses an unsupported format." = "This configuration plan uses an unsupported format.";
 "This document has no CacheExtra dictionary." = "This document has no CacheExtra dictionary.";
 "This draft was created from an older document revision. Export it before discarding and reloading." = "This draft was created from an older document revision. Export it before discarding and reloading.";
 "This experimental upstream method restarts the system interface through WebKit resource pressure. Save ongoing work first. It may fail or interrupt apps; it does not sign out of your Apple Account." = "This experimental upstream method restarts the system interface through WebKit resource pressure. Save ongoing work first. It may fail or interrupt apps; it does not sign out of your Apple Account.";
 "This file is outside Elyra’s managed workspace." = "This file is outside Elyra’s managed workspace.";
 "This inspection reads your imported file. It does not prove the device currently uses these values." = "This inspection reads your imported file. It does not prove the device currently uses these values.";
 "This log records what you observe. It is not an automated verification that Elyra changed the system." = "This log records what you observe. It is not an automated verification that Elyra changed the system.";
+"This plan contains an unsupported feature or action." = "This plan contains an unsupported feature or action.";
 "This updates only the managed file. The previous bytes are backed up, and a changed revision in another window rejects the save." = "This updates only the managed file. The previous bytes are backed up, and a changed revision in another window rejects the save.";
 "This value is not a container." = "This value is not a container.";
 "This workspace was created by a newer Elyra version." = "This workspace was created by a newer Elyra version.";
@@ -523,6 +565,7 @@
 "Unexpected position" = "Unexpected position";
 "Unexpected shape or proportions" = "Unexpected shape or proportions";
 "Unexpected type or value" = "Unexpected type or value";
+"Unknown configuration feature." = "Unknown configuration feature.";
 "Unsaved text" = "Unsaved text";
 "Unsupported artwork changes." = "Unsupported artwork changes.";
 "Unsupported hardware" = "Unsupported hardware";
@@ -537,6 +580,9 @@
 "Wallpaper descriptor filenames were found. Provider installation is not verified." = "Wallpaper descriptor filenames were found. Provider installation is not verified.";
 "Wallpapers" = "Wallpapers";
 "Wallpapers & .tendies" = "Wallpapers & .tendies";
+"Window" = "Window";
+"Window & display" = "Window & display";
+"Window size" = "Window size";
 "Working" = "Working";
 "Workspace could not be opened. Export existing files before attempting recovery." = "Workspace could not be opened. Export existing files before attempting recovery.";
 "Workspace ready" = "Workspace ready";

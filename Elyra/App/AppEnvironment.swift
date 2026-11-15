@@ -17,6 +17,11 @@ import UniformTypeIdentifiers
     var deviceStore: SystemConfigurationStore?
     var deviceLinks: [UUID: SystemSnapshot] = [:]
     @Published var fieldIndex: [FieldSearchResult] = []
+    @Published var configurationPlans: [ConfigurationPlan] = []
+    private var fieldCache: [UUID: (String, Int, [FieldSearchResult])] = [:]
+    private var refreshTask: Task<Void, Never>?
+    private var refreshRequested = false
+    private var workingDocumentID: UUID?
     init() {
         do {
             let base = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -34,13 +39,29 @@ import UniformTypeIdentifiers
         } catch { workspace = nil; self.error = error.localizedDescription }
     }
     func refresh() async {
+        refreshRequested = true
+        if let task = refreshTask { await task.value; return }
+        let task = Task {
+            repeat { refreshRequested = false; await refreshContents() } while refreshRequested
+            refreshTask = nil
+        }
+        refreshTask = task
+        await task.value
+    }
+    private func refreshContents() async {
         guard let workspace else { return }
         state = await workspace.listing()
+        do { configurationPlans = try await workspace.configurationPlans() } catch { self.error = error.localizedDescription }
+        var nextCache: [UUID: (String, Int, [FieldSearchResult])] = [:]
         var fields: [FieldSearchResult] = []
         for record in state.documents {
             do {
                 let snapshot = try await workspace.snapshot(record.id)
                 let remaining = max(0, 100_000 - fields.count)
+                if let cached = fieldCache[record.id], cached.0 == snapshot.revision, cached.1 >= remaining || cached.2.count < cached.1 {
+                    let visible = Array(cached.2.prefix(remaining)); fields += visible
+                    nextCache[record.id] = (snapshot.revision, remaining, visible); continue
+                }
                 let indexed = await Task.detached(priority: .utility) { () -> [FieldSearchResult] in
                     let extra = snapshot.value.value(at: ["CacheExtra"]) ?? snapshot.value
                     var entries: [FieldSearchResult] = []
@@ -56,10 +77,11 @@ import UniformTypeIdentifiers
                     walk(extra, prefix: snapshot.value.value(at: ["CacheExtra"]) == nil ? [] : ["CacheExtra"])
                     return entries
                 }.value
+                nextCache[record.id] = (snapshot.revision, remaining, indexed)
                 fields += indexed
             } catch { self.error = error.localizedDescription }
         }
-        fieldIndex = fields
+        fieldCache = nextCache; fieldIndex = fields
     }
     func run(_ action: @escaping @MainActor (Workspace) async throws -> Void) {
         guard let workspace else { error = "Workspace could not be opened. Export existing files before attempting recovery."; return }
@@ -125,6 +147,13 @@ extension AppEnvironment {
             self.deviceSnapshot = try await store.connect()
         }
     }
+    private func requireSystemStore() throws -> SystemConfigurationStore {
+        if let deviceStore { return deviceStore }
+        guard let workspace else { throw ElyraError.systemUnavailable }
+        let store = try SystemConfigurationStore(root: workspace.root.appendingPathComponent("SystemBackups"), binding: DeviceBackend.binding(), access: DeviceBackend.access())
+        deviceStore = store; return store
+    }
+    func inspectDeviceBackup(_ id: UUID) async throws -> SystemBackupInspection { try await requireSystemStore().inspectedBackup(id) }
     @discardableResult
     func performDevice(showErrorAlert: Bool = true, invalidateOnFailure: Bool = true, _ action: @escaping @MainActor (SystemConfigurationStore) async throws -> Void) -> Task<Void, Never>? {
         guard busy == 0, !respringing else { return nil }
@@ -132,15 +161,10 @@ extension AppEnvironment {
         return Task {
             defer { busy -= 1; connectingDevice = false }
             do {
-                if deviceStore == nil {
-                    guard let workspace else { throw ElyraError.systemUnavailable }
-                    deviceStore = try SystemConfigurationStore(root: workspace.root.appendingPathComponent("SystemBackups"), binding: DeviceBackend.binding(), access: DeviceBackend.access())
-                }
-                if let store = deviceStore {
-                    try await action(store)
-                    deviceBackups = await store.listing()
-                    systemRecoveryPending = await store.recoveryPending()
-                }
+                let store = try requireSystemStore()
+                try await action(store)
+                deviceBackups = await store.listing()
+                systemRecoveryPending = await store.recoveryPending()
                 systemError = nil
             } catch {
                 if showErrorAlert { self.error = error.localizedDescription }
@@ -158,11 +182,29 @@ extension AppEnvironment {
     func openDeviceEditor(_ completion: @escaping @MainActor (UUID) -> Void) {
         guard let deviceSnapshot, workspace != nil else { return }
         run { workspace in
+            if let id = self.workingDocumentID, let copy = try? await workspace.snapshot(id), copy.value == deviceSnapshot.value {
+                self.deviceLinks[id] = deviceSnapshot; completion(id); return
+            }
             let document = try await workspace.importDocument(data: deviceSnapshot.data, name: "MobileGestalt.plist")
+            self.workingDocumentID = document.record.id
             self.deviceLinks[document.record.id] = deviceSnapshot
             completion(document.record.id)
         }
     }
+    func reconnectEditor(_ expected: DocumentSnapshot, draft: PlistValue, window: UUID?, completion: @escaping @MainActor (DocumentSnapshot, PlistValue) -> Void) {
+        performDevice(invalidateOnFailure: false) { store in
+            let live = try await store.connect(); self.deviceSnapshot = live; self.deviceAccessChecked = true
+            guard let workspace = self.workspace else { throw ElyraError.systemUnavailable }
+            let current = try await workspace.snapshot(expected.record.id)
+            guard current.revision == expected.revision else { throw ElyraError.conflict }
+            let merged = try DraftRebase.merge(base: expected.value, draft: draft, current: live.value)
+            let base = try await workspace.commit(live.value, expected: current, reason: "Refresh device working copy")
+            if let window { try await workspace.saveDraft(LocalDraft(revision: base.revision, value: merged), window: window, document: base.record.id) }
+            self.workingDocumentID = base.record.id; self.deviceLinks[base.record.id] = live
+            completion(base, merged); await self.refresh()
+        }
+    }
+    func loadDeviceBackups() { performDevice(invalidateOnFailure: false) { _ in } }
     func saveToDevice(documentID: UUID, value: PlistValue, expected: DocumentSnapshot, completion: @escaping @MainActor (DocumentSnapshot) -> Void) {
         guard let source = deviceLinks[documentID] else { error = "Read the device configuration again before writing."; return }
         performDevice { store in

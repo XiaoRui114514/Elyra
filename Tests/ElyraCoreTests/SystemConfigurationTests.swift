@@ -158,4 +158,55 @@ final class SystemConfigurationTests: XCTestCase, @unchecked Sendable {
         do { _ = try await store.capabilityPlan("siriOnDevice",restoring:false,expected:current);XCTFail() } catch {}
     }
 
+    func testDeviceIslandRestoreIncludesSubtypeAndPreservesName() async throws {
+        let (store,disk) = try make()
+        var baseline = original()
+        try baseline.set(.dictionary([DynamicIslandEngine.subtypeKey:.integer(1234),"ArtworkDeviceProductDescription":.string("Baseline")]),at:["CacheExtra",DynamicIslandEngine.artworkKey])
+        try baseline.encoded().write(to:disk.url)
+        let initial = try await store.connect();var target = try edit(initial.value)
+        try target.set(.integer(2556),at:["CacheExtra",DynamicIslandEngine.artworkKey,DynamicIslandEngine.subtypeKey])
+        try target.set(.string("Custom name"),at:["CacheExtra",DynamicIslandEngine.artworkKey,"ArtworkDeviceProductDescription"])
+        let changed = try await store.apply(target,expected:initial)
+        let plan = try await store.capabilityPlan("dynamicIsland",restoring:true,expected:changed)
+        let restored = try await store.commitCapability(plan)
+        XCTAssertEqual(restored.value.value(at:["CacheExtra",DynamicIslandEngine.artworkKey,DynamicIslandEngine.subtypeKey]),.integer(1234))
+        XCTAssertEqual(restored.value.value(at:["CacheExtra",DynamicIslandEngine.artworkKey,"ArtworkDeviceProductDescription"]),.string("Custom name"))
+        XCTAssertNil(restored.value.value(at:["CacheExtra",flag]))
+    }
+    func testPlanCommitsMultipleFeaturesWithOneBackupAndWrite() async throws {
+        let (store,disk) = try make();let source = try await store.connect()
+        let plan = ConfigurationPlan(name:"Display and charging",steps:[.init(capabilityID:"aod",action:.apply),.init(capabilityID:"chargeLimit",action:.apply)])
+        let proposed = try await store.configurationPlan(plan,expected:source)
+        let saved = try await store.commitConfigurationPlan(proposed)
+        XCTAssertEqual(disk.writes,1)
+        let backups = await store.listing();XCTAssertEqual(backups.count,2)
+        XCTAssertEqual(try disk.read(),saved.data)
+        do { _ = try await store.commitConfigurationPlan(proposed);XCTFail() } catch {}
+    }
+    func testPlanFailureRollsBackWholeBatch() async throws {
+        let (store,disk) = try make();let source = try await store.connect();disk.failFirst=true
+        let plan=ConfigurationPlan(name:"Batch",steps:[.init(capabilityID:"aod",action:.apply),.init(capabilityID:"chargeLimit",action:.apply)])
+        let proposed=try await store.configurationPlan(plan,expected:source)
+        do { _ = try await store.commitConfigurationPlan(proposed);XCTFail() } catch {}
+        XCTAssertEqual(try disk.read(),source.data)
+    }
+    func testBackupInspectionWorksWithoutWritePermission() async throws {
+        let (store,disk)=try make();disk.denyWrite=true;let source=try await store.connect();let backups=await store.listing()
+        let inspection=try await store.inspectedBackup(backups[0].id)
+        XCTAssertEqual(inspection.data,source.data);XCTAssertEqual(inspection.value,source.value);XCTAssertEqual(disk.writes,0)
+    }
+    func testValidExternalRecoveryChangeIsPreserved() async throws {
+        let (store,disk)=try make();let source=try await store.connect();disk.failAll=true
+        do { _ = try await store.apply(edit(source.value),expected:source);XCTFail() } catch {}
+        disk.failAll=false;var external=source.value;try external.set(.boolean(false),at:["CacheExtra",flag])
+        let bytes=try external.encoded();try bytes.write(to:disk.url)
+        do { try await store.recoverInterruptedWrite();XCTFail() } catch {}
+        XCTAssertEqual(try disk.read(),bytes);let pending=await store.recoveryPending();XCTAssertTrue(pending)
+    }
+    func testNoopPresetDoesNotReencodeOrWrite() async throws {
+        let (store,disk)=try make(xml:true);let source=try await store.connect()
+        _ = try await store.apply(source.value,expected:source)
+        XCTAssertEqual(disk.writes,0);let backups=await store.listing();XCTAssertEqual(backups.count,1)
+    }
+
 }

@@ -1,5 +1,6 @@
 "A capability flag cannot add hardware or guarantee Apple service access. Apply changes only after reviewing a device backup and restart requirements." = "能力标记无法增加硬件，也不保证 Apple 服务可用。应用修改前请检查设备备份及重启要求。";
 "A capability flag cannot add hardware or guarantee Apple service access. System changes may require restart or respring; this build performs neither." = "能力标记无法增加硬件，也不保证 Apple 服务可用。系统变更可能需要重启或 Respring；此版本不会执行这些操作。";
+"A configuration plan cannot contain the same feature twice." = "配置方案不能重复包含同一功能。";
 "A field with this name already exists." = "同名字段已存在。";
 "A phone subtype was found in the imported configuration. It can affect safe areas, display scaling and keyboard layout. This is a risk indicator, not proof of the appearance issue's cause." = "导入配置中发现 iPhone subtype，可能影响安全区域、显示缩放及键盘布局。这是风险线索，不能据此确定外观异常的根因。";
 "A universal iOS / iPadOS configuration workspace." = "适用于 iOS 与 iPadOS 的统一配置工作区。";
@@ -13,6 +14,7 @@
 "Access not checked" = "尚未检测访问权限";
 "Access, signing and system information" = "访问权限、签名与系统信息";
 "Accessible App Groups" = "可访问的 App Group";
+"Action" = "操作";
 "Action Button" = "操作按钮";
 "Activity & appearance" = "活动与外观";
 "Activity not visible" = "活动不可见";
@@ -43,6 +45,7 @@
 "An interrupted transaction requires workspace recovery. Reopen Elyra before saving." = "中断的事务需要恢复工作区。请重新打开 Elyra 后再保存。";
 "App Groups are declared, but the signing profile did not grant an accessible container. Check the signing tool's App Group settings." = "签名中已声明 App Group，但描述文件未授予可访问的容器。请检查签名工具的 App Group 设置。";
 "App UI" = "应用界面";
+"App callback rate" = "应用回调频率";
 "App launch images" = "应用启动图";
 "Appearance" = "个性化";
 "Appearance & configuration" = "外观与配置";
@@ -71,13 +74,16 @@
 "Audio Intelligence" = "音频智能";
 "Audio Mix" = "音频混合";
 "Backup" = "创建备份";
+"Backup comparison" = "备份对比";
 "Backup integrity verification failed. No restore was started." = "备份完整性校验失败，未开始恢复。";
 "Backup not found." = "未找到备份。";
+"Backup unavailable" = "无法打开备份";
 "Backups" = "备份与恢复";
 "Backups here restore imported local files only. Elyra cannot restore your system Dynamic Island without authorized access and a verified same-device original." = "这里的备份仅恢复导入的本地文件。缺少授权访问及已验证的同设备原始数据时，Elyra 无法恢复系统灵动岛。";
 "Before" = "修改前";
 "Before " = "操作前：";
 "Before capability restore" = "恢复功能配置前";
+"Before configuration plan" = "应用配置方案前";
 "Before operation: %@" = "操作前：%@";
 "Before saving" = "保存前请检查";
 "Before system restore" = "系统恢复前备份";
@@ -88,6 +94,7 @@
 "Browse imported files in Elyra’s sandbox. Drag files here or use Import. System directories and other app containers are not accessible." = "浏览 Elyra 沙盒中的导入文件。可拖入文件或点击导入。无法访问系统目录或其他应用容器。";
 "CacheData / WAPI / FaceTime Audio" = "CacheData / WAPI / FaceTime 音频";
 "Call" = "通话";
+"Callbacks per second" = "每秒回调次数";
 "Camera Control" = "相机控制";
 "Cancel" = "取消";
 "Cannot remove the plist root." = "不能删除 plist 根节点。";
@@ -111,6 +118,7 @@
 "Compact music" = "紧凑音乐";
 "Compact, expanded and multiple-activity states have separate layout behavior. Improving one state does not establish the others." = "紧凑、展开与多活动状态有各自的布局行为。一个状态改善不能证明其他状态也已修复。";
 "Compare & restore" = "比较与恢复";
+"Compare with device" = "与设备配置对比";
 "Compatibility" = "兼容性";
 "Complete device details and keep observation notes under 16 KB." = "请补全设备信息，并将观察备注控制在 16 KB 内。";
 "Configuration document" = "配置文档";
@@ -118,6 +126,9 @@
 "Configuration fields" = "配置字段";
 "Configuration inspection" = "配置检查";
 "Configuration inspection and appearance observations" = "配置检查与外观记录";
+"Configuration plan" = "配置方案";
+"Configuration plan exceeds 64 KB." = "配置方案不能超过 64 KB。";
+"Configuration plans" = "配置方案";
 "Configuration tools" = "配置工具";
 "Configurations" = "配置项目";
 "Configure on device" = "在设备上配置";
@@ -133,19 +144,24 @@
 "Connect to read the live cache and check write access. Support depends on the exact build and signing profile." = "连接后读取实时缓存并检测写权限。可用性取决于准确系统构建和签名配置。";
 "Connect, review and apply system changes" = "连接设备、检查并应用系统修改";
 "Connection details" = "连接详情";
+"Content size" = "内容尺寸";
 "Corners insufficiently rounded" = "圆角不够圆润";
 "Create backup" = "创建备份";
 "Creator profiles" = "开发者主页";
+"Current EDR headroom" = "当前 EDR 余量";
 "Current configuration" = "当前配置";
 "Custom value" = "自定义值";
 "Data" = "数据 (Data)";
 "Date" = "日期 (Date)";
+"Delete" = "删除";
+"Delete plan?" = "删除配置方案？";
 "Dependencies & risk" = "依赖与风险";
 "Device" = "设备";
 "Device & access" = "设备与访问条件";
 "Device access" = "设备访问";
 "Device access failed" = "设备访问失败";
 "Device actions" = "设备操作";
+"Device backup" = "设备备份";
 "Device backup binding is unavailable." = "设备备份绑定不可用。";
 "Device backups" = "设备备份";
 "Device backups are captured from this installation. They are not factory defaults and may already contain earlier modifications." = "设备备份由当前安装实例直接读取，不等于出厂默认值，也可能包含以前的修改。";
@@ -167,6 +183,7 @@
 "Discard draft & reload?" = "丢弃草稿并重新读取？";
 "Display" = "显示";
 "Display behavior depends on the panel. May increase power use and burn-in risk." = "显示行为取决于面板，可能增加耗电与烧屏风险。";
+"Display scale" = "显示缩放";
 "DisplayPort Output" = "DisplayPort 输出";
 "Document actions" = "文档操作";
 "Document not found." = "未找到文档。";
@@ -175,6 +192,7 @@
 "Draft conflict" = "草稿冲突";
 "Dynamic Island" = "灵动岛";
 "Dynamic Island capability" = "灵动岛能力标记";
+"Edit" = "编辑";
 "Edit a complete XML plist. String, Integer, Real, Boolean, Data, Date, Array and Dictionary are supported." = "编辑完整的 XML plist，支持字符串、整数、实数、布尔、数据、日期、数组及字典。";
 "Edit container" = "编辑容器";
 "Edit device configuration" = "编辑设备配置";
@@ -197,6 +215,7 @@
 "Enabled flag" = "标记已启用";
 "Enter a device display name under 256 bytes." = "设备显示名称请控制在 256 字节以内。";
 "Enter a key name." = "请输入字段名称。";
+"Enter a plan name and select at least one feature." = "请输入方案名称，并至少选择一项功能。";
 "Entries" = "条目数";
 "Entries are checked for safe paths, links, encryption, CRC and expansion limits. This does not install a wallpaper or theme into the system." = "检查条目路径、链接、加密、CRC 及解压大小限制。此操作不会将壁纸或主题安装到系统。";
 "Exact typed values" = "完整值与类型";
@@ -251,6 +270,7 @@
 "Import asset" = "导入素材";
 "Import category" = "导入分类";
 "Import file" = "导入文件";
+"Import plan" = "导入方案";
 "Import plist" = "导入 plist";
 "Import, preview and export your assets. Applying assets to other apps or system containers is unavailable; importing does not change system appearance." = "导入、预览与导出素材。当前无法将素材应用至其他应用或系统容器；导入不会改变系统外观。";
 "Imported baseline" = "导入时基准";
@@ -263,6 +283,7 @@
 "Inspect flag, artwork identity and recorded local baseline" = "检查能力标记、外观身份及已记录的本地基准";
 "Integer" = "整数 (Integer)";
 "Integer is outside the signed 64-bit range." = "整数超出有符号 64 位范围。";
+"Integrity verified" = "完整性已验证";
 "Intelligence" = "智能功能";
 "Internal Build" = "内部构建全局标记";
 "Internal Settings Bundle" = "内部设置面板";
@@ -292,6 +313,7 @@
 "Manual backup" = "手动备份";
 "Manual device backup" = "手动设备备份";
 "Matches preset" = "与预设一致";
+"Maximum frame rate" = "最高帧率";
 "Media playback" = "媒体播放";
 "Modify" = "修改";
 "Modify configuration" = "修改配置";
@@ -302,6 +324,7 @@
 "Music playback study" = "音乐播放布局研究";
 "Navigation" = "导航";
 "New key" = "新字段名称";
+"New plan" = "新建方案";
 "No authorized, verified system writer is installed. Elyra cannot change the system capsule geometry with public APIs." = "没有经过授权及验证的系统写入后端。Elyra 无法使用公开 API 改变系统胶囊的几何形状。";
 "No authorized, verified system writer is installed. Imported plists remain local documents. OS build and hardware effects require separate real-device validation." = "没有安装经过授权及验证的系统写入后端。导入的 plist 仅作为本地文档。每个系统构建版本及硬件效果均需独立真机验证。";
 "No backups yet" = "尚无备份";
@@ -312,6 +335,7 @@
 "No operations yet" = "尚无操作记录";
 "No pending changes" = "没有待保存变更";
 "No recorded imported baseline exists. Original values will not be guessed." = "没有已记录的导入基准，不会猜测原始值。";
+"No saved plans" = "暂无配置方案";
 "No supported public respring API is available. Upstream WebKit resource-exhaustion techniques are not included." = "没有受支持的公开 Respring 接口。本应用未包含上游通过 WebKit 资源耗尽触发的方法。";
 "No verified field controls system Dynamic Island roundness, proportions or orientation. Enabling a capability flag does not establish correct iPad appearance in any activity." = "尚无经过验证的字段能控制系统灵动岛的圆角、比例或方向。启用能力标记不能证明 iPad 在任何活动中都具有正确外观。";
 "No verified initial device capture is available for this cache generation." = "当前缓存版本没有通过校验的首次设备备份。";
@@ -338,6 +362,7 @@
 "Open asset library" = "打开素材库";
 "Open device editor" = "打开设备编辑器";
 "Open full editor" = "打开完整编辑器";
+"Open local copy" = "打开本地副本";
 "Open-source licenses" = "开源许可";
 "Operation could not be completed" = "无法完成操作";
 "Operation history" = "操作历史";
@@ -352,10 +377,14 @@
 "Personal Translator" = "个人翻译";
 "Photos Clean Up" = "照片消除";
 "Physical memory" = "物理内存";
+"Pixel dimensions" = "像素尺寸";
+"Plan actions" = "方案操作";
+"Plan name" = "方案名称";
 "Playing" = "正在播放";
 "Plist nesting exceeds 64 levels." = "plist 嵌套超过 64 层。";
 "Portrait" = "竖屏";
 "Posts and updates" = "笔记与动态";
+"Potential EDR headroom" = "潜在 EDR 余量";
 "Preview & share" = "预览与分享";
 "Preview only. System appearance is unchanged." = "仅预览，不会改变系统外观。";
 "Privacy" = "隐私";
@@ -371,6 +400,7 @@
 "Read-only access" = "仅有读取权限";
 "Real" = "实数 (Real)";
 "Recent operations" = "最近操作";
+"Reconnect device" = "重新连接设备";
 "Record DI observation" = "记录灵动岛外观";
 "Record appearance observation" = "记录外观";
 "Record shape, corner roundness, position, activity content, display zoom and any keyboard issues. Avoid account details or identifiers." = "记录形状、圆角、位置、活动内容、显示缩放及键盘异常。请勿填写账号信息或设备唯一标识。";
@@ -379,6 +409,7 @@
 "Recover system configuration?" = "恢复系统配置？";
 "Recovery" = "恢复";
 "Recovery uses the verified pre-write backup and checks the file identity. Replaced caches or another device installation are rejected." = "恢复使用已校验的写前备份，并核对文件身份。缓存已被替换或备份来自其他设备安装实例时，将拒绝操作。";
+"Refresh device working copy" = "更新设备配置副本";
 "Refresh workspace" = "刷新工作区";
 "Region code & sales region" = "地区代码与销售地区";
 "Related local configuration" = "关联本地配置";
@@ -408,6 +439,8 @@
 "Review the typed fields. Elyra will not guess how to repair a malformed artwork dictionary." = "请检查字段类型。Elyra 不会猜测如何修复损坏的外观字典。";
 "Risk" = "风险";
 "SHA-256: " = "SHA-256: ";
+"Safe area" = "安全区域";
+"Save" = "保存";
 "Save DI fields (local)" = "保存灵动岛字段（本地）";
 "Save failed; previous bytes restored" = "保存失败，已恢复原文件";
 "Save local document" = "保存本地文档";
@@ -435,6 +468,8 @@
 "Simulator records are not evidence of system modification." = "模拟器记录不能作为系统修改成功的证据。";
 "Siri AI Mode" = "Siri AI 模式";
 "Siri uses a device-specific capability type. Changing it may affect the Apple Intelligence Siri interface. Keep the current value or restore the recorded original." = "Siri 使用设备专属的能力类型。修改可能影响 Apple 智能 Siri 界面；应保持当前值或恢复已记录的原始值。";
+"Size" = "大小";
+"Source" = "来源";
 "Source-confirmed controls" = "源码确认的配置范围";
 "Spatial FaceTime Audio" = "FaceTime 空间音频";
 "Stage Manager" = "台前调度";
@@ -442,6 +477,8 @@
 "Stage in a local document" = "在本地文档中暂存";
 "Stage local preset" = "暂存本地预设";
 "Stage preset" = "暂存预设";
+"Start measurement" = "开始测量";
+"Stop measurement" = "停止测量";
 "Stop the wallpaper from moving with device motion." = "关闭随设备运动而变化的壁纸视差。";
 "String" = "字符串 (String)";
 "Subtype is not a pixel size. Upstream presets differ; no subtype is validated as an iPad Dynamic Island appearance repair." = "Subtype 不是像素尺寸。两个上游的预设存在差异；尚无 subtype 被验证能修复 iPad 灵动岛的整体外观。";
@@ -474,6 +511,8 @@
 "The archive exceeds the safe entry or expansion limit." = "归档超过条目大小或总解压大小限制。";
 "The backup does not match the current device cache generation." = "备份与当前设备缓存代际不匹配。";
 "The baseline uses a different cache generation." = "基准文件属于不同的缓存代际。";
+"The configuration plan contains conflicting changes." = "配置方案中的修改相互冲突。";
+"The configuration plan limit is 100." = "最多保存 100 个配置方案。";
 "The current file is backed up first. This restores the selected bytes, not a device system file." = "先备份当前文件，再恢复选定字节。不会恢复设备系统文件。";
 "The current local file is backed up first. The selected backup must match this document and pass size and SHA-256 checks. The device system is not modified." = "首先备份当前本地文件。所选备份必须属于此文档，并通过大小及 SHA-256 校验。不会修改设备系统。";
 "The current system file is backed up before replacement. The selected backup must match this installation and cache generation." = "替换前会备份当前系统文件。所选备份必须匹配当前安装实例及缓存代际。";
@@ -491,6 +530,7 @@
 "The system cache was replaced. Read the device again." = "系统缓存已被替换，请重新读取设备。";
 "The system configuration is busy in another process. Try again after it finishes." = "另一个进程正在使用系统配置，请待其完成后重试。";
 "The system denied write access. No device configuration was changed." = "系统拒绝写入权限，设备配置未改变。";
+"The system file contains another valid change. Recovery was stopped to preserve it." = "系统文件中存在其他有效修改，已停止恢复并保留当前文件。";
 "The system file session is closed." = "系统文件会话已关闭。";
 "The system target is not a regular file." = "系统目标不是普通文件。";
 "The system write was verified, but its recovery journal could not be cleared. Run recovery before further changes." = "系统写入已通过回读验证，但恢复记录未能清除。请先执行恢复，再继续修改。";
@@ -501,12 +541,14 @@
 "This backup belongs to a different device installation." = "此备份属于其他设备安装实例。";
 "This backup belongs to a different local document." = "此备份属于另一个本地文档。";
 "This backup belongs to a different local file." = "此备份属于另一个本地文件。";
+"This configuration plan uses an unsupported format." = "不支持此配置方案格式。";
 "This document has no CacheExtra dictionary." = "此文档不包含 CacheExtra 字典。";
 "This draft was created from an older document revision. Export it before discarding and reloading." = "草稿基于较旧的文档版本。丢弃并重新读取前，请先导出草稿。";
 "This experimental upstream method restarts the system interface through WebKit resource pressure. Save ongoing work first. It may fail or interrupt apps; it does not sign out of your Apple Account." = "此实验性方法通过 WebKit 资源压力重新启动系统界面。请先保存正在进行的工作，操作可能失败或中断应用，不会退出 Apple 账户。";
 "This file is outside Elyra’s managed workspace." = "文件不在 Elyra 受管理的工作区中。";
 "This inspection reads your imported file. It does not prove the device currently uses these values." = "检查读取的是你导入的文件，不能证明设备当前使用这些值。";
 "This log records what you observe. It is not an automated verification that Elyra changed the system." = "此记录保存你的观察，不是对 Elyra 系统修改成功的自动验证。";
+"This plan contains an unsupported feature or action." = "方案包含不支持的功能或操作。";
 "This updates only the managed file. The previous bytes are backed up, and a changed revision in another window rejects the save." = "仅更新受管理的文件。保存前备份原始字节；若另一窗口已修改文件，将拒绝覆盖。";
 "This value is not a container." = "此值不是容器类型。";
 "This workspace was created by a newer Elyra version." = "此工作区由更新版本的 Elyra 创建。";
@@ -523,6 +565,7 @@
 "Unexpected position" = "位置异常";
 "Unexpected shape or proportions" = "形状或比例异常";
 "Unexpected type or value" = "类型或值异常";
+"Unknown configuration feature." = "未知的配置功能。";
 "Unsaved text" = "有未保存的文本";
 "Unsupported artwork changes." = "不支持的外观字段修改。";
 "Unsupported hardware" = "当前硬件不支持";
@@ -537,6 +580,9 @@
 "Wallpaper descriptor filenames were found. Provider installation is not verified." = "发现壁纸描述符文件名，但尚未验证提供器能否安装。";
 "Wallpapers" = "壁纸";
 "Wallpapers & .tendies" = "壁纸与 .tendies";
+"Window" = "窗口";
+"Window & display" = "窗口与显示";
+"Window size" = "窗口尺寸";
 "Working" = "正在处理";
 "Workspace could not be opened. Export existing files before attempting recovery." = "无法打开工作区。尝试恢复前，请先导出现有文件。";
 "Workspace ready" = "工作区已就绪";

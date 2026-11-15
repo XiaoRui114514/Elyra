@@ -15,7 +15,10 @@ public struct Capability: Identifiable, Sendable {
         guard case .dictionary = document.value(at: ["CacheExtra"]) else { throw ElyraError.invalid("This document has no CacheExtra dictionary.") }
         guard id != "siriOnDevice" else { throw ElyraError.invalid("On-Device Siri has a device-specific type. Restore a recorded original instead of guessing.") }
         for key in keys {
-            let target: PlistValue = id == "ipadApps" ? .array([.integer(1), .integer(2)]) : .integer(value)
+            let target: PlistValue
+            if id == "ipadApps" { target = .array([.integer(1), .integer(2)]) }
+            else if (value == 0 || value == 1), case .boolean? = document.value(at: ["CacheExtra", key]) { target = .boolean(value == 1) }
+            else { target = .integer(value) }
             try document.set(target, at: ["CacheExtra", key])
         }
     }

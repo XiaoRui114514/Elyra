@@ -163,12 +163,42 @@ final class ElyraUITests: XCTestCase {
             reveal(modify, app: app)
             XCTAssertFalse(modify.isEnabled, "Simulator must not apply a device preset")
             XCTAssertFalse(app.staticTexts["Dependencies & risk"].exists)
-            app.navigationBars.buttons.firstMatch.tap()
+            app.navigationBars.matching(NSPredicate(format: "identifier != %@", "Elyra")).firstMatch.buttons.firstMatch.tap()
             XCTAssertTrue(app.scrollViews["system.category.page"].waitForExistence(timeout: 5))
-            app.navigationBars.buttons.firstMatch.tap()
+            app.navigationBars.matching(NSPredicate(format: "identifier != %@", "Elyra")).firstMatch.buttons.firstMatch.tap()
             XCTAssertTrue(app.scrollViews["system.dashboard"].waitForExistence(timeout: 5))
         }
         attach("System tiles after feature round trips")
+    }
+    @MainActor func testConfigurationPlanSavesAndPersistsWithoutSystemWrite() {
+        let app=makeApp();app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout:10))
+        selectArea(app,identifier:"system",title:"System")
+        let plans=app.buttons["system.plans"];reveal(plans,app:app);plans.tap()
+        app.buttons["plans.new"].tap()
+        let name=app.textFields["plan.name"];XCTAssertTrue(name.waitForExistence(timeout:5));name.tap();name.typeText("Display plan")
+        let feature=app.switches["plan.feature.dynamicIsland"];reveal(feature,app:app);feature.tap()
+        app.buttons["plan.save"].tap()
+        XCTAssertTrue(app.staticTexts["Display plan"].waitForExistence(timeout:10))
+        XCTAssertFalse(app.buttons["Modify"].firstMatch.isEnabled)
+        attach("Saved configuration plan")
+        app.terminate();app.launch()
+        if !app.staticTexts["Display plan"].waitForExistence(timeout:5) {
+            selectArea(app,identifier:"system",title:"System")
+            let plans=app.buttons["system.plans"];reveal(plans,app:app);plans.tap()
+        }
+        XCTAssertTrue(app.staticTexts["Display plan"].waitForExistence(timeout:10))
+    }
+    @MainActor func testWindowDisplayMeasurementControls() {
+        let app=makeApp();app.launch()
+        XCTAssertTrue(app.staticTexts["Workspace ready"].waitForExistence(timeout:10))
+        selectArea(app,identifier:"tools",title:"Tools")
+        let link=app.buttons["tools.display"];reveal(link,app:app);link.tap()
+        XCTAssertTrue(app.navigationBars["Window & display"].waitForExistence(timeout:5))
+        let measurement=app.buttons["display.measure"];reveal(measurement,app:app);measurement.tap()
+        XCTAssertTrue(measurement.label.contains("Stop measurement"));measurement.tap()
+        XCTAssertTrue(measurement.label.contains("Start measurement"))
+        attach("Window and display diagnostics")
     }
     @MainActor private func attach(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())

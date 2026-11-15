@@ -130,7 +130,38 @@ public actor SystemConfigurationStore {
         guard backup.binding == binding else { throw ElyraError.invalid("This backup belongs to a different device installation.") }
         let data = try Data(contentsOf: root.appendingPathComponent(backup.filename))
         guard Digest.sha256(data) == backup.digest else { throw ElyraError.integrity }
-        _ = try decoded(data); return data
+        guard try SystemEditPolicy.generation(decoded(data)) == backup.generation else { throw ElyraError.integrity }
+        return data
+    }
+    public func inspectedBackup(_ id: UUID) throws -> SystemBackupInspection {
+        guard let record = backups.first(where: { $0.id == id }) else { throw ElyraError.integrity }
+        let data = try backupData(record)
+        return SystemBackupInspection(record: record, data: data, value: try decoded(data))
+    }
+    public func configurationPlan(_ plan: ConfigurationPlan, expected: SystemSnapshot) throws -> SystemConfigurationPlan {
+        guard current?.id == expected.id, !recoveryPending() else { throw ElyraError.conflict }
+        try plan.validate()
+        var target = expected.value
+        var intents: [[String]: PlistValue?] = [:]
+        for step in plan.steps {
+            let staged = try capabilityPlan(step.capabilityID, restoring: step.action == .restore, expected: expected)
+            guard let capability = Capability.all.first(where: { $0.id == step.capabilityID }) else { throw ElyraError.invalid("Unknown configuration feature.") }
+            var paths = capability.keys.map { ["CacheExtra", $0] }
+            if step.capabilityID == "dynamicIsland", step.action == .restore { paths.append(["CacheExtra", DynamicIslandEngine.artworkKey]) }
+            for path in paths {
+                let desired = staged.target.value(at: path)
+                if let previous = intents[path], previous != desired { throw ElyraError.invalid("The configuration plan contains conflicting changes.") }
+                intents.updateValue(desired, forKey: path)
+                try target.set(desired, at: path)
+            }
+        }
+        try SystemEditPolicy.validate(target, from: expected.value, restoring: true)
+        return SystemConfigurationPlan(id: UUID(), plan: plan, snapshot: expected, target: target)
+    }
+    public func commitConfigurationPlan(_ proposal: SystemConfigurationPlan) throws -> SystemSnapshot {
+        let verified = try configurationPlan(proposal.plan, expected: proposal.snapshot)
+        guard verified.target == proposal.target else { throw ElyraError.conflict }
+        return try commit(encodedTarget(verified.target, expected: proposal.snapshot), expected: proposal.snapshot, reason: "Before configuration plan")
     }
     public func connect() throws -> SystemSnapshot {
         guard !recoveryPending() else { throw ElyraError.invalid("An interrupted system write requires recovery before continuing.") }
@@ -152,11 +183,15 @@ public actor SystemConfigurationStore {
         guard file.identity == expected.fileIdentity, Digest.sha256(data) == expected.revision else { throw ElyraError.conflict }
         _ = try capture(data, reason: "Manual device backup")
     }
-    public func apply(_ edited: PlistValue, expected: SystemSnapshot) throws -> SystemSnapshot {
-        try SystemEditPolicy.validate(edited, from: expected.value)
+    private func encodedTarget(_ target: PlistValue, expected: SystemSnapshot) throws -> Data {
+        if target == expected.value { return expected.data }
         var format = PropertyListSerialization.PropertyListFormat.binary
         _ = try PropertyListSerialization.propertyList(from: expected.data, options: [], format: &format)
-        return try commit(edited.encoded(format: format), expected: expected, reason: "Before system write")
+        return try target.encoded(format: format)
+    }
+    public func apply(_ edited: PlistValue, expected: SystemSnapshot) throws -> SystemSnapshot {
+        try SystemEditPolicy.validate(edited, from: expected.value)
+        return try commit(encodedTarget(edited, expected: expected), expected: expected, reason: "Before system write")
     }
     public func capabilityPlan(_ id: String, restoring: Bool, expected: SystemSnapshot) throws -> SystemCapabilityPlan {
         guard current?.id == expected.id, !recoveryPending(), let capability = Capability.all.first(where: { $0.id == id }) else { throw ElyraError.conflict }
@@ -167,7 +202,8 @@ public actor SystemConfigurationStore {
                 throw ElyraError.invalid("No verified initial device capture is available for this cache generation.")
             }
             let baseline = try decoded(backupData(original))
-            for key in capability.keys { try target.set(baseline.value(at: ["CacheExtra", key]), at: ["CacheExtra", key]) }
+            if id == "dynamicIsland" { target = try DynamicIslandEngine.restoringRecordedFields(in: target, baseline: baseline) }
+            else { for key in capability.keys { try target.set(baseline.value(at: ["CacheExtra", key]), at: ["CacheExtra", key]) } }
         } else { try capability.stage(in: &target) }
         try SystemEditPolicy.validate(target, from: expected.value, restoring: restoring)
         return SystemCapabilityPlan(id: UUID(), capabilityID: id, restoring: restoring, snapshot: expected, target: target)
@@ -177,9 +213,7 @@ public actor SystemConfigurationStore {
         let verified = try capabilityPlan(plan.capabilityID, restoring: plan.restoring, expected: plan.snapshot)
         guard verified.target == plan.target else { throw ElyraError.conflict }
         if !plan.restoring { return try apply(verified.target, expected: plan.snapshot) }
-        var format = PropertyListSerialization.PropertyListFormat.binary
-        _ = try PropertyListSerialization.propertyList(from: plan.snapshot.data, options: [], format: &format)
-        return try commit(verified.target.encoded(format: format), expected: plan.snapshot, reason: "Before capability restore")
+        return try commit(encodedTarget(verified.target, expected: plan.snapshot), expected: plan.snapshot, reason: "Before capability restore")
     }
     public func restore(_ id: UUID, expected: SystemSnapshot) throws -> SystemSnapshot {
         guard let backup = backups.first(where: { $0.id == id }), backup.generation == (try? SystemEditPolicy.generation(expected.value)) else { throw ElyraError.invalid("The backup does not match the current device cache generation.") }
@@ -233,7 +267,13 @@ public actor SystemConfigurationStore {
         let file = try access.open(true); defer { file.close() }
         guard file.identity == journal.fileIdentity else { throw ElyraError.invalid("The system cache was replaced. Automatic recovery was not started.") }
         let actual = try file.read()
-        if let value = try? decoded(actual), try SystemEditPolicy.generation(value) != backup.generation { throw ElyraError.conflict }
+        if Digest.sha256(actual) != journal.expected && Digest.sha256(actual) != journal.desired {
+            if (try? decoded(actual)) != nil { throw ElyraError.invalid("The system file contains another valid change. Recovery was stopped to preserve it.") }
+            // Retain the interrupted bytes before replacing a partial or corrupt write.
+            let evidence = root.appendingPathComponent("recovery-" + UUID().uuidString + ".bin")
+            try actual.write(to: evidence, options: .atomic)
+            guard try Data(contentsOf: evidence) == actual else { throw ElyraError.integrity }
+        }
         // Recovery always returns to the verified pre-write bytes, including a partial write.
         if actual != original { try file.replace(original) }
         guard try file.read() == original else { throw ElyraError.integrity }

@@ -91,6 +91,7 @@ struct AreaView: View {
             Section {
                 NavigationLink(value: Screen.files) { Label("File Manager", systemImage: "folder") }
                 NavigationLink(value: Screen.diagnostics) { Label("Device diagnostics", systemImage: "stethoscope") }
+                NavigationLink(value: Screen.displayDiagnostics) { Label("Window & display", systemImage: "display") }.accessibilityIdentifier("tools.display")
                 NavigationLink(value: Screen.history) { Label("Operation history", systemImage: "clock.arrow.circlepath") }
             }
             documents
