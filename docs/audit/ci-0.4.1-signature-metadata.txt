@@ -1,0 +1,9 @@
+Executable=/private/var/folders/2s/vty41l455yv698g4xkgfv7z00000gn/T/tmp.cBM1SiAT5a/Payload/Elyra.app/Elyra
+Identifier=org.elyra.Elyra
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20400 size=16520 flags=0x2(adhoc) hashes=506+7 location=embedded
+Signature=adhoc
+Info.plist entries=32
+TeamIdentifier=not set
+Sealed Resources version=2 rules=10 files=19
+Internal requirements count=0 size=12

@@ -10,6 +10,8 @@
 - [ ] Exact-source Xcode analysis, nine UI scenarios per simulator and dual-IPA archive; publish only after all checks pass.
 - [ ] Physical signing, system effects/restoration and General → About display acceptance.
 
+Current code candidate: `94942ddebc8ae60474be8bb10620e8f503420ebb`, [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089). Build 28 packages, analysis, 102 macOS core tests and 14 Python checks have passed; nine-scenario UI suites are pending.
+
 0.4 remains the published qualified release until this candidate passes. The record below is historical.
 
 # 0.4 delivery

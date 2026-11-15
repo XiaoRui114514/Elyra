@@ -1,0 +1,17 @@
+{
+  "path": "/Users/runner/work/Elyra/Elyra/build/Elyra-unsigned.ipa",
+  "sha256": "361ff9926d145aa387995d3d2ae264449afe846b6e204d371f55d0dc037424ce",
+  "bundleID": "org.elyra.Elyra",
+  "version": "0.4.1",
+  "build": "28",
+  "minimumOS": "17.0",
+  "sdk": "iphoneos26.2",
+  "executableBytes": 2069936,
+  "architecture": "arm64",
+  "signatureDirectoryPresent": false,
+  "signingMode": "unsigned",
+  "appGroups": [],
+  "signing": "unsigned; requires legitimate signing",
+  "requiresResigning": true,
+  "installationTested": false
+}

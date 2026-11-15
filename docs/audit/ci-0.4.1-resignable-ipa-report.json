@@ -1,0 +1,19 @@
+{
+  "path": "/Users/runner/work/Elyra/Elyra/build/Elyra-resignable.ipa",
+  "sha256": "52fa3a0937ead308edd2d89cd62d07ea24d8383cb747281769486940c7b96fba",
+  "bundleID": "org.elyra.Elyra",
+  "version": "0.4.1",
+  "build": "28",
+  "minimumOS": "17.0",
+  "sdk": "iphoneos26.2",
+  "executableBytes": 2104928,
+  "architecture": "arm64",
+  "signatureDirectoryPresent": true,
+  "signingMode": "adhoc",
+  "appGroups": [
+    "group.org.elyra.Elyra"
+  ],
+  "signing": "ad-hoc entitlement template; requires legitimate re-signing",
+  "requiresResigning": true,
+  "installationTested": false
+}

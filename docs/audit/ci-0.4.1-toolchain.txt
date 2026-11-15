@@ -1,0 +1,14 @@
+2026-11-15T05:24:59.2824430Z Xcode 26.3
+2026-11-15T05:24:59.2826930Z Build version 17C529
+2026-11-15T05:25:04.0536700Z Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+2026-11-15T05:25:04.0537890Z Target: arm64-apple-macosx15.0
+2026-11-15T05:25:04.4800360Z Static repository checks passed; 625 matching localization keys. Apple build/runtime remain unverified.
+2026-11-15T05:25:05.0404150Z Ran 14 tests in 0.007s
+2026-11-15T05:25:05.0415440Z OK
+2026-11-15T05:25:05.0628300Z Elyra.xcodeproj/project.pbxproj: OK
+2026-11-15T05:25:05.0633380Z Elyra/Resources/Info.plist: OK
+2026-11-15T05:25:05.0634360Z Elyra/Resources/PrivacyInfo.xcprivacy: OK
+2026-11-15T05:27:07.7310270Z ** ANALYZE SUCCEEDED **
+2026-11-15T05:27:08.6077650Z Xcode 26.3
+2026-11-15T05:27:08.6178830Z Build version 17C529
+2026-11-15T05:28:03.0855700Z ** ARCHIVE SUCCEEDED **
