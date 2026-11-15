@@ -1,0 +1,47 @@
+{
+  "run": 43707797116,
+  "sourceCommit": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+  "artifact": 14159488948,
+  "screenshots": [
+    {
+      "file": "iphone-region-code.png",
+      "sha256": "3bb23d9eaa549089689fde196453be4623781f57bc41bc1fe2395ea35518c244",
+      "sourceFile": "CBBF6ED3-E860-4CC7-85E7-F68F7CC9760D.png",
+      "title": "Independent region code selector",
+      "testIdentifier": "ElyraUITests/testIndependentRegionCodeEntry()",
+      "deviceName": "iPhone SE (3rd generation)",
+      "simulatorOnly": true,
+      "timestamp": 1794741777.551
+    },
+    {
+      "file": "iphone-intelligence.png",
+      "sha256": "a098ed68f85c3ddf6f44ad1db9c23af699c970e07e563237d697eb13142bb83c",
+      "sourceFile": "521DDEC6-3DE2-4C5E-A1B9-E37C931E900B.png",
+      "title": "Mainland Apple Intelligence configuration",
+      "testIdentifier": "ElyraUITests/testIntelligenceSetupAndModelNameEntries()",
+      "deviceName": "iPhone SE (3rd generation)",
+      "simulatorOnly": true,
+      "timestamp": 1794741823.774
+    },
+    {
+      "file": "iphone-model-name-keyboard.png",
+      "sha256": "a4db9e69ff585419991e46d010823247ea13b461805d950071d003f535ad26ac",
+      "sourceFile": "44CE4688-257D-4B04-BC21-645A9040B742.png",
+      "title": "Landscape model name keyboard",
+      "testIdentifier": "ElyraUITests/testModelNameKeyboardAcrossOrientationAndGridReturn()",
+      "deviceName": "iPhone SE (3rd generation)",
+      "simulatorOnly": true,
+      "timestamp": 1794741959.223
+    },
+    {
+      "file": "iphone-device-grid.png",
+      "sha256": "30ed7fd00212b92e9577c0bd34124b76bc3199b2e0ed75c3b14679118a08c28a",
+      "sourceFile": "3CD957B6-5932-4582-B842-25974FC11658.png",
+      "title": "Device grid with model name tile",
+      "testIdentifier": "ElyraUITests/testModelNameKeyboardAcrossOrientationAndGridReturn()",
+      "deviceName": "iPhone SE (3rd generation)",
+      "simulatorOnly": true,
+      "timestamp": 1794741941.562
+    }
+  ]
+}

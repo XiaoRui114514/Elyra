@@ -1,0 +1,47 @@
+{
+  "run": 43707797116,
+  "sourceCommit": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+  "artifact": 14159801311,
+  "screenshots": [
+    {
+      "file": "ipad-region-code.png",
+      "sha256": "304862b1bde52a4211e7489bc9cdfa7d5cc3aa59083e26d5939f0e628fe12080",
+      "sourceFile": "036FEC78-A9D1-4876-A5A6-71B0A6EC5A74.png",
+      "title": "Independent region code selector",
+      "testIdentifier": "ElyraUITests/testIndependentRegionCodeEntry()",
+      "deviceName": "iPad mini (A17 Pro)",
+      "simulatorOnly": true,
+      "timestamp": 1794741662.035
+    },
+    {
+      "file": "ipad-intelligence.png",
+      "sha256": "c1cffac7d5c89f97ef97c228e91578f4f9e907b1ad58db7c252f7acf1a17a80e",
+      "sourceFile": "CF704A1B-171C-455E-A628-DDBE377E8649.png",
+      "title": "Mainland Apple Intelligence configuration",
+      "testIdentifier": "ElyraUITests/testIntelligenceSetupAndModelNameEntries()",
+      "deviceName": "iPad mini (A17 Pro)",
+      "simulatorOnly": true,
+      "timestamp": 1794741688.591
+    },
+    {
+      "file": "ipad-model-name-keyboard.png",
+      "sha256": "90bcbf10b2a946dd00cd37714f307f748f2087f345cbd7c8743b464b35e2bd74",
+      "sourceFile": "3A076D7A-E390-47BD-88AE-ED9DD67E7CB6.png",
+      "title": "Landscape model name keyboard",
+      "testIdentifier": "ElyraUITests/testModelNameKeyboardAcrossOrientationAndGridReturn()",
+      "deviceName": "iPad mini (A17 Pro)",
+      "simulatorOnly": true,
+      "timestamp": 1794741815.619
+    },
+    {
+      "file": "ipad-device-grid.png",
+      "sha256": "cc95866e6ed62d25199e1ae70ad20d03a333c6a981184318bd075a63bde71aca",
+      "sourceFile": "FF31CDDD-0DEF-44CB-B6ED-E54E06329A6B.png",
+      "title": "Device grid with model name tile",
+      "testIdentifier": "ElyraUITests/testModelNameKeyboardAcrossOrientationAndGridReturn()",
+      "deviceName": "iPad mini (A17 Pro)",
+      "simulatorOnly": true,
+      "timestamp": 1794741796.332
+    }
+  ]
+}

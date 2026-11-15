@@ -1,3 +1,3 @@
 Elyra 0.4.2 development build fixes model-name keyboard focus and puts its entry into the shared adaptive device grid. It adds retained model-name drafts, Edit/Done controls and an independent RegionCode selector with captured-value restoration. Sales-region suffixes and device-specific Siri data remain unchanged.
 
-The re-signable IPA includes an ad-hoc App Group template; it requires legitimate re-signing and a usable provisioned group. The unsigned IPA is supplied separately. Physical installation/system effects are not qualified by simulator tests. Source and test evidence: docs/TEST_REPORT.md.
+The re-signable IPA includes an ad-hoc App Group template; it requires legitimate re-signing and a usable provisioned group. The unsigned IPA is supplied separately. Physical installation/system effects are not qualified by simulator tests. [Source and test evidence](https://github.com/XiaoRui114514/Elyra/blob/main/docs/TEST_REPORT.md).

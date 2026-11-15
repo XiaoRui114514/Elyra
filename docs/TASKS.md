@@ -4,7 +4,7 @@
 - [x] Model-name Edit/Done, scene draft retention, verified-value refresh and shared sorted device grid.
 - [x] Rechecked pinned upstream region presets; added independent bounded RegionCode selection/restoration without changing sales suffixes or Siri types.
 - [x] Shortened intelligence detail title; retained complete category entry label.
-- [ ] Qualify exact source with core/static checks, both simulator UI suites, analysis and device archive.
+- [x] Qualified source `8bcdb02cc1b5b4f56969e354405ac9a471aa6866`, run 43707797116: 105 core, 14 Python, 11 UI scenarios per simulator; all three jobs passed first attempt, with analysis/archive and independently verified build-29 IPAs.
 - [ ] Publish verified development IPA assets and check anonymous downloads.
 - [ ] Physical keyboard/input, Settings rendering and per-build system-effect acceptance; continuous Stage Manager resize remains pending.
 

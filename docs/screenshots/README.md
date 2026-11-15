@@ -1,3 +1,18 @@
+# Simulator UI evidence — 0.4.2
+
+Original attachments from [run 43707797116](https://github.com/XiaoRui114514/Elyra/actions/runs/43707797116), source `8bcdb02cc1b5b4f56969e354405ac9a471aa6866`. Eleven tests passed on each 26.2 simulator, without retry. These show the app interface, not physical system modifications.
+
+| Page | iPhone | iPad |
+| --- | --- | --- |
+| Landscape model-name keyboard | [Screenshot](v0.4.2/iphone-model-name-keyboard.png) | [Screenshot](v0.4.2/ipad-model-name-keyboard.png) |
+| Device grid | [Screenshot](v0.4.2/iphone-device-grid.png) | [Screenshot](v0.4.2/ipad-device-grid.png) |
+| Independent region code | [Screenshot](v0.4.2/iphone-region-code.png) | [Screenshot](v0.4.2/ipad-region-code.png) |
+| Shortened intelligence title | [Screenshot](v0.4.2/iphone-intelligence.png) | [Screenshot](v0.4.2/ipad-intelligence.png) |
+
+[Original iPhone attachment identities/hashes](v0.4.2/iphone-manifest.json), [iPad identities/hashes](v0.4.2/ipad-manifest.json). The model-name keyboard scenario also asserts portrait input and retained draft after returning. Grid screenshots show the editor entry among ordinary capability tiles; narrow content widths naturally use one column. Synthetic text contains no individual device data. Device write controls remain disabled in Simulator.
+
+---
+
 # Simulator UI evidence — 0.4.1
 
 Original attachments from [run 43680976089](https://github.com/XiaoRui114514/Elyra/actions/runs/43680976089), source `94942ddebc8ae60474be8bb10620e8f503420ebb`. Nine tests passed on each 26.2 simulator, without retry. These are app-interface captures, not physical system-effect evidence.

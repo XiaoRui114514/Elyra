@@ -1,0 +1,123 @@
+{
+  "run": 43707797116,
+  "url": "https://github.com/XiaoRui114514/Elyra/actions/runs/43707797116",
+  "sourceCommit": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+  "tag": "v0.4.2-dev",
+  "conclusion": "success",
+  "version": "0.4.2",
+  "build": "29",
+  "resignableSHA256": "0172da1c4691db711a98e08ecad844d11fc0e92e583594ae4ecd8013b8c70a19",
+  "unsignedSHA256": "ac6308f81a51d198830ee066ee79f120ce5a54a7736fc43b4f2e43126e8e1ce4",
+  "coreTestsLinux": 105,
+  "coreTestsMacOS": 105,
+  "pythonTests": 14,
+  "uiTestsPerSimulator": 11,
+  "localizationKeys": 626,
+  "matrixRows": 105,
+  "runAttempt": 1,
+  "physicalInstallationTested": false,
+  "systemEffectsTested": false,
+  "privateApertureRadiusControlVerified": false,
+  "artifacts": [
+    {
+      "id": 14159801311,
+      "name": "Elyra-UI-iPad-8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+      "size_in_bytes": 89014839,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14159801311",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14159801311/zip",
+      "expired": false,
+      "created_at": "2026-11-15T11:27:07Z",
+      "expires_at": "2027-02-13T11:12:28Z",
+      "updated_at": "2026-11-15T11:27:07Z",
+      "digest": "sha256:c8b84847029acb869edb58d02a70c925f7db74c45f936195bff90dab37e22575",
+      "workflow_run": {
+        "id": 43707797116,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866"
+      }
+    },
+    {
+      "id": 14159488948,
+      "name": "Elyra-UI-iPhone-8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+      "size_in_bytes": 88978311,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14159488948",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14159488948/zip",
+      "expired": false,
+      "created_at": "2026-11-15T11:29:47Z",
+      "expires_at": "2027-02-13T11:12:28Z",
+      "updated_at": "2026-11-15T11:29:47Z",
+      "digest": "sha256:019255c7be20ae50b446d37b989b37f46ac6e1a66fcbd10e32f681a4421e5dc1",
+      "workflow_run": {
+        "id": 43707797116,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866"
+      }
+    },
+    {
+      "id": 14159172809,
+      "name": "Elyra-validation-8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+      "size_in_bytes": 46440,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14159172809",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14159172809/zip",
+      "expired": false,
+      "created_at": "2026-11-15T11:16:32Z",
+      "expires_at": "2027-02-13T11:12:28Z",
+      "updated_at": "2026-11-15T11:16:32Z",
+      "digest": "sha256:457f73d211b0f6accbf4657fc1ff694e920991281596ea8bc6eb58d376b531f8",
+      "workflow_run": {
+        "id": 43707797116,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866"
+      }
+    },
+    {
+      "id": 14158928513,
+      "name": "Elyra-package-8bcdb02cc1b5b4f56969e354405ac9a471aa6866",
+      "size_in_bytes": 2001915,
+      "url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14158928513",
+      "archive_download_url": "https://api.github.com/repos/XiaoRui114514/Elyra/actions/artifacts/14158928513/zip",
+      "expired": false,
+      "created_at": "2026-11-15T11:16:34Z",
+      "expires_at": "2027-02-13T11:12:28Z",
+      "updated_at": "2026-11-15T11:16:34Z",
+      "digest": "sha256:8566feab98b7fe56acee3d0d7d2ebc9c3d845f5e73d9b89ef7278d0ef6711930",
+      "workflow_run": {
+        "id": 43707797116,
+        "repository_id": 1457630842,
+        "head_repository_id": 1457630842,
+        "head_branch": "main",
+        "head_sha": "8bcdb02cc1b5b4f56969e354405ac9a471aa6866"
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": 132792546825,
+      "name": "Analyze, core tests and device IPA",
+      "conclusion": "success"
+    },
+    {
+      "id": 132792547016,
+      "name": "UI tests (iPad)",
+      "conclusion": "success"
+    },
+    {
+      "id": 132792547162,
+      "name": "UI tests (iPhone)",
+      "conclusion": "success"
+    }
+  ],
+  "toolchain": {
+    "xcode": "26.3",
+    "build": "17C529",
+    "swift": "6.2.4",
+    "sdk": "26.2",
+    "runtime": "26.2 (23C54)"
+  }
+}
