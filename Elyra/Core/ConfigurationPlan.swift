@@ -61,8 +61,11 @@ extension Workspace {
             guard url.deletingPathExtension().lastPathComponent == plan.id.uuidString else { throw ElyraError.integrity }; return plan
         }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
-    public func saveConfigurationPlan(_ plan: ConfigurationPlan) throws {
+    public func saveConfigurationPlan(_ plan: ConfigurationPlan, replacing expected: ConfigurationPlan? = nil) throws {
         let data = try plan.encoded(); let existing = try configurationPlans()
+        if let stored = existing.first(where: { $0.id == plan.id }) {
+            guard let expected, stored == expected else { throw ElyraError.conflict }
+        } else if expected != nil { throw ElyraError.conflict }
         guard existing.count < 100 || existing.contains(where: { $0.id == plan.id }) else { throw ElyraError.invalid("The configuration plan limit is 100.") }
         try FileManager.default.createDirectory(at: plansDirectory, withIntermediateDirectories: true)
         let url = plansDirectory.appendingPathComponent(plan.id.uuidString + ".json")

@@ -44,4 +44,17 @@ final class ConfigurationPlanTests: XCTestCase {
         XCTAssertThrowsError(try DraftRebase.merge(base:base,draft:draft,current:.dictionary(["a":.integer(5),"b":.integer(2)])))
         XCTAssertEqual(draft.value(at:["a"]),.integer(3))
     }
+    func testConcurrentPlanEditCannotOverwriteNewerSave() async throws {
+        let root=FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at:root) }
+        let workspace=try Workspace(root:root)
+        let base=ConfigurationPlan(name:"Original",steps:[.init(capabilityID:"aod",action:.apply)])
+        try await workspace.saveConfigurationPlan(base)
+        let first=ConfigurationPlan(name:"First window",steps:base.steps,id:base.id)
+        try await workspace.saveConfigurationPlan(first,replacing:base)
+        let second=ConfigurationPlan(name:"Second window",steps:base.steps,id:base.id)
+        do { try await workspace.saveConfigurationPlan(second,replacing:base);XCTFail() } catch { XCTAssertEqual(error as? ElyraError,.conflict) }
+        let stored=try await workspace.configurationPlans();XCTAssertEqual(stored,[first])
+    }
+
 }

@@ -2,10 +2,15 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+private struct PlanEditSession: Identifiable {
+    let id = UUID()
+    let plan: ConfigurationPlan
+    let baseline: ConfigurationPlan?
+}
 struct ConfigurationPlansView: View {
     @EnvironmentObject private var app: AppEnvironment
     @EnvironmentObject private var localization: LocalizationStore
-    @State private var editing: ConfigurationPlan?
+    @State private var editing: PlanEditSession?
     @State private var proposal: SystemConfigurationPlan?
     @State private var deleting: ConfigurationPlan?
     @State private var importing = false
@@ -21,7 +26,7 @@ struct ConfigurationPlansView: View {
                         Text(plan.name).font(.headline)
                         Spacer()
                         Menu {
-                            Button("Edit") { editing = plan }
+                            Button("Edit") { editing = PlanEditSession(plan: plan, baseline: plan) }
                             Button("Export") { do { export = ExportDocument(data: try plan.encoded()); exporting = true } catch { app.error = error.localizedDescription } }
                             Button("Delete", role: .destructive) { deleting = plan }
                         } label: { Label("Plan actions", systemImage: "ellipsis.circle") }
@@ -40,9 +45,9 @@ struct ConfigurationPlansView: View {
         .task { await app.ensureDeviceConnection() }
         .toolbar {
             Button { importing = true } label: { Label("Import plan", systemImage: "square.and.arrow.down") }
-            Button { editing = ConfigurationPlan(name: "", steps: []) } label: { Label("New plan", systemImage: "plus") }.accessibilityIdentifier("plans.new")
+            Button { editing = PlanEditSession(plan: ConfigurationPlan(name: "", steps: []), baseline: nil) } label: { Label("New plan", systemImage: "plus") }.accessibilityIdentifier("plans.new")
         }
-        .sheet(item: $editing) { plan in ConfigurationPlanEditor(plan: plan) { saved in app.run { try await $0.saveConfigurationPlan(saved) }; editing = nil } }
+        .sheet(item: $editing) { session in ConfigurationPlanEditor(plan: session.plan) { saved in app.run { try await $0.saveConfigurationPlan(saved, replacing: session.baseline) }; editing = nil } }
         .sheet(item: $proposal) { planned in
             NavigationStack {
                 List {
