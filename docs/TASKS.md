@@ -6,7 +6,7 @@ Implemented: cohesive adaptive system tiles and independent area navigation; dir
 
 Packaging supplies both unsigned and re-signable ad-hoc IPAs; actual signature entitlements, team absence and package structure are checked. Physical permissions and system effects are not established by ad-hoc signing.
 
-Second-pass validation started only after review and implementation: 92 Linux Swift tests passed; Apple compile/UI/archive qualification is pending. Keep the public 0.3 release until the new exact source qualifies. Follow-up migration: selected directories, audio/image processing, PosterBoard installation and Rust pairing.
+Second-pass validation started only after review and implementation: 93 Linux Swift tests passed. Apple analysis and dual-IPA packaging pass on the candidate; final iPhone/iPad UI qualification is in progress. Candidate source: `b5033aa30bcfd24ba8a0c253ad3d6eaf0bd551e5`, [qualification run 43675452309](https://github.com/XiaoRui114514/Elyra/actions/runs/43675452309). Version 0.4.0 (25). Downloaded arm64 package verification passed: re-signable SHA-256 `ccf6b72a4eeb1602f5f436c83580c916d3693c1e7c86f1f33927e3075860ee2d`; unsigned SHA-256 `b3f1ee2466dd606ed684f55fb657fb06ba9f97ae44c13a93bbc5a57e589caf0b`. Do not release until both UI jobs pass. Keep the public 0.3 release until the new exact source qualifies. Follow-up migration: selected directories, audio/image processing, PosterBoard installation and Rust pairing.
 
 The 0.3 record below remains historical and does not qualify changed 0.4 code.
 
@@ -27,7 +27,7 @@ The 0.3 record below remains historical and does not qualify changed 0.4 code.
 
 ## Remaining implementation
 
-1. Device backup export, dedicated single-preset system restoration and device operation-history integration.
+1. Physical acceptance of device backup export/restoration and device operation-history integration; backup export and single-preset restoration are implemented in 0.4.
 2. Bounded wallpaper-provider installation, dialer and launch-image processing/replacement, notification audio codec/capture and share-extension handoff. These are not supplied by the MobileGestalt writer.
 3. Independently reviewed native pairing and selected-directory browsing; no management-policy edits or guessed binary offsets.
 4. UI coverage for imports, text editing, archives and backup restoration; retained text drafts, scroll/focus state and backup retention.

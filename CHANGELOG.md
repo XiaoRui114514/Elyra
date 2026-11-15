@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.0 — 2026-11-15 (development candidate)
+
+- Unified adaptive tiles across System, categories and feature pages; added direct Modify controls and moved Dynamic Island into Display. Primary areas retain separate navigation stacks.
+- Added automatic device access checks, distinct connection states and actionable signing diagnostics.
+- Added reusable configuration plans with import/export, conflict detection and one confirmed device transaction.
+- Added verified offline device backup inspection/export and optional comparison.
+- Added current-window/display diagnostics and optional application callback measurement.
+- Restored captured Dynamic Island flag/subtype together, preserved Boolean preset types, protected external changes during recovery and added draft rebasing after reconnect.
+- Reduced introductory text, removed language footers and retained detailed controls on demand.
+- Added a re-signable ad-hoc IPA with embedded App Group template, alongside the fully unsigned IPA. Both require legitimate signing.
+
 ## 0.3.0 — 2026-11-14 (development)
 
 - Published development release attachments and replaced sign-in-only Actions download links with a verified anonymous IPA download.

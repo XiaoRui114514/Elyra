@@ -7,10 +7,12 @@
 - An imported baseline may already contain modifications. SHA-256 validates integrity, not device ownership or factory provenance.
 - System wallpaper installation, dialer/launch-image replacement, notification codec/capture, native pairing, share extension and full directory browsing remain incomplete; see FEATURE_MATRIX.
 - Document/text commits have recovery journals. Initial imports and Trash moves can leave orphaned files after abrupt interruption; no cross-process lock or power-loss certification.
+- Configuration plans save known capability intent only. Their import/export does not transfer device trust or original cache values.
+- Re-signable IPAs contain an ad-hoc App Group template; re-signers must provision a usable group in the final signature. Ad-hoc packaging alone does not grant system access.
 - Staged plist drafts persist. Unstaged text, disclosure and scroll positions are not fully retained. Backup retention/deletion controls are pending.
 - Classic ZIP limits: 64 MB compressed, 2,000 entries, 32 MB per entry, 128 MB expanded. ZIP64, encryption, multidisk and unsupported filename encodings are rejected. Descriptor names do not establish provider validity.
 - UTF-8 editing is limited to 1 MB; binary/NUL text is rejected. File-version restoration has confirmation but no binary diff.
 - Native system pickers/Quick Look/system errors may follow the OS language. Licenses and raw diagnostic data remain in their original language.
 - Current Apple CI uses Xcode 26.3 and 26.2 simulators. iOS/iPadOS 27 runtime, physical installation, system effects, continuous Stage Manager resizing, external displays, VoiceOver and multiwindow UI acceptance remain unverified.
 
-Excluded operations include management-policy edits, guessed cache offsets or subtype defaults, hardware identity spoofing and destructive cache resets. Device backup export, device operation-history integration and dedicated single-preset system restoration remain incomplete; full verified device backup restoration is implemented.
+Excluded operations include management-policy edits, guessed cache offsets or subtype defaults, hardware identity spoofing and destructive cache resets. Device backup inspection/export and single-preset restoration are implemented in 0.4. Physical restore acceptance and device operation-history integration remain incomplete.
